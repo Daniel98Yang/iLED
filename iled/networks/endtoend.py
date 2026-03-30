@@ -35,51 +35,54 @@ class EndToEndModel(nn.Module):
         self.nTmax = config.init_nTmax
         self._config = config
 
-    def forward(self, input_batch, NTmax=None, n_warmup=None, substeps=None):
+    # In endtoend.py — replace the forward() method only
 
-        if NTmax is None:
-            NTmax = self.get_nTmax()
-        if n_warmup is None:
-            n_warmup = self.get_n_warmup()
-        if substeps is None:
-            substeps = self.get_substeps()
+    def forward(self, batch):
+        """
+        batch is a dict with keys:
+            'x_t'    : (B, *obs_shape)   — current observation
+            'x_next' : (B, *obs_shape)   — next observation
+            'u_t'    : (B, control_dim)  — optional control input, or None
 
-        true_latents = self.ae.batch_transform(input_batch)
+        Forward pass:
+            z      = encoder(x_t)
+            z_next = encoder(x_t_plus_1)          # target in latent space
+            z_next_pred = dynamics(z, u_t)         # Koopman prediction
+        """
+        x_t    = batch['x_t']
+        x_next = batch['x_next']
+        u_t    = batch.get('u_t', None)           # None if no control
 
-        reconstruction = self.ae.batch_inverse_transform(true_latents)
+        # Encode both observations independently
+        z      = self.ae.encoder(x_t)             # (B, latent_dim)
+        z_next = self.ae.encoder(x_next)          # (B, latent_dim)  ← prediction target
 
-        if n_warmup < NTmax:
-            latent_forecast, memories = self.dynamics.integrate(
-                true_latents[:, :NTmax],
-                dt=self.data_dt,
-                substeps=substeps,
-                n_warmup=n_warmup,
-            )
+        # One-step Koopman prediction
+        z_next_pred = self.dynamics(z, u_t)       # (B, latent_dim)
 
-            reconstructed_forecast = self.ae.batch_inverse_transform(latent_forecast)
+        # Reconstruct x_t for the reconstruction loss
+        reconstruction = self.ae.decoder(z)       # (B, *obs_shape)
 
-            linear_part, nl_part = self.dynamics.evaluate_dynamics_parts(
-                latent_forecast[:, n_warmup:].detach(), memories.detach()
-            )
+        # Decode predicted next latent for optional reconstructed-forecast loss
+        reconstructed_forecast = self.ae.decoder(z_next_pred)  # (B, *obs_shape)
 
-            dynamics_losses = self.dynamics.get_dynamics_losses()
-        else:
-            latent_forecast = true_latents[:,:NTmax]
-            reconstructed_forecast = input_batch[:,:NTmax]
-            dynamics_losses = torch.zeros(1)
-            linear_part, nl_part = None, None
-            memories = None
+        linear_part, nl_part = self.dynamics.evaluate_dynamics_parts(z)
 
-        # Returning dicts for DataParallel compatibility
         return {
-            "true_latents": true_latents,
-            "reconstruction": reconstruction,
-            "latent_forecast": latent_forecast,
+            "z":                     z,
+            "z_next":                z_next,           # encoder(x_{t+1}), the target
+            "z_next_pred":           z_next_pred,      # K @ z,           the prediction
+            "reconstruction":        reconstruction,
             "reconstructed_forecast": reconstructed_forecast,
-            "memories": memories,
-            "additional_losses": dynamics_losses,
-            "dynamics_parts": (linear_part, nl_part),
+            # kept for losslib compatibility:
+            "true_latents":          z_next.unsqueeze(1),
+            "latent_forecast":       z_next_pred.unsqueeze(1),
+            "dynamics_parts":        (linear_part, nl_part),
+            "memories":              None,
+            "additional_losses":     self.dynamics.get_dynamics_losses(),
         }
+    def get_nTmax(self): return 1
+    def set_nTmax(self, v): pass
 
     def config(self):
         return self._config
@@ -94,12 +97,12 @@ class EndToEndModel(nn.Module):
     def non_decayable_parameters(self):
         return self.dynamics.non_decayable_parameters()
 
-    def set_nTmax(self, new_nTmax):
-        self.nTmax = new_nTmax
+    # def set_nTmax(self, new_nTmax):
+    #     self.nTmax = new_nTmax
 
-    def get_nTmax(self):
+    # def get_nTmax(self):
 
-        return self.nTmax
+    #     return self.nTmax
 
     def get_n_warmup(self):
         return self.n_warmup

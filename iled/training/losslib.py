@@ -8,6 +8,37 @@ import copy
 def centering_loss(array, *args, **kwargs):
     return torch.mean(array.mean(-2, keepdim=True) ** 2)
 
+class KoopmanLoss:
+    """
+    Clean Koopman loss that only uses what the new forward pass produces.
+    """
+    def __init__(self, recon_scale=1.0, latent_scale=1.0, forecast_scale=0.0):
+        self.recon_scale    = recon_scale     # weight for reconstruction loss
+        self.latent_scale   = latent_scale    # weight for latent prediction loss ← your main loss
+        self.forecast_scale = forecast_scale  # weight for decoded forecast loss (optional)
+
+    def __call__(self, output_dict, batch):
+        z_next      = output_dict["z_next"]             # encoder(x_{t+1})
+        z_next_pred = output_dict["z_next_pred"]        # K @ encoder(x_t)
+        recon       = output_dict["reconstruction"]     # decoder(encoder(x_t))
+        recon_next  = output_dict["reconstructed_forecast"]
+
+        x_t    = batch["x_t"]
+        x_next = batch["x_next"]
+
+        # Your requested loss: latent one-step prediction
+        loss_latent = ((z_next_pred - z_next) ** 2).mean()
+
+        # Reconstruction loss: encoder→decoder should be identity
+        loss_recon = ((recon - x_t) ** 2).mean()
+
+        loss = self.latent_scale * loss_latent + self.recon_scale * loss_recon
+
+        if self.forecast_scale > 0:
+            loss_forecast = ((recon_next - x_next) ** 2).mean()
+            loss += self.forecast_scale * loss_forecast
+
+        return loss
 
 class ScaledLosses:
     def __init__(self, parent_loss: Callable, scale: float):
