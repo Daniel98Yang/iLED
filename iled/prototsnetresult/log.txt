@@ -1,0 +1,3595 @@
+Running on custom dataset
+Scaling dataset...
+Training encoder
+epoch 10 | train 0.2047
+epoch 20 | train 0.1750
+epoch 30 | train 0.1708
+epoch 40 | train 0.1581
+epoch 50 | train 0.1619
+Training ProtoTSNet
+Starting training
+epoch:   1 (WARM)
+    test acc:                 9.49%
+    train overall loss:       5.535641121864319
+    train cross_ent loss:     1.6096351534128188
+    train cluster loss:       83.82292156219482
+    train separation loss:    73.06543931961059
+    train avg sep loss:       83.78652000427246
+    train l1_addon loss:      8.14802074432373
+    train l1 loss:            10.0
+    test overall loss:        4.747732957204183
+    test cross_ent loss:      1.6095263163248699
+    train time:               0.4038257598876953
+    test time:                0.04383492469787598
+    epoch time:               0.4481842517852783
+epoch:   2 (WARM)
+    test acc:                 16.14%
+    train overall loss:       4.367529970407486
+    train cross_ent loss:     1.6092752426862718
+    train cluster loss:       61.42203817367554
+    train separation loss:    55.242822074890135
+    train avg sep loss:       60.56080360412598
+    train l1_addon loss:      7.483644962310791
+    train l1 loss:            10.0
+    test overall loss:        3.7427810033162436
+    test cross_ent loss:      1.6088810761769612
+    train time:               0.22884178161621094
+    test time:                0.03319287300109863
+    epoch time:               0.2644670009613037
+epoch:   3 (WARM)
+    test acc:                 16.14%
+    train overall loss:       3.467245417833328
+    train cross_ent loss:     1.608888104557991
+    train cluster loss:       41.73268175125122
+    train separation loss:    40.952257537841795
+    train avg sep loss:       44.069332122802734
+    train l1_addon loss:      6.785590171813965
+    train l1 loss:            10.0
+    test overall loss:        3.0383087793986
+    test cross_ent loss:      1.6085888147354126
+    train time:               0.23421645164489746
+    test time:                0.033440351486206055
+    epoch time:               0.2701072692871094
+epoch:   4 (WARM)
+    test acc:                 15.51%
+    train overall loss:       2.9656064331531526
+    train cross_ent loss:     1.6082270205020905
+    train cluster loss:       30.588463687896727
+    train separation loss:    30.083664894104004
+    train avg sep loss:       32.08467888832092
+    train l1_addon loss:      6.067793846130371
+    train l1 loss:            10.0
+    test overall loss:        2.559391975402832
+    test cross_ent loss:      1.6079416275024414
+    train time:               0.23572945594787598
+    test time:                0.03405451774597168
+    epoch time:               0.27222228050231934
+epoch:   5 (WARM)
+    test acc:                 17.41%
+    train overall loss:       2.6659172892570497
+    train cross_ent loss:     1.6067772209644318
+    train cluster loss:       23.932118010520934
+    train separation loss:    22.342903804779052
+    train avg sep loss:       23.685974311828613
+    train l1_addon loss:      5.33590030670166
+    train l1 loss:            10.0
+    test overall loss:        2.2677549521128335
+    test cross_ent loss:      1.605584939320882
+    train time:               0.23484230041503906
+    test time:                0.033928632736206055
+    epoch time:               0.27132129669189453
+epoch:   6 (WARM)
+    test acc:                 18.67%
+    train overall loss:       2.3626840889453886
+    train cross_ent loss:     1.6048860549926758
+    train cluster loss:       16.824296021461485
+    train separation loss:    16.39013991355896
+    train avg sep loss:       17.33970901966095
+    train l1_addon loss:      4.598097801208496
+    train l1 loss:            10.0
+    test overall loss:        2.0571084022521973
+    test cross_ent loss:      1.6006183624267578
+    train time:               0.23553919792175293
+    test time:                0.033469200134277344
+    epoch time:               0.27144598960876465
+epoch:   7 (WARM)
+    test acc:                 38.29%
+    train overall loss:       2.2405502259731294
+    train cross_ent loss:     1.5982522249221802
+    train cluster loss:       14.105718326568603
+    train separation loss:    11.956795859336854
+    train avg sep loss:       12.689945554733276
+    train l1_addon loss:      3.9158501625061035
+    train l1 loss:            10.0
+    test overall loss:        1.9034690856933594
+    test cross_ent loss:      1.5918846130371094
+    train time:               0.24269843101501465
+    test time:                0.03467535972595215
+    epoch time:               0.27992987632751465
+epoch:   8 (WARM)
+    test acc:                 42.41%
+    train overall loss:       2.2188493996858596
+    train cross_ent loss:     1.5690202862024307
+    train cluster loss:       14.261581897735596
+    train separation loss:    8.62114474773407
+    train avg sep loss:       9.306218540668487
+    train l1_addon loss:      3.784179210662842
+    train l1 loss:            10.0
+    test overall loss:        1.7673682769139607
+    test cross_ent loss:      1.5324844519297283
+    train time:               0.2447342872619629
+    test time:                0.034177541732788086
+    epoch time:               0.281449556350708
+epoch:   9 (WARM)
+    test acc:                 40.51%
+    train overall loss:       1.8649753004312515
+    train cross_ent loss:     1.5264373958110808
+    train cluster loss:       6.560406231880188
+    train separation loss:    6.229319107532501
+    train avg sep loss:       6.769617629051209
+    train l1_addon loss:      3.5092673301696777
+    train l1 loss:            10.0
+    test overall loss:        1.6761632760365803
+    test cross_ent loss:      1.50892972946167
+    train time:               0.23927855491638184
+    test time:                0.03388643264770508
+    epoch time:               0.2756927013397217
+epoch:  10 (WARM)
+    test acc:                 42.09%
+    train overall loss:       1.8971568286418914
+    train cross_ent loss:     1.4869408428668975
+    train cluster loss:       8.355748096108437
+    train separation loss:    4.481625592708587
+    train avg sep loss:       4.997475802898407
+    train l1_addon loss:      3.1540122032165527
+    train l1 loss:            10.0
+    test overall loss:        1.6120635668436687
+    test cross_ent loss:      1.4731545845667522
+    train time:               0.2432231903076172
+    test time:                0.03342437744140625
+    epoch time:               0.27912449836730957
+epoch:  11 (WARM)
+    test acc:                 43.35%
+    train overall loss:       1.9919011652469636
+    train cross_ent loss:     1.4807017892599106
+    train cluster loss:       10.925148031115532
+    train separation loss:    3.787772572040558
+    train avg sep loss:       4.294639301300049
+    train l1_addon loss:      2.788302183151245
+    train l1 loss:            10.0
+    test overall loss:        1.5908446709314983
+    test cross_ent loss:      1.4543804327646892
+    train time:               0.23759961128234863
+    test time:                0.033624887466430664
+    epoch time:               0.2737727165222168
+epoch:  12 (WARM)
+    test acc:                 42.72%
+    train overall loss:       1.6751467257738113
+    train cross_ent loss:     1.483480578660965
+    train cluster loss:       3.13590684235096
+    train separation loss:    3.034289759397507
+    train avg sep loss:       3.3525406241416933
+    train l1_addon loss:      2.414700984954834
+    train l1 loss:            10.0
+    test overall loss:        1.5685758193333943
+    test cross_ent loss:      1.4540531635284424
+    train time:               0.23745012283325195
+    test time:                0.03410696983337402
+    epoch time:               0.27406978607177734
+epoch:  13 (WARM)
+    test acc:                 43.04%
+    train overall loss:       1.6545606821775436
+    train cross_ent loss:     1.4704295247793198
+    train cluster loss:       2.9070649057626725
+    train separation loss:    2.4475107192993164
+    train avg sep loss:       2.777666473388672
+    train l1_addon loss:      2.049024820327759
+    train l1 loss:            10.0
+    test overall loss:        1.562973181406657
+    test cross_ent loss:      1.4488457441329956
+    train time:               0.24300193786621094
+    test time:                0.03379487991333008
+    epoch time:               0.2793307304382324
+epoch:  14 (WARM)
+    test acc:                 54.11%
+    train overall loss:       1.6903283029794693
+    train cross_ent loss:     1.4507541090250016
+    train cluster loss:       4.365494948625565
+    train separation loss:    2.0550696313381196
+    train avg sep loss:       2.3081282436847688
+    train l1_addon loss:      1.9631433486938477
+    train l1 loss:            10.0
+    test overall loss:        1.4805726210276287
+    test cross_ent loss:      1.3625946442286174
+    train time:               0.24149465560913086
+    test time:                0.033486366271972656
+    epoch time:               0.27755236625671387
+epoch:  15 (WARM)
+    test acc:                 66.46%
+    train overall loss:       1.4815219432115554
+    train cross_ent loss:     1.2416782647371292
+    train cluster loss:       4.08184822499752
+    train separation loss:    1.6387510865926742
+    train avg sep loss:       2.094453510642052
+    train l1_addon loss:      2.2092700004577637
+    train l1 loss:            10.0
+    test overall loss:        1.1575029691060383
+    test cross_ent loss:      1.035775105158488
+    train time:               0.24290704727172852
+    test time:                0.03360867500305176
+    epoch time:               0.27901673316955566
+epoch:  16 (WARM)
+    test acc:                 72.15%
+    train overall loss:       1.0455265209078788
+    train cross_ent loss:     0.8218201547861099
+    train cluster loss:       3.5841882966458796
+    train separation loss:    1.075164657831192
+    train avg sep loss:       1.6107066974043847
+    train l1_addon loss:      2.3441100120544434
+    train l1 loss:            10.0
+    test overall loss:        0.8120434681574503
+    test cross_ent loss:      0.7314157485961914
+    train time:               0.2374715805053711
+    test time:                0.03366994857788086
+    epoch time:               0.27367568016052246
+epoch:  17 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.8888273194432259
+    train cross_ent loss:     0.6928692020475864
+    train cluster loss:       3.139679242670536
+    train separation loss:    0.3623739708214998
+    train avg sep loss:       0.7151354759931564
+    train l1_addon loss:      2.2876970767974854
+    train l1 loss:            10.0
+    test overall loss:        0.7279939850171407
+    test cross_ent loss:      0.6600613792737325
+    train time:               0.24152851104736328
+    test time:                0.03675079345703125
+    epoch time:               0.28092479705810547
+epoch:  18 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.8843251757323742
+    train cross_ent loss:     0.6353643789887429
+    train cluster loss:       4.568628712650389
+    train separation loss:    0.19642990380525588
+    train avg sep loss:       0.4642937645316124
+    train l1_addon loss:      2.2386319637298584
+    train l1 loss:            10.0
+    test overall loss:        0.6931056976318359
+    test cross_ent loss:      0.6195530692736307
+    train time:               0.24234604835510254
+    test time:                0.033869028091430664
+    epoch time:               0.2787766456604004
+epoch:  19 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.8750305481255054
+    train cross_ent loss:     0.6254290349781513
+    train cluster loss:       4.553695012256503
+    train separation loss:    0.1770355263724923
+    train avg sep loss:       0.4705851152539253
+    train l1_addon loss:      2.1778528690338135
+    train l1 loss:            10.0
+    test overall loss:        0.6495578487714132
+    test cross_ent loss:      0.5810315608978271
+    train time:               0.23629260063171387
+    test time:                0.03384709358215332
+    epoch time:               0.27264857292175293
+epoch:  20 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.8372423060238361
+    train cross_ent loss:     0.5920521914958954
+    train cluster loss:       4.540497647086158
+    train separation loss:    0.1378840658813715
+    train avg sep loss:       0.3541166353970766
+    train l1_addon loss:      2.15258526802063
+    train l1 loss:            10.0
+    test overall loss:        0.6661551396052042
+    test cross_ent loss:      0.6006333231925964
+    train time:               0.23593640327453613
+    test time:                0.03448987007141113
+    epoch time:               0.2729766368865967
+epoch:  21 (WARM)
+    test acc:                 77.53%
+    train overall loss:       1.0221296578645707
+    train cross_ent loss:     0.5974962800741196
+    train cluster loss:       9.040925389016047
+    train separation loss:    0.12406814768910408
+    train avg sep loss:       0.3272297903895378
+    train l1_addon loss:      2.142207145690918
+    train l1 loss:            10.0
+    test overall loss:        0.6914222240447998
+    test cross_ent loss:      0.6267355680465698
+    train time:               0.262711763381958
+    test time:                0.03404521942138672
+    epoch time:               0.29920434951782227
+epoch:  22 (WARM)
+    test acc:                 77.53%
+    train overall loss:       0.7236500024795532
+    train cross_ent loss:     0.5992923088371753
+    train cluster loss:       1.540913372579962
+    train separation loss:    0.12342636343091726
+    train avg sep loss:       0.32243528217077255
+    train l1_addon loss:      2.1386842727661133
+    train l1 loss:            10.0
+    test overall loss:        0.6365581949551901
+    test cross_ent loss:      0.5722453792889913
+    train time:               0.2404487133026123
+    test time:                0.033933401107788086
+    epoch time:               0.276684045791626
+epoch:  23 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.6551191873848439
+    train cross_ent loss:     0.592166754603386
+    train cluster loss:       0.034984741872176525
+    train separation loss:    0.10587524585425853
+    train avg sep loss:       0.28264870718121526
+    train l1_addon loss:      2.1158175468444824
+    train l1 loss:            10.0
+    test overall loss:        0.642667273680369
+    test cross_ent loss:      0.5796184738477071
+    train time:               0.24755024909973145
+    test time:                0.033802032470703125
+    epoch time:               0.28389835357666016
+epoch:  24 (WARM)
+    test acc:                 79.43%
+    train overall loss:       0.82771767526865
+    train cross_ent loss:     0.584732948243618
+    train cluster loss:       4.531561985565349
+    train separation loss:    0.1048469552770257
+    train avg sep loss:       0.28447842560708525
+    train l1_addon loss:      2.0913784503936768
+    train l1 loss:            10.0
+    test overall loss:        0.6579438249270121
+    test cross_ent loss:      0.5934270819028219
+    train time:               0.24631905555725098
+    test time:                0.03369426727294922
+    epoch time:               0.2824368476867676
+epoch:  25 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.8469640046358109
+    train cross_ent loss:     0.6039409041404724
+    train cluster loss:       4.533363400073722
+    train separation loss:    0.10318267960101365
+    train avg sep loss:       0.2830280065536499
+    train l1_addon loss:      2.050487756729126
+    train l1 loss:            10.0
+    test overall loss:        0.6226302782694498
+    test cross_ent loss:      0.5604936281840006
+    train time:               0.24045324325561523
+    test time:                0.03387093544006348
+    epoch time:               0.27654123306274414
+epoch:  26 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.8439690746366978
+    train cross_ent loss:     0.602160832285881
+    train cluster loss:       4.530549774644896
+    train separation loss:    0.09862548932433128
+    train avg sep loss:       0.2574194461107254
+    train l1_addon loss:      2.019613265991211
+    train l1 loss:            10.0
+    test overall loss:        0.6486735542615255
+    test cross_ent loss:      0.5857101082801819
+    train time:               0.23741841316223145
+    test time:                0.033649444580078125
+    epoch time:               0.27317070960998535
+epoch:  27 (WARM)
+    test acc:                 76.90%
+    train overall loss:       0.6525307491421699
+    train cross_ent loss:     0.5898486606776714
+    train cluster loss:       0.029696045443415642
+    train separation loss:    0.10245849769562483
+    train avg sep loss:       0.2813294306397438
+    train l1_addon loss:      2.005681037902832
+    train l1 loss:            10.0
+    test overall loss:        0.6977386275927225
+    test cross_ent loss:      0.6333616375923157
+    train time:               0.24495434761047363
+    test time:                0.03333687782287598
+    epoch time:               0.2809724807739258
+epoch:  28 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.8414721511304378
+    train cross_ent loss:     0.5968731313943862
+    train cluster loss:       4.544223690731451
+    train separation loss:    0.12816177625209094
+    train avg sep loss:       0.331208086758852
+    train l1_addon loss:      1.9989027976989746
+    train l1 loss:            10.0
+    test overall loss:        0.631812334060669
+    test cross_ent loss:      0.5676023364067078
+    train time:               0.24040865898132324
+    test time:                0.033905029296875
+    epoch time:               0.27709221839904785
+epoch:  29 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.8150838561356067
+    train cross_ent loss:     0.5722132161259651
+    train cluster loss:       4.529719277145341
+    train separation loss:    0.10452041793614626
+    train avg sep loss:       0.2874435860663652
+    train l1_addon loss:      1.9801130294799805
+    train l1 loss:            10.0
+    test overall loss:        0.630863885084788
+    test cross_ent loss:      0.5692557493845621
+    train time:               0.23662734031677246
+    test time:                0.03354501724243164
+    epoch time:               0.2728087902069092
+epoch:  30 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.8991761222481728
+    train cross_ent loss:     0.5972382329404354
+    train cluster loss:       6.029648971930146
+    train separation loss:    0.09212341420352459
+    train avg sep loss:       0.2556340407580137
+    train l1_addon loss:      1.9673511981964111
+    train l1 loss:            10.0
+    test overall loss:        0.6331033110618591
+    test cross_ent loss:      0.570960283279419
+    train time:               0.24007463455200195
+    test time:                0.03388714790344238
+    epoch time:               0.2766885757446289
+epoch:  31 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.8788648158311844
+    train cross_ent loss:     0.5764064490795135
+    train cluster loss:       6.027210102463141
+    train separation loss:    0.09483032301068306
+    train avg sep loss:       0.2707799904048443
+    train l1_addon loss:      1.9886502027511597
+    train l1 loss:            10.0
+    test overall loss:        0.654873271783193
+    test cross_ent loss:      0.5913400053977966
+    train time:               0.24408602714538574
+    test time:                0.03402066230773926
+    epoch time:               0.2805790901184082
+epoch:  32 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.7845554925501347
+    train cross_ent loss:     0.6016399063169956
+    train cluster loss:       3.03413721146062
+    train separation loss:    0.10069778561592102
+    train avg sep loss:       0.2799412302672863
+    train l1_addon loss:      1.976174235343933
+    train l1 loss:            10.0
+    test overall loss:        0.6413610378901163
+    test cross_ent loss:      0.5791391730308533
+    train time:               0.23746013641357422
+    test time:                0.033586740493774414
+    epoch time:               0.27341175079345703
+epoch:  33 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.7620048567652702
+    train cross_ent loss:     0.5798066429793834
+    train cluster loss:       3.0312619405798613
+    train separation loss:    0.09842987209558487
+    train avg sep loss:       0.26570286229252815
+    train l1_addon loss:      1.9612419605255127
+    train l1 loss:            10.0
+    test overall loss:        0.625652531782786
+    test cross_ent loss:      0.5632520119349161
+    train time:               0.23804807662963867
+    test time:                0.03360724449157715
+    epoch time:               0.2744879722595215
+epoch:  34 (WARM)
+    test acc:                 79.11%
+    train overall loss:       0.8588639460504055
+    train cross_ent loss:     0.5580371350049973
+    train cluster loss:       6.022842178633437
+    train separation loss:    0.08163788001984358
+    train avg sep loss:       0.23001267574727535
+    train l1_addon loss:      1.9228382110595703
+    train l1 loss:            10.0
+    test overall loss:        0.6115683317184448
+    test cross_ent loss:      0.5511780182520548
+    train time:               0.23786234855651855
+    test time:                0.03368830680847168
+    epoch time:               0.2741544246673584
+epoch:  35 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.8164087742567062
+    train cross_ent loss:     0.5756158791482449
+    train cluster loss:       4.524629307212308
+    train separation loss:    0.0822390764951706
+    train avg sep loss:       0.22745489589869977
+    train l1_addon loss:      1.8943850994110107
+    train l1 loss:            10.0
+    test overall loss:        0.6341866056124369
+    test cross_ent loss:      0.572670062383016
+    train time:               0.2376852035522461
+    test time:                0.03372001647949219
+    epoch time:               0.2739601135253906
+epoch:  36 (WARM)
+    test acc:                 78.16%
+    train overall loss:       0.8082073047757149
+    train cross_ent loss:     0.5671747870743274
+    train cluster loss:       4.526195640861988
+    train separation loss:    0.08387359771877527
+    train avg sep loss:       0.23370573334395886
+    train l1_addon loss:      1.902504563331604
+    train l1 loss:            10.0
+    test overall loss:        0.6082786917686462
+    test cross_ent loss:      0.5470297932624817
+    train time:               0.23703885078430176
+    test time:                0.03357696533203125
+    epoch time:               0.27339935302734375
+epoch:  37 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.7503513418138027
+    train cross_ent loss:     0.5696899093687534
+    train cluster loss:       3.0246165468357504
+    train separation loss:    0.08100250400602818
+    train avg sep loss:       0.22530878186225892
+    train l1_addon loss:      1.8773448467254639
+    train l1 loss:            10.0
+    test overall loss:        0.6238145232200623
+    test cross_ent loss:      0.5631891091664633
+    train time:               0.23740220069885254
+    test time:                0.033663034439086914
+    epoch time:               0.2738001346588135
+epoch:  38 (WARM)
+    test acc:                 73.42%
+    train overall loss:       0.7061500549316406
+    train cross_ent loss:     0.5853537291288375
+    train cluster loss:       1.5216856769751756
+    train separation loss:    0.07517639342695474
+    train avg sep loss:       0.22446228377521038
+    train l1_addon loss:      1.8638803958892822
+    train l1 loss:            10.0
+    test overall loss:        0.6592525641123453
+    test cross_ent loss:      0.5997985402743021
+    train time:               0.23734688758850098
+    test time:                0.03370094299316406
+    epoch time:               0.2737703323364258
+epoch:  39 (WARM)
+    test acc:                 77.22%
+    train overall loss:       0.8896405771374702
+    train cross_ent loss:     0.5885175436735153
+    train cluster loss:       6.024960651714355
+    train separation loss:    0.08654358070343733
+    train avg sep loss:       0.23966395109891891
+    train l1_addon loss:      1.8377680778503418
+    train l1 loss:            10.0
+    test overall loss:        0.6414528091748556
+    test cross_ent loss:      0.5797576308250427
+    train time:               0.23788046836853027
+    test time:                0.03384685516357422
+    epoch time:               0.2746927738189697
+epoch:  40 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.6412152446806431
+    train cross_ent loss:     0.5796812154352665
+    train cluster loss:       0.03153289849869907
+    train separation loss:    0.09674347005784512
+    train avg sep loss:       0.2537730421870947
+    train l1_addon loss:      1.8396347761154175
+    train l1 loss:            10.0
+    test overall loss:        0.6233759919802347
+    test cross_ent loss:      0.5610993703206381
+    train time:               0.23787975311279297
+    test time:                0.033660173416137695
+    epoch time:               0.2743542194366455
+epoch:  41 (WARM)
+    test acc:                 77.85%
+    train overall loss:       0.8781346380710602
+    train cross_ent loss:     0.576525242626667
+    train cluster loss:       6.027542267180979
+    train separation loss:    0.08913788013160229
+    train avg sep loss:       0.24976551197469235
+    train l1_addon loss:      1.8653942346572876
+    train l1 loss:            10.0
+    test overall loss:        0.6408800482749939
+    test cross_ent loss:      0.5809255639712015
+    train time:               0.2898523807525635
+    test time:                0.03658771514892578
+    epoch time:               0.3302133083343506
+epoch:  42 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.8083887152373791
+    train cross_ent loss:     0.5675918400287628
+    train cluster loss:       4.5254582219291475
+    train separation loss:    0.08197830356657505
+    train avg sep loss:       0.22804713025689125
+    train l1_addon loss:      1.8519096374511719
+    train l1 loss:            10.0
+    test overall loss:        0.6410604317982992
+    test cross_ent loss:      0.5799609820048014
+    train time:               0.24698090553283691
+    test time:                0.03382587432861328
+    epoch time:               0.2835962772369385
+epoch:  43 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.704110675305128
+    train cross_ent loss:     0.5833175502717495
+    train cluster loss:       1.5234107783064246
+    train separation loss:    0.07799316588789225
+    train avg sep loss:       0.2266702450811863
+    train l1_addon loss:      1.854508876800537
+    train l1 loss:            10.0
+    test overall loss:        0.6188793182373047
+    test cross_ent loss:      0.5586235324541727
+    train time:               0.23712706565856934
+    test time:                0.03363347053527832
+    epoch time:               0.2734813690185547
+epoch:  44 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.8237449869513511
+    train cross_ent loss:     0.5830336771905422
+    train cluster loss:       4.526192207727581
+    train separation loss:    0.08525802753865719
+    train avg sep loss:       0.22949375919997692
+    train l1_addon loss:      1.8581771850585938
+    train l1 loss:            10.0
+    test overall loss:        0.6250949104626974
+    test cross_ent loss:      0.5627244114875793
+    train time:               0.2378826141357422
+    test time:                0.033583879470825195
+    epoch time:               0.27414608001708984
+epoch:  45 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.6953377939760685
+    train cross_ent loss:     0.5735264293849468
+    train cluster loss:       1.5269256786908953
+    train separation loss:    0.08778503574430943
+    train avg sep loss:       0.2530552979558706
+    train l1_addon loss:      1.8552837371826172
+    train l1 loss:            10.0
+    test overall loss:        0.6103844245274862
+    test cross_ent loss:      0.550112764040629
+    train time:               0.2431480884552002
+    test time:                0.033582210540771484
+    epoch time:               0.2794535160064697
+epoch:  46 (WARM)
+    test acc:                 80.70%
+    train overall loss:       0.980731064081192
+    train cross_ent loss:     0.5609642207622528
+    train cluster loss:       9.019682026212104
+    train separation loss:    0.07342956718057395
+    train avg sep loss:       0.20466193407773972
+    train l1_addon loss:      1.8250797986984253
+    train l1 loss:            10.0
+    test overall loss:        0.5991398294766744
+    test cross_ent loss:      0.5396755139032999
+    train time:               0.2373807430267334
+    test time:                0.033542633056640625
+    epoch time:               0.27341222763061523
+epoch:  47 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.6928332664072514
+    train cross_ent loss:     0.5729541912674904
+    train cluster loss:       1.5209949115291237
+    train separation loss:    0.06870727688074112
+    train avg sep loss:       0.20093412026762963
+    train l1_addon loss:      1.8033835887908936
+    train l1 loss:            10.0
+    test overall loss:        0.6652821898460388
+    test cross_ent loss:      0.6060846447944641
+    train time:               0.23326659202575684
+    test time:                0.03328585624694824
+    epoch time:               0.26877665519714355
+epoch:  48 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.7592832207679748
+    train cross_ent loss:     0.5785038128495217
+    train cluster loss:       3.024999428074807
+    train separation loss:    0.08235641587525606
+    train avg sep loss:       0.23015566654503344
+    train l1_addon loss:      1.7779185771942139
+    train l1 loss:            10.0
+    test overall loss:        0.6291544636090597
+    test cross_ent loss:      0.5692715446154276
+    train time:               0.23363804817199707
+    test time:                0.03345799446105957
+    epoch time:               0.26959848403930664
+epoch:  49 (WARM)
+    test acc:                 79.75%
+    train overall loss:       0.9424520947039128
+    train cross_ent loss:     0.5813793063163757
+    train cluster loss:       7.526626091543585
+    train separation loss:    0.09203537162393331
+    train avg sep loss:       0.24487191438674927
+    train l1_addon loss:      1.7624258995056152
+    train l1 loss:            10.0
+    test overall loss:        0.6127822597821554
+    test cross_ent loss:      0.5510506629943848
+    train time:               0.2350320816040039
+    test time:                0.03345346450805664
+    epoch time:               0.27115821838378906
+epoch:  50 (WARM)
+    test acc:                 79.75%
+    train overall loss:       1.0054631412029267
+    train cross_ent loss:     0.5838839620351791
+    train cluster loss:       9.028573437174781
+    train separation loss:    0.09419326912611722
+    train avg sep loss:       0.2567248545587063
+    train l1_addon loss:      1.7371108531951904
+    train l1 loss:            10.0
+    test overall loss:        0.6251735885938009
+    test cross_ent loss:      0.5621927777926127
+    train time:               0.24320363998413086
+    test time:                0.033681631088256836
+    epoch time:               0.27936577796936035
+epoch:  51 (JOINT)
+    test acc:                 79.75%
+    train overall loss:       0.8481281742453575
+    train cross_ent loss:     0.5459912478923797
+    train cluster loss:       6.027392750186846
+    train separation loss:    0.08398391846567392
+    train avg sep loss:       0.2572617333382368
+    train l1_addon loss:      1.735529899597168
+    train l1 loss:            10.0
+    test overall loss:        0.6071523825327555
+    test cross_ent loss:      0.5445575714111328
+    train time:               0.28005313873291016
+    test time:                0.0337369441986084
+    epoch time:               0.3162510395050049
+    joint lr:                 5.851000000000014e-05
+epoch:  52 (JOINT)
+    test acc:                 79.75%
+    train overall loss:       0.834184118360281
+    train cross_ent loss:     0.47307426035404204
+    train cluster loss:       7.523341636778786
+    train separation loss:    0.08649414274841546
+    train avg sep loss:       0.24240359105169773
+    train l1_addon loss:      1.7256441116333008
+    train l1 loss:            10.0
+    test overall loss:        0.47257782022158307
+    test cross_ent loss:      0.41273170709609985
+    train time:               0.2751200199127197
+    test time:                0.033334970474243164
+    epoch time:               0.31085681915283203
+    joint lr:                 0.00010604979999999996
+epoch:  53 (JOINT)
+    test acc:                 85.13%
+    train overall loss:       0.6635413467884064
+    train cross_ent loss:     0.3638689946383238
+    train cluster loss:       6.018953266460448
+    train separation loss:    0.08986618183553219
+    train avg sep loss:       0.22220133878290654
+    train l1_addon loss:      1.7132959365844727
+    train l1 loss:            10.0
+    test overall loss:        0.39008094867070514
+    test cross_ent loss:      0.3310897847016652
+    train time:               0.26514458656311035
+    test time:                0.03363847732543945
+    epoch time:               0.30103492736816406
+    joint lr:                 0.00015263395300000012
+epoch:  54 (JOINT)
+    test acc:                 85.13%
+    train overall loss:       0.5904824856668711
+    train cross_ent loss:     0.29147819224745036
+    train cluster loss:       6.0153858759207655
+    train separation loss:    0.09451614525169134
+    train avg sep loss:       0.21849353164434432
+    train l1_addon loss:      1.6970323324203491
+    train l1 loss:            10.0
+    test overall loss:        0.36078665653864544
+    test cross_ent loss:      0.3019270598888397
+    train time:               0.25811338424682617
+    test time:                0.0335392951965332
+    epoch time:               0.2939748764038086
+    joint lr:                 0.00019827681795999994
+epoch:  55 (JOINT)
+    test acc:                 83.86%
+    train overall loss:       0.4973310697823763
+    train cross_ent loss:     0.2583199519664049
+    train cluster loss:       4.512806205940433
+    train separation loss:    0.09673523083329201
+    train avg sep loss:       0.22395441308617592
+    train l1_addon loss:      1.6812200546264648
+    train l1 loss:            10.0
+    test overall loss:        0.3404865264892578
+    test cross_ent loss:      0.28145604332288104
+    train time:               0.2581796646118164
+    test time:                0.033966064453125
+    epoch time:               0.29462170600891113
+    joint lr:                 0.00024299256222550008
+epoch:  56 (JOINT)
+    test acc:                 90.51%
+    train overall loss:       0.4023908544331789
+    train cross_ent loss:     0.22335755359381437
+    train cluster loss:       3.0109589196974413
+    train separation loss:    0.09859436210244894
+    train avg sep loss:       0.22878974601626395
+    train l1_addon loss:      1.667550802230835
+    train l1 loss:            10.0
+    test overall loss:        0.23123745123545328
+    test cross_ent loss:      0.1725176473458608
+    train time:               0.25998759269714355
+    test time:                0.03273487091064453
+    epoch time:               0.2953174114227295
+    joint lr:                 0.00028679516392389394
+epoch:  57 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.44405694082379343
+    train cross_ent loss:     0.20468274969607592
+    train cluster loss:       4.510141945001669
+    train separation loss:    0.0967218030244112
+    train avg sep loss:       0.2352914460003376
+    train l1_addon loss:      1.6558932065963745
+    train l1 loss:            10.0
+    test overall loss:        0.2097314496835073
+    test cross_ent loss:      0.15065562228361765
+    train time:               0.2618236541748047
+    test time:                0.03334307670593262
+    epoch time:               0.29770421981811523
+    joint lr:                 0.00032969841433209767
+epoch:  58 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3228228433057666
+    train cross_ent loss:     0.1431947408709675
+    train cluster loss:       3.0084997940808536
+    train separation loss:    0.08885772805660963
+    train avg sep loss:       0.23423409499228
+    train l1_addon loss:      1.6488231420516968
+    train l1 loss:            10.0
+    test overall loss:        0.11982777466376622
+    test cross_ent loss:      0.06002240255475044
+    train time:               0.27732086181640625
+    test time:                0.03345346450805664
+    epoch time:               0.31334710121154785
+    joint lr:                 0.0003717159202157446
+epoch:  59 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.18859988190233706
+    train cross_ent loss:     0.06872867532074452
+    train cluster loss:       1.5057303429639433
+    train separation loss:    0.0880856342613697
+    train avg sep loss:       0.2411703784018755
+    train l1_addon loss:      1.6403496265411377
+    train l1 loss:            10.0
+    test overall loss:        0.08801128218571345
+    test cross_ent loss:      0.027731016278266907
+    train time:               0.2741992473602295
+    test time:                0.033733367919921875
+    epoch time:               0.3106412887573242
+    joint lr:                 0.0004128611061402857
+epoch:  60 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.30626413933932783
+    train cross_ent loss:     0.06653597748372704
+    train cluster loss:       4.503893680660985
+    train separation loss:    0.08903305269777775
+    train avg sep loss:       0.2412382610142231
+    train l1_addon loss:      1.6306102275848389
+    train l1 loss:            10.0
+    test overall loss:        0.07282659163077672
+    test cross_ent loss:      0.012731753289699554
+    train time:               0.27030467987060547
+    test time:                0.03332781791687012
+    epoch time:               0.3063056468963623
+    joint lr:                 0.0004531472167543141
+epoch:  61 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.35479137282818557
+    train cross_ent loss:     0.055231897113844755
+    train cluster loss:       6.003079853094823
+    train separation loss:    0.09066574182361364
+    train avg sep loss:       0.24073207415640355
+    train l1_addon loss:      1.6127495765686035
+    train l1 loss:            10.0
+    test overall loss:        0.06829647968212764
+    test cross_ent loss:      0.008707758039236069
+    train time:               0.2727370262145996
+    test time:                0.033997297286987305
+    epoch time:               0.30936288833618164
+    joint lr:                 0.00042677995735743244
+epoch:  62 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.16226839534938337
+    train cross_ent loss:     0.04277236211346462
+    train cluster loss:       1.5030384827245142
+    train separation loss:    0.08838028106838465
+    train avg sep loss:       0.23723363280296325
+    train l1_addon loss:      1.6071759462356567
+    train l1 loss:            10.0
+    test overall loss:        0.08634942024946213
+    test cross_ent loss:      0.025665929540991783
+    train time:               0.2689998149871826
+    test time:                0.03382372856140137
+    epoch time:               0.3055155277252197
+    joint lr:                 0.000400895728426813
+epoch:  63 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.2068397920578718
+    train cross_ent loss:     0.02776202944223769
+    train cluster loss:       3.0024080086092
+    train separation loss:    0.08914764523506165
+    train avg sep loss:       0.2302633959800005
+    train l1_addon loss:      1.5892199277877808
+    train l1 loss:            10.0
+    test overall loss:        0.06764931480089824
+    test cross_ent loss:      0.008467669288317362
+    train time:               0.2680838108062744
+    test time:                0.03423166275024414
+    epoch time:               0.3050212860107422
+    joint lr:                 0.00037548750607907007
+epoch:  64 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.2665849386714399
+    train cross_ent loss:     0.027389132248936222
+    train cluster loss:       4.502833614429255
+    train separation loss:    0.08699966575950384
+    train avg sep loss:       0.23009459301829338
+    train l1_addon loss:      1.5777992010116577
+    train l1 loss:            10.0
+    test overall loss:        0.06414190431435902
+    test cross_ent loss:      0.0046370878505210085
+    train time:               0.2714405059814453
+    test time:                0.033562660217285156
+    epoch time:               0.30793213844299316
+    joint lr:                 0.00035054835860543935
+epoch:  65 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.15003436729311942
+    train cross_ent loss:     0.031049038103083147
+    train cluster loss:       1.5025271606835304
+    train separation loss:    0.08650817982852459
+    train avg sep loss:       0.22666514478623867
+    train l1_addon loss:      1.5679755210876465
+    train l1 loss:            10.0
+    test overall loss:        0.061968824515740074
+    test cross_ent loss:      0.0032522819625834623
+    train time:               0.26755690574645996
+    test time:                0.033219099044799805
+    epoch time:               0.3036823272705078
+    joint lr:                 0.0003260714453306735
+epoch:  66 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.11609725393354893
+    train cross_ent loss:     0.05636815521866083
+    train cluster loss:       0.004672546476649586
+    train separation loss:    0.0812532052397728
+    train avg sep loss:       0.23412743397057056
+    train l1_addon loss:      1.5607858896255493
+    train l1 loss:            10.0
+    test overall loss:        0.07113349437713623
+    test cross_ent loss:      0.011365756392478943
+    train time:               0.26341843605041504
+    test time:                0.0338129997253418
+    epoch time:               0.29987359046936035
+    joint lr:                 0.00030205001548554237
+epoch:  67 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.326689628046006
+    train cross_ent loss:     0.02776288927416317
+    train cluster loss:       6.003938160096004
+    train separation loss:    0.08628723286092281
+    train avg sep loss:       0.22388497404754162
+    train l1_addon loss:      1.5553686618804932
+    train l1 loss:            10.0
+    test overall loss:        0.06707548846801122
+    test cross_ent loss:      0.007505192731817563
+    train time:               0.26961565017700195
+    test time:                0.03304147720336914
+    epoch time:               0.30530714988708496
+    joint lr:                 0.00027847740709278067
+epoch:  68 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.08926744963973761
+    train cross_ent loss:     0.0301890988543164
+    train cluster loss:       0.002301635782350786
+    train separation loss:    0.08370590340346099
+    train avg sep loss:       0.2257213771343231
+    train l1_addon loss:      1.5430166721343994
+    train l1 loss:            10.0
+    test overall loss:        0.061850188920895256
+    test cross_ent loss:      0.0027959541572878757
+    train time:               0.26466917991638184
+    test time:                0.033075809478759766
+    epoch time:               0.30060577392578125
+    joint lr:                 0.00025534704586632566
+epoch:  69 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3945016758516431
+    train cross_ent loss:     0.03601299304864369
+    train cluster loss:       7.501862716684263
+    train separation loss:    0.08743454180657864
+    train avg sep loss:       0.21844135597348213
+    train l1_addon loss:      1.5351243019104004
+    train l1 loss:            10.0
+    test overall loss:        0.06013639271259308
+    test cross_ent loss:      0.001783237171669801
+    train time:               0.26932382583618164
+    test time:                0.033666133880615234
+    epoch time:               0.30594873428344727
+    joint lr:                 0.00023265244412369054
+epoch:  70 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.26149327866733074
+    train cross_ent loss:     0.02236963888281025
+    train cluster loss:       4.501583404578196
+    train separation loss:    0.0849931351840496
+    train avg sep loss:       0.22816792801022528
+    train l1_addon loss:      1.5294609069824219
+    train l1 loss:            10.0
+    test overall loss:        0.0656630073984464
+    test cross_ent loss:      0.006011119112372398
+    train time:               0.26458120346069336
+    test time:                0.03367924690246582
+    epoch time:               0.30106592178344727
+    joint lr:                 0.00021038719971132157
+epoch:  71 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.13592070136219264
+    train cross_ent loss:     0.017375032836571335
+    train cluster loss:       1.5018231010784802
+    train separation loss:    0.08643402270972729
+    train avg sep loss:       0.21838339008390903
+    train l1_addon loss:      1.523470163345337
+    train l1 loss:            10.0
+    test overall loss:        0.06170011435945829
+    test cross_ent loss:      0.0029007429257035255
+    train time:               0.2653849124908447
+    test time:                0.03292131423950195
+    epoch time:               0.3011295795440674
+    joint lr:                 0.00018854499494278746
+epoch:  72 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.25197850465774535
+    train cross_ent loss:     0.013654386636335402
+    train cluster loss:       4.501308403021175
+    train separation loss:    0.08578811772167683
+    train avg sep loss:       0.213921856880188
+    train l1_addon loss:      1.5190434455871582
+    train l1 loss:            10.0
+    test overall loss:        0.06121438120802244
+    test cross_ent loss:      0.0026303328728924194
+    train time:               0.26373744010925293
+    test time:                0.03352785110473633
+    epoch time:               0.30027031898498535
+    joint lr:                 0.0001671195955496529
+epoch:  73 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.19029414672404527
+    train cross_ent loss:     0.011973673989996315
+    train cluster loss:       3.000941734331536
+    train separation loss:    0.08582824897021055
+    train avg sep loss:       0.21442175880074502
+    train l1_addon loss:      1.514012336730957
+    train l1 loss:            10.0
+    test overall loss:        0.060337031881014504
+    test cross_ent loss:      0.001814074853124718
+    train time:               0.2624485492706299
+    test time:                0.03361201286315918
+    epoch time:               0.2988243103027344
+    joint lr:                 0.00014610484964488693
+epoch:  74 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.19805907886475324
+    train cross_ent loss:     0.01976170256966725
+    train cluster loss:       3.0020849991344223
+    train separation loss:    0.0851547248661518
+    train avg sep loss:       0.21269814036786555
+    train l1_addon loss:      1.5104094743728638
+    train l1 loss:            10.0
+    test overall loss:        0.06093692655364672
+    test cross_ent loss:      0.0024994021902481713
+    train time:               0.26429319381713867
+    test time:                0.03310966491699219
+    epoch time:               0.30039143562316895
+    joint lr:                 0.00012549468669866112
+epoch:  75 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.13166398722678424
+    train cross_ent loss:     0.01331006176478695
+    train cluster loss:       1.5014006042660184
+    train separation loss:    0.08370086774230004
+    train avg sep loss:       0.21262565888464452
+    train l1_addon loss:      1.5066843032836914
+    train l1 loss:            10.0
+    test overall loss:        0.06251560772458713
+    test cross_ent loss:      0.003721855270365874
+    train time:               0.2708313465118408
+    test time:                0.0335085391998291
+    epoch time:               0.3072078227996826
+    joint lr:                 0.00010528311652639536
+epoch:  76 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3213837712071836
+    train cross_ent loss:     0.023265411582542583
+    train cluster loss:       6.002377967875691
+    train separation loss:    0.08509964104741811
+    train avg sep loss:       0.20915262587368488
+    train l1_addon loss:      1.5038764476776123
+    train l1 loss:            10.0
+    test overall loss:        0.06188580642143885
+    test cross_ent loss:      0.003409374738112092
+    train time:               0.2657783031463623
+    test time:                0.033136606216430664
+    epoch time:               0.30182647705078125
+    joint lr:                 8.546422828890516e-05
+epoch:  77 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.08054328253492712
+    train cross_ent loss:     0.0221717728942167
+    train cluster loss:       0.0019688415832206374
+    train separation loss:    0.08029922656714916
+    train avg sep loss:       0.20918034240603448
+    train l1_addon loss:      1.5020066499710083
+    train l1 loss:            10.0
+    test overall loss:        0.0609974538286527
+    test cross_ent loss:      0.0025464354548603296
+    train time:               0.2656431198120117
+    test time:                0.033477067947387695
+    epoch time:               0.30201292037963867
+    joint lr:                 6.603218950451215e-05
+epoch:  78 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.1295346357859671
+    train cross_ent loss:     0.011297678362461738
+    train cluster loss:       1.5009498596402409
+    train separation loss:    0.08220474403351545
+    train avg sep loss:       0.20914385020732879
+    train l1_addon loss:      1.499532699584961
+    train l1 loss:            10.0
+    test overall loss:        0.05935209492842356
+    test cross_ent loss:      0.0014445788304631908
+    train time:               0.26223063468933105
+    test time:                0.03383159637451172
+    epoch time:               0.29881763458251953
+    joint lr:                 4.698124507297798e-05
+epoch:  79 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.12735052881762385
+    train cross_ent loss:     0.00930477237852756
+    train cluster loss:       1.5008452415662759
+    train separation loss:    0.0827424630522728
+    train avg sep loss:       0.20599761493504049
+    train l1_addon loss:      1.498321533203125
+    train l1 loss:            10.0
+    test overall loss:        0.06012596935033798
+    test cross_ent loss:      0.0019046191591769457
+    train time:               0.2676081657409668
+    test time:                0.03351879119873047
+    epoch time:               0.30411767959594727
+    joint lr:                 2.8305716311124037e-05
+epoch:  80 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.25696155792102215
+    train cross_ent loss:     0.018866040764260107
+    train cluster loss:       4.5011877632376125
+    train separation loss:    0.08274627812206745
+    train avg sep loss:       0.20686692968010903
+    train l1_addon loss:      1.4976603984832764
+    train l1 loss:            10.0
+    test overall loss:        0.06425415724515915
+    test cross_ent loss:      0.005355394755800565
+    train time:               0.2635538578033447
+    test time:                0.03370261192321777
+    epoch time:               0.30016446113586426
+    joint lr:                 1e-05
+epoch:  81 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.2513599570840597
+    train cross_ent loss:     0.013145444213296286
+    train cluster loss:       4.500965003980127
+    train separation loss:    0.08176315408200026
+    train avg sep loss:       0.2084652740508318
+    train l1_addon loss:      1.4973187446594238
+    train l1 loss:            10.0
+    test overall loss:        0.060443565249443054
+    test cross_ent loss:      0.002061302618434032
+    train time:               0.26721954345703125
+    test time:                0.033531904220581055
+    epoch time:               0.30361270904541016
+    joint lr:                 4.5882865113065344e-05
+epoch:  82 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.30619709976017473
+    train cross_ent loss:     0.008363811406888999
+    train cluster loss:       6.000550403604938
+    train separation loss:    0.08554245103150607
+    train avg sep loss:       0.20473254173994065
+    train l1_addon loss:      1.49566650390625
+    train l1 loss:            10.0
+    test overall loss:        0.059732381254434586
+    test cross_ent loss:      0.0016934712184593081
+    train time:               0.2663240432739258
+    test time:                0.03366541862487793
+    epoch time:               0.30285120010375977
+    joint lr:                 8.104807292386938e-05
+epoch:  83 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.07884586984291672
+    train cross_ent loss:     0.020689391862833872
+    train cluster loss:       0.0016966248154858476
+    train separation loss:    0.0799772661179304
+    train avg sep loss:       0.20508209951221942
+    train l1_addon loss:      1.4937443733215332
+    train l1 loss:            10.0
+    test overall loss:        0.06000625342130661
+    test cross_ent loss:      0.0019145605619996786
+    train time:               0.2751171588897705
+    test time:                0.033608436584472656
+    epoch time:               0.3116147518157959
+    joint lr:                 0.0001155063882919465
+epoch:  84 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.1879212472587824
+    train cross_ent loss:     0.00992550200317055
+    train cluster loss:       3.0008728408864043
+    train separation loss:    0.08146926984190941
+    train avg sep loss:       0.2036297183483839
+    train l1_addon loss:      1.4898486137390137
+    train l1 loss:            10.0
+    test overall loss:        0.05994187667965889
+    test cross_ent loss:      0.001865509431809187
+    train time:               0.27618980407714844
+    test time:                0.033935546875
+    epoch time:               0.31290435791015625
+    joint lr:                 0.0001492684325453692
+epoch:  85 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.25149340368807316
+    train cross_ent loss:     0.013701677089557052
+    train cluster loss:       4.5012128257918445
+    train separation loss:    0.08167236484587193
+    train avg sep loss:       0.19983044490218163
+    train l1_addon loss:      1.4841606616973877
+    train l1 loss:            10.0
+    test overall loss:        0.05973366027077039
+    test cross_ent loss:      0.001877510454505682
+    train time:               0.27339744567871094
+    test time:                0.03403782844543457
+    epoch time:               0.3102710247039795
+    joint lr:                 0.00018234468527489475
+epoch:  86 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.37345782201737165
+    train cross_ent loss:     0.01566394828550983
+    train cluster loss:       7.501278152488339
+    train separation loss:    0.07936996556818485
+    train avg sep loss:       0.1974672969430685
+    train l1_addon loss:      1.47352933883667
+    train l1 loss:            10.0
+    test overall loss:        0.05921446035305659
+    test cross_ent loss:      0.0013977030757814646
+    train time:               0.2708895206451416
+    test time:                0.03383779525756836
+    epoch time:               0.30715179443359375
+    joint lr:                 0.00021474548610657477
+epoch:  87 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.2507991251535714
+    train cross_ent loss:     0.012996303121326491
+    train cluster loss:       4.501415290848035
+    train separation loss:    0.07820221073925496
+    train avg sep loss:       0.19661499038338662
+    train l1_addon loss:      1.4664762020111084
+    train l1 loss:            10.0
+    test overall loss:        0.05985096717874209
+    test cross_ent loss:      0.002052370885697504
+    train time:               0.2835690975189209
+    test time:                0.03880047798156738
+    epoch time:               0.3249080181121826
+    joint lr:                 0.00024648103645309374
+epoch:  88 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24709614627063275
+    train cross_ent loss:     0.00943208316748496
+    train cluster loss:       4.500687694568114
+    train separation loss:    0.07770157046616077
+    train avg sep loss:       0.19399315118789673
+    train l1_addon loss:      1.458749771118164
+    train l1 loss:            10.0
+    test overall loss:        0.05941014612714449
+    test cross_ent loss:      0.0016350370521346729
+    train time:               0.27075815200805664
+    test time:                0.03398489952087402
+    epoch time:               0.3076136112213135
+    joint lr:                 0.0002775614012440716
+epoch:  89 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.12810192005708815
+    train cross_ent loss:     0.010461591655621305
+    train cluster loss:       1.501011180887599
+    train separation loss:    0.07565735038369895
+    train avg sep loss:       0.19089532010257243
+    train l1_addon loss:      1.4500519037246704
+    train l1 loss:            10.0
+    test overall loss:        0.059795295198758446
+    test cross_ent loss:      0.001901649055071175
+    train time:               0.26273012161254883
+    test time:                0.03359866142272949
+    epoch time:               0.2990279197692871
+    joint lr:                 0.00030799651063558465
+epoch:  90 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.19554853867739438
+    train cross_ent loss:     0.017947220854694024
+    train cluster loss:       3.001294326812058
+    train separation loss:    0.07418548706918955
+    train avg sep loss:       0.18870762400329114
+    train l1_addon loss:      1.438169002532959
+    train l1 loss:            10.0
+    test overall loss:        0.05970580379168192
+    test cross_ent loss:      0.0020426704237858453
+    train time:               0.26501893997192383
+    test time:                0.034009695053100586
+    epoch time:               0.30177831649780273
+    joint lr:                 0.0003377961616991431
+epoch:  91 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.2578513412736356
+    train cross_ent loss:     0.02027540696435608
+    train cluster loss:       4.501080112470118
+    train separation loss:    0.07280120998620987
+    train avg sep loss:       0.1870803628116846
+    train l1_addon loss:      1.4271297454833984
+    train l1 loss:            10.0
+    test overall loss:        0.060353501389424004
+    test cross_ent loss:      0.0026811964344233274
+    train time:               0.27144360542297363
+    test time:                0.03387594223022461
+    epoch time:               0.3079109191894531
+    joint lr:                 0.0003182922900780443
+epoch:  92 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.30423001674935224
+    train cross_ent loss:     0.007131310721160844
+    train cluster loss:       6.000624008193427
+    train separation loss:    0.07494720574468375
+    train avg sep loss:       0.18007121682167054
+    train l1_addon loss:      1.4151806831359863
+    train l1 loss:            10.0
+    test overall loss:        0.05865383396546046
+    test cross_ent loss:      0.0013727618691821892
+    train time:               0.27022433280944824
+    test time:                0.034067630767822266
+    epoch time:               0.3065941333770752
+    joint lr:                 0.00029914571627319734
+epoch:  93 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.1980335214175284
+    train cross_ent loss:     0.02065816047252156
+    train cluster loss:       3.0011157608219947
+    train separation loss:    0.07022277973592281
+    train avg sep loss:       0.18059091754257678
+    train l1_addon loss:      1.4061243534088135
+    train l1 loss:            10.0
+    test overall loss:        0.05943976963559786
+    test cross_ent loss:      0.0020826931577175856
+    train time:               0.2722611427307129
+    test time:                0.03569841384887695
+    epoch time:               0.3107156753540039
+    joint lr:                 0.0002803512447154394
+epoch:  94 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.43155724061653017
+    train cross_ent loss:     0.014550182060338557
+    train cluster loss:       9.001062393212669
+    train separation loss:    0.07490829620510339
+    train avg sep loss:       0.17839259766042231
+    train l1_addon loss:      1.3968455791473389
+    train l1 loss:            10.0
+    test overall loss:        0.058506122479836144
+    test cross_ent loss:      0.0015280246346568067
+    train time:               0.27320170402526855
+    test time:                0.033957719802856445
+    epoch time:               0.30956125259399414
+    joint lr:                 0.00026190374801720944
+epoch:  95 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.19026966197416187
+    train cross_ent loss:     0.013012775775860064
+    train cluster loss:       3.0009627151679523
+    train separation loss:    0.07033874718472362
+    train avg sep loss:       0.17800577282905578
+    train l1_addon loss:      1.3863383531570435
+    train l1 loss:            10.0
+    test overall loss:        0.06211229662100474
+    test cross_ent loss:      0.004595314618200064
+    train time:               0.26245665550231934
+    test time:                0.034064292907714844
+    epoch time:               0.29908037185668945
+    joint lr:                 0.00024379816612847254
+epoch:  96 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.31025809785351155
+    train cross_ent loss:     0.013319759382284246
+    train cluster loss:       6.000903282181025
+    train separation loss:    0.07054794486612082
+    train avg sep loss:       0.17246120385825633
+    train l1_addon loss:      1.379342794418335
+    train l1 loss:            10.0
+    test overall loss:        0.05825843165318171
+    test cross_ent loss:      0.0013441943641131122
+    train time:               0.27486658096313477
+    test time:                0.03386974334716797
+    epoch time:               0.3112156391143799
+    joint lr:                 0.0002260295055027087
+epoch:  97 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24815982272848486
+    train cross_ent loss:     0.011253912313259206
+    train cluster loss:       4.500720291143898
+    train separation loss:    0.0684721389785409
+    train avg sep loss:       0.17022546678781508
+    train l1_addon loss:      1.3713886737823486
+    train l1 loss:            10.0
+    test overall loss:        0.05943142995238304
+    test cross_ent loss:      0.002207405554751555
+    train time:               0.2684810161590576
+    test time:                0.03404593467712402
+    epoch time:               0.3051466941833496
+    joint lr:                 0.00020859283827284725
+epoch:  98 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24562117420136928
+    train cross_ent loss:     0.008851362348650582
+    train cluster loss:       4.5006258011002505
+    train separation loss:    0.06832687547430397
+    train avg sep loss:       0.167426972463727
+    train l1_addon loss:      1.3637549877166748
+    train l1 loss:            10.0
+    test overall loss:        0.05820167809724808
+    test cross_ent loss:      0.0013341676676645875
+    train time:               0.263563871383667
+    test time:                0.03472709655761719
+    epoch time:               0.30120134353637695
+    joint lr:                 0.00019148330143703258
+epoch:  99 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.062308693490922454
+    train cross_ent loss:     0.005588173972500954
+    train cluster loss:       0.0006146240240013867
+    train separation loss:    0.06639953702688217
+    train avg sep loss:       0.16479060091078282
+    train l1_addon loss:      1.35585355758667
+    train l1 loss:            10.0
+    test overall loss:        0.05792916566133499
+    test cross_ent loss:      0.0010819184050584834
+    train time:               0.26859259605407715
+    test time:                0.03445601463317871
+    epoch time:               0.30585575103759766
+    joint lr:                 0.0001746960960541071
+epoch: 100 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3083946706727147
+    train cross_ent loss:     0.011847071896772832
+    train cluster loss:       6.00096599579947
+    train separation loss:    0.06773483455181122
+    train avg sep loss:       0.16276903003454207
+    train l1_addon loss:      1.349374532699585
+    train l1 loss:            10.0
+    test overall loss:        0.0583330454925696
+    test cross_ent loss:      0.0016050886673231919
+    train time:               0.27593564987182617
+    test time:                0.033954620361328125
+    epoch time:               0.3126397132873535
+    joint lr:                 0.00015822648644869624
+epoch: 101 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.46605906579643486
+    train cross_ent loss:     0.04949031384894624
+    train cluster loss:       9.000736522681837
+    train separation loss:    0.06549438629299402
+    train avg sep loss:       0.16064278073608876
+    train l1_addon loss:      1.342979073524475
+    train l1 loss:            10.0
+    test overall loss:        0.05942180007696152
+    test cross_ent loss:      0.0025867432511101165
+    train time:               0.2964632511138916
+    test time:                0.034046173095703125
+    epoch time:               0.33296775817871094
+    joint lr:                 0.00014206979942578838
+epoch: 102 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.429650672711432
+    train cross_ent loss:     0.013165336882229895
+    train cluster loss:       9.000807228113263
+    train separation loss:    0.06723404051735997
+    train avg sep loss:       0.16071234792470931
+    train l1_addon loss:      1.333751916885376
+    train l1 loss:            10.0
+    test overall loss:        0.05949092408021291
+    test cross_ent loss:      0.0026522038970142603
+    train time:               0.2724318504333496
+    test time:                0.03435254096984863
+    epoch time:               0.3093712329864502
+    joint lr:                 0.00012622142349469383
+epoch: 103 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.12496885471045971
+    train cross_ent loss:     0.008371336912387051
+    train cluster loss:       1.5005430412426903
+    train separation loss:    0.06265655634924769
+    train avg sep loss:       0.15866323225200177
+    train l1_addon loss:      1.33011794090271
+    train l1 loss:            10.0
+    test overall loss:        0.05850552270809809
+    test cross_ent loss:      0.0017202763119712472
+    train time:               0.2611961364746094
+    test time:                0.03381156921386719
+    epoch time:               0.2976231575012207
+    joint lr:                 0.0001106768081022786
+epoch: 104 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.1257064387202263
+    train cross_ent loss:     0.009232775392592884
+    train cluster loss:       1.5005796814047243
+    train separation loss:    0.06297103958204389
+    train avg sep loss:       0.15675913356244564
+    train l1_addon loss:      1.3269298076629639
+    train l1 loss:            10.0
+    test overall loss:        0.0577312633395195
+    test cross_ent loss:      0.0012867356417700648
+    train time:               0.2649688720703125
+    test time:                0.03350090980529785
+    epoch time:               0.3011927604675293
+    joint lr:                 9.543146287536216e-05
+epoch: 105 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.06721217911690473
+    train cross_ent loss:     0.010628587684186641
+    train cluster loss:       0.0003793335021327948
+    train separation loss:    0.061452027410268784
+    train avg sep loss:       0.15740558505058289
+    train l1_addon loss:      1.3249015808105469
+    train l1 loss:            10.0
+    test overall loss:        0.059449076652526855
+    test cross_ent loss:      0.002616744643698136
+    train time:               0.2649714946746826
+    test time:                0.0330958366394043
+    epoch time:               0.30066633224487305
+    joint lr:                 8.048095687217385e-05
+epoch: 106 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24458210803568364
+    train cross_ent loss:     0.008227750661899336
+    train cluster loss:       4.5008143425056915
+    train separation loss:    0.06452713115140796
+    train avg sep loss:       0.155760196223855
+    train l1_addon loss:      1.3221222162246704
+    train l1 loss:            10.0
+    test overall loss:        0.057775501161813736
+    test cross_ent loss:      0.0013476073897133272
+    train time:               0.26480817794799805
+    test time:                0.034018754959106445
+    epoch time:               0.30159497261047363
+    joint lr:                 6.582091784276158e-05
+epoch: 107 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.4269241158850491
+    train cross_ent loss:     0.010593348504335154
+    train cluster loss:       9.000630092632218
+    train separation loss:    0.0644612138159573
+    train avg sep loss:       0.15556486807763575
+    train l1_addon loss:      1.320325255393982
+    train l1 loss:            10.0
+    test overall loss:        0.05754446486632029
+    test cross_ent loss:      0.001173870696220547
+    train time:               0.26375389099121094
+    test time:                0.033986806869506836
+    epoch time:               0.30060386657714844
+    joint lr:                 5.144703149825051e-05
+epoch: 108 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.4239487865008414
+    train cross_ent loss:     0.007705320775858127
+    train cluster loss:       9.000423526770192
+    train separation loss:    0.06514282338321209
+    train avg sep loss:       0.15455143935978413
+    train l1_addon loss:      1.3189411163330078
+    train l1 loss:            10.0
+    test overall loss:        0.05759269371628761
+    test cross_ent loss:      0.0010670365300029516
+    train time:               0.26373291015625
+    test time:                0.033914804458618164
+    epoch time:               0.3005852699279785
+    joint lr:                 3.735504078884522e-05
+epoch: 109 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.25105471089482306
+    train cross_ent loss:     0.0145304056481109
+    train cluster loss:       4.502070980108056
+    train separation loss:    0.06258667083457112
+    train avg sep loss:       0.15629032403230667
+    train l1_addon loss:      1.3172898292541504
+    train l1 loss:            10.0
+    test overall loss:        0.05845246960719427
+    test cross_ent loss:      0.0016735080862417817
+    train time:               0.2686758041381836
+    test time:                0.03316617012023926
+    epoch time:               0.3048243522644043
+    joint lr:                 2.3540745190478383e-05
+epoch: 110 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.2437431240454316
+    train cross_ent loss:     0.007434981754340697
+    train cluster loss:       4.500611572276194
+    train separation loss:    0.06396591272205114
+    train avg sep loss:       0.15452060773968695
+    train l1_addon loss:      1.3163642883300781
+    train l1 loss:            10.0
+    test overall loss:        0.05759695544838905
+    test cross_ent loss:      0.0012014452562046547
+    train time:               0.2610902786254883
+    test time:                0.03438830375671387
+    epoch time:               0.29818081855773926
+    joint lr:                 1e-05
+epoch: 111 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.1838794677518308
+    train cross_ent loss:     0.007597496491507627
+    train cluster loss:       3.0004634666530365
+    train separation loss:    0.06280456623062491
+    train avg sep loss:       0.15303184352815152
+    train l1_addon loss:      1.3161444664001465
+    train l1 loss:            10.0
+    test overall loss:        0.057545289397239685
+    test cross_ent loss:      0.0011584213934838772
+    train time:               0.26543664932250977
+    test time:                0.034234046936035156
+    epoch time:               0.3024158477783203
+    joint lr:                 3.654256872237573e-05
+epoch: 112 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.12335589714348316
+    train cross_ent loss:     0.007033878628863022
+    train cluster loss:       1.500460510265293
+    train separation loss:    0.062236329074949026
+    train avg sep loss:       0.15307836495339872
+    train l1_addon loss:      1.3150078058242798
+    train l1 loss:            10.0
+    test overall loss:        0.05756204451123873
+    test cross_ent loss:      0.0011545482363241415
+    train time:               0.27808117866516113
+    test time:                0.034200191497802734
+    epoch time:               0.31545329093933105
+    joint lr:                 6.255428607030428e-05
+epoch: 113 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3051597581245005
+    train cross_ent loss:     0.008892666216706858
+    train cluster loss:       6.0007724571338255
+    train separation loss:    0.06315094074234366
+    train avg sep loss:       0.15283602625131607
+    train l1_addon loss:      1.3136460781097412
+    train l1 loss:            10.0
+    test overall loss:        0.057481903582811356
+    test cross_ent loss:      0.0010160175734199584
+    train time:               0.27965259552001953
+    test time:                0.034162282943725586
+    epoch time:               0.31664323806762695
+    joint lr:                 8.80431148144017e-05
+epoch: 114 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.12422830639407038
+    train cross_ent loss:     0.007838507763517555
+    train cluster loss:       1.5005196189986236
+    train separation loss:    0.061288452800363304
+    train avg sep loss:       0.1535800129175186
+    train l1_addon loss:      1.3106309175491333
+    train l1 loss:            10.0
+    test overall loss:        0.05766096090277036
+    test cross_ent loss:      0.0013711813759679596
+    train time:               0.27590107917785645
+    test time:                0.03423261642456055
+    epoch time:               0.3129432201385498
+    joint lr:                 0.00011301691155501012
+epoch: 115 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.06697773532941938
+    train cross_ent loss:     0.010666438363841735
+    train cluster loss:       0.000838165298137028
+    train separation loss:    0.06063476661220193
+    train avg sep loss:       0.1509625820443034
+    train l1_addon loss:      1.3070571422576904
+    train l1 loss:            10.0
+    test overall loss:        0.05897571767369906
+    test cross_ent loss:      0.0024515621286506453
+    train time:               0.27368664741516113
+    test time:                0.033861637115478516
+    epoch time:               0.3103344440460205
+    joint lr:                 0.00013748342804932495
+epoch: 116 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24772116374224423
+    train cross_ent loss:     0.011428868843358942
+    train cluster loss:       4.500771541618451
+    train separation loss:    0.060831452067941424
+    train avg sep loss:       0.15120088756084443
+    train l1_addon loss:      1.3029041290283203
+    train l1 loss:            10.0
+    test overall loss:        0.057638078927993774
+    test cross_ent loss:      0.0012417462809632223
+    train time:               0.2724733352661133
+    test time:                0.03415060043334961
+    epoch time:               0.30936241149902344
+    joint lr:                 0.00016145031252259832
+epoch: 117 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3028604729101062
+    train cross_ent loss:     0.006592809825087897
+    train cluster loss:       6.000415382392203
+    train separation loss:    0.06246276954188943
+    train avg sep loss:       0.15248596109449863
+    train l1_addon loss:      1.297886610031128
+    train l1 loss:            10.0
+    test overall loss:        0.057414171596368156
+    test cross_ent loss:      0.0010644496069289744
+    train time:               0.263486385345459
+    test time:                0.0330202579498291
+    epoch time:               0.2992870807647705
+    joint lr:                 0.00018492511096360095
+epoch: 118 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3614920012652874
+    train cross_ent loss:     0.005447410841588863
+    train cluster loss:       7.5003830528289654
+    train separation loss:    0.062472840026021006
+    train avg sep loss:       0.1482008397579193
+    train l1_addon loss:      1.291864275932312
+    train l1 loss:            10.0
+    test overall loss:        0.057302756855885185
+    test cross_ent loss:      0.0010715250973589718
+    train time:               0.2642486095428467
+    test time:                0.03401350975036621
+    epoch time:               0.3011646270751953
+    joint lr:                 0.00020791526840453124
+epoch: 119 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.18734727501869203
+    train cross_ent loss:     0.011239970684982836
+    train cluster loss:       3.0008296585133394
+    train separation loss:    0.059132691100239755
+    train avg sep loss:       0.14601276256144047
+    train l1_addon loss:      1.2853286266326904
+    train l1 loss:            10.0
+    test overall loss:        0.05739954734841982
+    test cross_ent loss:      0.0012852158397436142
+    train time:               0.2705409526824951
+    test time:                0.03435206413269043
+    epoch time:               0.30777645111083984
+    joint lr:                 0.00023042813018554658
+epoch: 120 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.13302110899239777
+    train cross_ent loss:     0.016831745667150243
+    train cluster loss:       1.5011490059080643
+    train separation loss:    0.056685791444033386
+    train avg sep loss:       0.1447103714570403
+    train l1_addon loss:      1.2723076343536377
+    train l1 loss:            10.0
+    test overall loss:        0.059137863417466484
+    test cross_ent loss:      0.002573974352950851
+    train time:               0.2671527862548828
+    test time:                0.03442215919494629
+    epoch time:               0.30457186698913574
+    joint lr:                 0.00025247094320410133
+epoch: 121 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24967637145891786
+    train cross_ent loss:     0.013340658106608316
+    train cluster loss:       4.5012898254739415
+    train separation loss:    0.05823623742908239
+    train avg sep loss:       0.14884788170456886
+    train l1_addon loss:      1.2620515823364258
+    train l1 loss:            10.0
+    test overall loss:        0.057567755381266274
+    test cross_ent loss:      0.0014521502113590639
+    train time:               0.26607751846313477
+    test time:                0.03430676460266113
+    epoch time:               0.3033125400543213
+    joint lr:                 0.00023804392208345734
+epoch: 122 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.4327317217364907
+    train cross_ent loss:     0.01658010239189025
+    train cluster loss:       9.000944080361204
+    train separation loss:    0.059182434994727376
+    train avg sep loss:       0.14731763917952775
+    train l1_addon loss:      1.2519326210021973
+    train l1 loss:            10.0
+    test overall loss:        0.062034095327059426
+    test cross_ent loss:      0.005337146110832691
+    train time:               0.28441882133483887
+    test time:                0.03444385528564453
+    epoch time:               0.3218700885772705
+    joint lr:                 0.0002238811942909058
+epoch: 123 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24415965182706714
+    train cross_ent loss:     0.00823075501830317
+    train cluster loss:       4.500554237374399
+    train separation loss:    0.059442750085145234
+    train avg sep loss:       0.14362641833722592
+    train l1_addon loss:      1.2436437606811523
+    train l1 loss:            10.0
+    test overall loss:        0.05765719339251518
+    test cross_ent loss:      0.0015619270270690322
+    train time:               0.26473355293273926
+    test time:                0.03473520278930664
+    epoch time:               0.30230069160461426
+    joint lr:                 0.00020997891666199697
+epoch: 124 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.13896692199632527
+    train cross_ent loss:     0.022870719668571838
+    train cluster loss:       1.5019021988176973
+    train separation loss:    0.056586152035743
+    train avg sep loss:       0.1429381312802434
+    train l1_addon loss:      1.23668372631073
+    train l1 loss:            10.0
+    test overall loss:        0.05838292588790258
+    test cross_ent loss:      0.002318568838139375
+    train time:               0.27945446968078613
+    test time:                0.03320169448852539
+    epoch time:               0.3154594898223877
+    joint lr:                 0.00019633329646623704
+epoch: 125 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.1299968022853136
+    train cross_ent loss:     0.01391142574721016
+    train cluster loss:       1.5006965828033572
+    train separation loss:    0.052871704660356046
+    train avg sep loss:       0.13965048659592866
+    train l1_addon loss:      1.2306697368621826
+    train l1 loss:            10.0
+    test overall loss:        0.06454363216956456
+    test cross_ent loss:      0.008408572059124708
+    train time:               0.27878522872924805
+    test time:                0.034262895584106445
+    epoch time:               0.3155241012573242
+    joint lr:                 0.0001829405907827263
+epoch: 126 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3065467716194689
+    train cross_ent loss:     0.010784854891244321
+    train cluster loss:       6.000638847362825
+    train separation loss:    0.05453277658671141
+    train avg sep loss:       0.13516820073127747
+    train l1_addon loss:      1.226454496383667
+    train l1 loss:            10.0
+    test overall loss:        0.05698337405920029
+    test cross_ent loss:      0.0012011032085865736
+    train time:               0.2659895420074463
+    test time:                0.03391838073730469
+    epoch time:               0.30269336700439453
+    joint lr:                 0.00016979710588323915
+epoch: 127 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.30353387743234633
+    train cross_ent loss:     0.007701756182359532
+    train cluster loss:       6.000504226698558
+    train separation loss:    0.05217041103169322
+    train avg sep loss:       0.1338005591183901
+    train l1_addon loss:      1.2202128171920776
+    train l1 loss:            10.0
+    test overall loss:        0.05740204080939293
+    test cross_ent loss:      0.001475153296875457
+    train time:               0.2689793109893799
+    test time:                0.03422141075134277
+    epoch time:               0.3061096668243408
+    joint lr:                 0.0001568991966226633
+epoch: 128 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.12306205723434686
+    train cross_ent loss:     0.007399988011457026
+    train cluster loss:       1.500449676516837
+    train separation loss:    0.05265426710247993
+    train avg sep loss:       0.13174929842352867
+    train l1_addon loss:      1.2149136066436768
+    train l1 loss:            10.0
+    test overall loss:        0.05696961159507433
+    test cross_ent loss:      0.0013384155851478379
+    train time:               0.2660863399505615
+    test time:                0.03422999382019043
+    epoch time:               0.30333399772644043
+    joint lr:                 0.0001442432658367108
+epoch: 129 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.30227013658732177
+    train cross_ent loss:     0.006570169219048694
+    train cluster loss:       6.000336456301921
+    train separation loss:    0.05261367848142982
+    train avg sep loss:       0.1324764208868146
+    train l1_addon loss:      1.2099168300628662
+    train l1 loss:            10.0
+    test overall loss:        0.057045323153336845
+    test cross_ent loss:      0.0012779812095686793
+    train time:               0.26885056495666504
+    test time:                0.03398847579956055
+    epoch time:               0.30584049224853516
+    joint lr:                 0.00013182576374681508
+epoch: 130 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.12406992297619582
+    train cross_ent loss:     0.008468317790539004
+    train cluster loss:       1.5005805015649458
+    train separation loss:    0.05184967154636979
+    train avg sep loss:       0.12973697166889905
+    train l1_addon loss:      1.2049834728240967
+    train l1 loss:            10.0
+    test overall loss:        0.05707741528749466
+    test cross_ent loss:      0.0013751060469076037
+    train time:               0.2685725688934326
+    test time:                0.033843040466308594
+    epoch time:               0.3053593635559082
+    joint lr:                 0.00011964318737213362
+epoch: 131 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.2448069809935987
+    train cross_ent loss:     0.009147830182337202
+    train cluster loss:       4.50078729630186
+    train separation loss:    0.051403351873159406
+    train avg sep loss:       0.13024822138249875
+    train l1_addon loss:      1.200669527053833
+    train l1 loss:            10.0
+    test overall loss:        0.05709419772028923
+    test cross_ent loss:      0.001322403394927581
+    train time:               0.26723361015319824
+    test time:                0.037458181381225586
+    epoch time:               0.3074679374694824
+    joint lr:                 0.00010769207994857096
+epoch: 132 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.36665393486618997
+    train cross_ent loss:     0.01108747404650785
+    train cluster loss:       7.500906200420741
+    train separation loss:    0.05193176353350282
+    train avg sep loss:       0.12898542396724225
+    train l1_addon loss:      1.196730375289917
+    train l1 loss:            10.0
+    test overall loss:        0.05870607619484266
+    test cross_ent loss:      0.002923605963587761
+    train time:               0.267040491104126
+    test time:                0.033246517181396484
+    epoch time:               0.30332469940185547
+    joint lr:                 9.596903035474247e-05
+epoch: 133 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.12181307803839445
+    train cross_ent loss:     0.006270486101857387
+    train cluster loss:       1.50044679642333
+    train separation loss:    0.05053543196991086
+    train avg sep loss:       0.1274647183716297
+    train l1_addon loss:      1.193022608757019
+    train l1 loss:            10.0
+    test overall loss:        0.056686618675788246
+    test cross_ent loss:      0.001114420670395096
+    train time:               0.2785210609436035
+    test time:                0.03350377082824707
+    epoch time:               0.3145327568054199
+    joint lr:                 8.44706725447957e-05
+epoch: 134 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.18215737603604792
+    train cross_ent loss:     0.006620642622874584
+    train cluster loss:       3.0002978706433168
+    train separation loss:    0.05038696369156241
+    train avg sep loss:       0.12727839536964894
+    train l1_addon loss:      1.189777135848999
+    train l1 loss:            10.0
+    test overall loss:        0.05695850898822149
+    test cross_ent loss:      0.0013192117912694812
+    train time:               0.2624368667602539
+    test time:                0.03405046463012695
+    epoch time:               0.2988467216491699
+    joint lr:                 7.319368498801239e-05
+epoch: 135 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24035298135131597
+    train cross_ent loss:     0.0048901865404332055
+    train cluster loss:       4.500237770083004
+    train separation loss:    0.05019546607509255
+    train avg sep loss:       0.12584398835897445
+    train l1_addon loss:      1.1870959997177124
+    train l1 loss:            10.0
+    test overall loss:        0.056933497389157615
+    test cross_ent loss:      0.0012433455558493733
+    train time:               0.2696840763092041
+    test time:                0.034058570861816406
+    epoch time:               0.3065464496612549
+    joint lr:                 6.213479011511014e-05
+epoch: 136 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3010316679254174
+    train cross_ent loss:     0.005651232370291836
+    train cluster loss:       6.000378303533125
+    train separation loss:    0.050899048894643785
+    train avg sep loss:       0.12485553901642561
+    train l1_addon loss:      1.184667706489563
+    train l1 loss:            10.0
+    test overall loss:        0.05671742558479309
+    test cross_ent loss:      0.001117587205953896
+    train time:               0.26801180839538574
+    test time:                0.03424358367919922
+    epoch time:               0.3055851459503174
+    joint lr:                 5.129075377116725e-05
+epoch: 137 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.11998851820826531
+    train cross_ent loss:     0.004592533383402042
+    train cluster loss:       1.5002337455801353
+    train separation loss:    0.049676361680030826
+    train avg sep loss:       0.1240906674414873
+    train l1_addon loss:      1.182845950126648
+    train l1 loss:            10.0
+    test overall loss:        0.05662391955653826
+    test cross_ent loss:      0.0010627405523943405
+    train time:               0.2689807415008545
+    test time:                0.034514665603637695
+    epoch time:               0.30608582496643066
+    joint lr:                 4.0658384675091717e-05
+epoch: 138 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.42010072907432916
+    train cross_ent loss:     0.004797755907929968
+    train cluster loss:       9.000248336794447
+    train separation loss:    0.05117569044232369
+    train avg sep loss:       0.123912039026618
+    train l1_addon loss:      1.1810357570648193
+    train l1 loss:            10.0
+    test overall loss:        0.0564553439617157
+    test cross_ent loss:      0.0010807736155887444
+    train time:               0.2664804458618164
+    test time:                0.03421163558959961
+    epoch time:               0.3033106327056885
+    joint lr:                 3.023453388556058e-05
+epoch: 139 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.17998050134629012
+    train cross_ent loss:     0.0046287431920063685
+    train cluster loss:       3.0002281570460583
+    train separation loss:    0.04956802418455482
+    train avg sep loss:       0.123148144595325
+    train l1_addon loss:      1.1799943447113037
+    train l1 loss:            10.0
+    test overall loss:        0.056478239595890045
+    test cross_ent loss:      0.0010809769155457616
+    train time:               0.27126193046569824
+    test time:                0.03339838981628418
+    epoch time:               0.30750322341918945
+    joint lr:                 2.001609427335242e-05
+epoch: 140 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.05917991418391466
+    train cross_ent loss:     0.003859523416031152
+    train cluster loss:       0.00017745971981639742
+    train separation loss:    0.04896362395957112
+    train avg sep loss:       0.12188762202858924
+    train l1_addon loss:      1.179339051246643
+    train l1 loss:            10.0
+    test overall loss:        0.05631883814930916
+    test cross_ent loss:      0.0009418816189281642
+    train time:               0.27291369438171387
+    test time:                0.034342050552368164
+    epoch time:               0.31023359298706055
+    joint lr:                 1e-05
+epoch: 141 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24147916734218597
+    train cross_ent loss:     0.006185547780478373
+    train cluster loss:       4.500245857242954
+    train separation loss:    0.04970962591469288
+    train avg sep loss:       0.1221664860844612
+    train l1_addon loss:      1.178964614868164
+    train l1 loss:            10.0
+    test overall loss:        0.056326642632484436
+    test cross_ent loss:      0.0010189091553911567
+    train time:               0.26033854484558105
+    test time:                0.03567624092102051
+    epoch time:               0.30002498626708984
+    joint lr:                 2.9633547994625418e-05
+epoch: 142 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24099021796137093
+    train cross_ent loss:     0.005676262403721921
+    train cluster loss:       4.500272884373407
+    train separation loss:    0.04943649312481284
+    train avg sep loss:       0.12220351863652468
+    train l1_addon loss:      1.1780028343200684
+    train l1 loss:            10.0
+    test overall loss:        0.0565028910835584
+    test cross_ent loss:      0.0010879177328509588
+    train time:               0.2697288990020752
+    test time:                0.034047842025756836
+    epoch time:               0.30673789978027344
+    joint lr:                 4.887442502935832e-05
+epoch: 143 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.35933318454772234
+    train cross_ent loss:     0.00400249472586438
+    train cluster loss:       7.500194454199073
+    train separation loss:    0.04958984479308128
+    train avg sep loss:       0.1228404875844717
+    train l1_addon loss:      1.17624831199646
+    train l1 loss:            10.0
+    test overall loss:        0.05636306603749593
+    test cross_ent loss:      0.000957252011479189
+    train time:               0.2797248363494873
+    test time:                0.035074472427368164
+    epoch time:               0.31778931617736816
+    joint lr:                 6.772852116859712e-05
+epoch: 144 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3615192392840981
+    train cross_ent loss:     0.006262442824663594
+    train cluster loss:       7.50028316498242
+    train separation loss:    0.049629517178982493
+    train avg sep loss:       0.12142219133675099
+    train l1_addon loss:      1.1736818552017212
+    train l1 loss:            10.0
+    test overall loss:        0.05650292212764422
+    test cross_ent loss:      0.0010518317576497793
+    train time:               0.273862361907959
+    test time:                0.034212350845336914
+    epoch time:               0.311053991317749
+    joint lr:                 8.620164794254818e-05
+epoch: 145 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.29853191385045647
+    train cross_ent loss:     0.0032904634237638673
+    train cluster loss:       6.000160827638365
+    train separation loss:    0.049455109797418115
+    train avg sep loss:       0.12105895653367042
+    train l1_addon loss:      1.169880747795105
+    train l1 loss:            10.0
+    test overall loss:        0.05634149039785067
+    test cross_ent loss:      0.0009813211315001051
+    train time:               0.26367712020874023
+    test time:                0.03518104553222656
+    epoch time:               0.30174994468688965
+    joint lr:                 0.00010429953932890337
+epoch: 146 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.14705681428313255
+    train cross_ent loss:     0.03169062079978176
+    train cluster loss:       1.5014950561374463
+    train separation loss:    0.04766418533399701
+    train avg sep loss:       0.12094414960592985
+    train l1_addon loss:      1.1644649505615234
+    train l1 loss:            10.0
+    test overall loss:        0.05862714226047198
+    test cross_ent loss:      0.0030318632877121368
+    train time:               0.26792287826538086
+    test time:                0.03379678726196289
+    epoch time:               0.30501270294189453
+    joint lr:                 0.0001220278527227377
+epoch: 147 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24562505139037966
+    train cross_ent loss:     0.01041563063627109
+    train cluster loss:       4.500584430699746
+    train separation loss:    0.04962509237229824
+    train avg sep loss:       0.12009483817964792
+    train l1_addon loss:      1.1603801250457764
+    train l1 loss:            10.0
+    test overall loss:        0.056759949773550034
+    test cross_ent loss:      0.001544960425235331
+    train time:               0.2783200740814209
+    test time:                0.033908843994140625
+    epoch time:               0.314866304397583
+    joint lr:                 0.00013939216989476198
+epoch: 148 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.1867102981545031
+    train cross_ent loss:     0.011337980662938207
+    train cluster loss:       3.000670204180642
+    train separation loss:    0.046750336140394214
+    train avg sep loss:       0.12040892839431763
+    train l1_addon loss:      1.1588857173919678
+    train l1 loss:            10.0
+    test overall loss:        0.057052661975224815
+    test cross_ent loss:      0.0016073036240413785
+    train time:               0.2625539302825928
+    test time:                0.033980607986450195
+    epoch time:               0.29938292503356934
+    joint lr:                 0.00015639799793807347
+epoch: 149 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3005771433934569
+    train cross_ent loss:     0.005315478568081744
+    train cluster loss:       6.000251407626729
+    train separation loss:    0.04718063408508897
+    train avg sep loss:       0.11883502323180437
+    train l1_addon loss:      1.1551010608673096
+    train l1 loss:            10.0
+    test overall loss:        0.05662532771627108
+    test cross_ent loss:      0.0012338341524203618
+    train time:               0.2701292037963867
+    test time:                0.03305816650390625
+    epoch time:               0.3060486316680908
+    joint lr:                 0.00017305077020352924
+epoch: 150 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.11943463897332549
+    train cross_ent loss:     0.004306267270294484
+    train cluster loss:       1.5002510070862627
+    train separation loss:    0.047422943916171786
+    train avg sep loss:       0.11661461088806391
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            10.0
+    test overall loss:        0.056087752183278404
+    test cross_ent loss:      0.0010150353773497045
+    train time:               0.26340174674987793
+    test time:                0.03365325927734375
+    epoch time:               0.2998335361480713
+    joint lr:                 0.0001893558472238821
+epoch: 150 (PUSH)
+    test acc:                 100.00%
+    train overall loss:       0.11943463897332549
+    train cross_ent loss:     0.004306267270294484
+    train cluster loss:       1.5002510070862627
+    train separation loss:    0.047422943916171786
+    train avg sep loss:       0.11661461088806391
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            10.0
+    test overall loss:        0.05608785773317019
+    test cross_ent loss:      0.0009789502752634387
+    train time:               0.26340174674987793
+    test time:                0.03442740440368652
+    epoch time:               0.19761371612548828
+    [last_layer] Optimizer and LR scheduler reset for new push cycle.
+epoch: 150 (1/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.3018351745791733
+    train cross_ent loss:     0.00674535058933543
+    train cluster loss:       6.000186729434381
+    train separation loss:    0.04667724734172225
+    train avg sep loss:       0.1146044885739684
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.997507095336914
+    test overall loss:        0.05612461765607198
+    test cross_ent loss:      0.0010143649609138568
+    train time:               0.20555543899536133
+    test time:                0.03408527374267578
+    epoch time:               0.24252915382385254
+    last layer lr:            4.233999999999988e-05
+    Best LAST_LAYER model saved: 100.00%
+epoch: 150 (2/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.4210210702382028
+    train cross_ent loss:     0.005884452587633859
+    train cluster loss:       9.000376358042923
+    train separation loss:    0.04634628389030695
+    train avg sep loss:       0.11583113241940737
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.98489761352539
+    test overall loss:        0.05619386459390322
+    test cross_ent loss:      0.0011952879916255672
+    train time:               0.21050357818603516
+    test time:                0.03360915184020996
+    epoch time:               0.24692153930664062
+    last layer lr:            7.403320000000004e-05
+epoch: 150 (3/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.4500731284730136
+    train cross_ent loss:     0.035041788665694185
+    train cluster loss:       9.000460090636626
+    train separation loss:    0.046852875407785176
+    train avg sep loss:       0.11587403919547797
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.963407516479492
+    test overall loss:        0.05719033256173134
+    test cross_ent loss:      0.0018436895916238427
+    train time:               0.21155858039855957
+    test time:                0.035077810287475586
+    epoch time:               0.250077486038208
+    last layer lr:            0.00010508930199999993
+epoch: 150 (4/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.23899144157767296
+    train cross_ent loss:     0.0040825993695762005
+    train cluster loss:       4.500205802922392
+    train separation loss:    0.0463259894400835
+    train avg sep loss:       0.11488121189177036
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.947676658630371
+    test overall loss:        0.05599666511019071
+    test cross_ent loss:      0.000986718126417448
+    train time:               0.21206045150756836
+    test time:                0.03443765640258789
+    epoch time:               0.24915361404418945
+    last layer lr:            0.0001355178786400001
+epoch: 150 (5/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.3015207284130156
+    train cross_ent loss:     0.006722350804193411
+    train cluster loss:       6.000323505408801
+    train separation loss:    0.046755066607147455
+    train avg sep loss:       0.11474891547113657
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.92871379852295
+    test overall loss:        0.055726684629917145
+    test cross_ent loss:      0.0009347949914323787
+    train time:               0.2026982307434082
+    test time:                0.03407764434814453
+    epoch time:               0.23923397064208984
+    last layer lr:            0.00016532837481699996
+epoch: 150 (6/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.48768630614504216
+    train cross_ent loss:     0.012963395682163537
+    train cluster loss:       10.502999954189637
+    train separation loss:    0.0482463083229959
+    train avg sep loss:       0.11457486134022474
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.904240608215332
+    test overall loss:        0.055658306926488876
+    test cross_ent loss:      0.0009340720328812798
+    train time:               0.20064187049865723
+    test time:                0.03324127197265625
+    epoch time:               0.2363889217376709
+    last layer lr:            0.00019453010928259585
+epoch: 150 (7/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.419041964225471
+    train cross_ent loss:     0.004509343006066047
+    train cluster loss:       9.000289230357884
+    train separation loss:    0.04728454686701298
+    train avg sep loss:       0.11486590057611465
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.871789932250977
+    test overall loss:        0.055684727927049
+    test cross_ent loss:      0.001092284529780348
+    train time:               0.2011866569519043
+    test time:                0.03341221809387207
+    epoch time:               0.23732805252075195
+    last layer lr:            0.0002231322762213984
+epoch: 150 (8/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.2977176123298705
+    train cross_ent loss:     0.003324609191622585
+    train cluster loss:       6.000207023625171
+    train separation loss:    0.04634414752945304
+    train avg sep loss:       0.11483841016888618
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.831212997436523
+    test overall loss:        0.0553502564628919
+    test cross_ent loss:      0.0009597030390674869
+    train time:               0.20355844497680664
+    test time:                0.03519129753112793
+    epoch time:               0.2417900562286377
+    last layer lr:            0.0002511439468104964
+epoch: 150 (9/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.4173062407411635
+    train cross_ent loss:     0.003185508691240102
+    train cluster loss:       9.00016899109146
+    train separation loss:    0.04715072689577937
+    train avg sep loss:       0.11482836194336414
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.780815124511719
+    test overall loss:        0.055076226592063904
+    test cross_ent loss:      0.0009612044668756425
+    train time:               0.2017505168914795
+    test time:                0.03428053855895996
+    epoch time:               0.23896336555480957
+    last layer lr:            0.00027857407076019053
+epoch: 150 (10/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.23910060785710813
+    train cross_ent loss:     0.005165035545360297
+    train cluster loss:       4.500274848941899
+    train separation loss:    0.046245270501822235
+    train avg sep loss:       0.11516764909029006
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.728343963623047
+    test overall loss:        0.05488564074039459
+    test cross_ent loss:      0.0009496284377140304
+    train time:               0.2066328525543213
+    test time:                0.03473210334777832
+    epoch time:               0.24408507347106934
+    last layer lr:            0.0003054314778362094
+epoch: 150 (11/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.11736302440986038
+    train cross_ent loss:     0.0037084372495883146
+    train cluster loss:       1.5002054023769689
+    train separation loss:    0.04572555609047413
+    train avg sep loss:       0.11487143598496914
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.66494369506836
+    test overall loss:        0.05455377449591955
+    test cross_ent loss:      0.0009392175318983694
+    train time:               0.20428919792175293
+    test time:                0.0322880744934082
+    epoch time:               0.23891234397888184
+    last layer lr:            0.00033172487936363197
+epoch: 150 (12/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.29913393491879103
+    train cross_ent loss:     0.0058393764134962115
+    train cluster loss:       6.000374202735498
+    train separation loss:    0.046488953102380035
+    train avg sep loss:       0.11475770939141512
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.59840202331543
+    test overall loss:        0.05411717047293981
+    test cross_ent loss:      0.0008772439129340152
+    train time:               0.20172381401062012
+    test time:                0.03420877456665039
+    epoch time:               0.23877763748168945
+    last layer lr:            0.0003574628697127227
+epoch: 150 (13/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.12036212794482708
+    train cross_ent loss:     0.007384094575536437
+    train cluster loss:       1.5002618789731286
+    train separation loss:    0.04572555609047413
+    train avg sep loss:       0.1149777254089713
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.526586532592773
+    test overall loss:        0.05369907865921656
+    test cross_ent loss:      0.0008386011468246579
+    train time:               0.20230627059936523
+    test time:                0.03301262855529785
+    epoch time:               0.23824143409729004
+    last layer lr:            0.000382653927766895
+epoch: 150 (14/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.26335499035194515
+    train cross_ent loss:     0.030749065897543913
+    train cluster loss:       4.500305042269406
+    train separation loss:    0.04591064555570483
+    train avg sep loss:       0.11518530920147896
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.443376541137695
+    test overall loss:        0.05379669864972433
+    test cross_ent loss:      0.0012374318515261014
+    train time:               0.2044084072113037
+    test time:                0.03465104103088379
+    epoch time:               0.2422959804534912
+    last layer lr:            0.0004073064183730128
+epoch: 150 (15/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.3570892090909183
+    train cross_ent loss:     0.004975915230170358
+    train cluster loss:       7.500377273567392
+    train separation loss:    0.046966553386300805
+    train avg sep loss:       0.11455927174538375
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.367072105407715
+    test overall loss:        0.05288684616486231
+    test cross_ent loss:      0.0007988363698435327
+    train time:               0.20484185218811035
+    test time:                0.033746957778930664
+    epoch time:               0.24149751663208008
+    last layer lr:            0.00043142859377423137
+epoch: 150 (16/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.1151965013705194
+    train cross_ent loss:     0.0033992391981882975
+    train cluster loss:       1.5001843833947077
+    train separation loss:    0.045729370787739754
+    train avg sep loss:       0.11467616967856883
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.286243438720703
+    test overall loss:        0.05248480662703514
+    test cross_ent loss:      0.0008251123751203219
+    train time:               0.20437145233154297
+    test time:                0.03424525260925293
+    epoch time:               0.24189472198486328
+    last layer lr:            0.0004105257355230295
+epoch: 150 (17/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.18064126679673792
+    train cross_ent loss:     0.009214464093383867
+    train cluster loss:       3.000456924444188
+    train separation loss:    0.045905457064509395
+    train avg sep loss:       0.11430699098855257
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.229127883911133
+    test overall loss:        0.052125838895638786
+    test cross_ent loss:      0.0007618294136288265
+    train time:               0.21210622787475586
+    test time:                0.035251617431640625
+    epoch time:               0.25011634826660156
+    last layer lr:            0.00038999879157747416
+epoch: 150 (18/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.11514359535649418
+    train cross_ent loss:     0.003981178774847649
+    train cluster loss:       1.5001660347011239
+    train separation loss:    0.0453620919957757
+    train avg sep loss:       0.11494206450879574
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.155173301696777
+    test overall loss:        0.05199782674511274
+    test cross_ent loss:      0.0008717785240150988
+    train time:               0.20110774040222168
+    test time:                0.03548264503479004
+    epoch time:               0.23908352851867676
+    last layer lr:            0.0003698423339372778
+epoch: 150 (19/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.17494394993409515
+    train cross_ent loss:     0.0041795968427322805
+    train cluster loss:       3.000297336580161
+    train separation loss:    0.04578064056113362
+    train avg sep loss:       0.11466317046433687
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.08510971069336
+    test overall loss:        0.05140506227811178
+    test cross_ent loss:      0.0008287081339706978
+    train time:               0.20487213134765625
+    test time:                0.03406357765197754
+    epoch time:               0.2418978214263916
+    last layer lr:            0.0003500510055707274
+epoch: 150 (20/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.295400929171592
+    train cross_ent loss:     0.004997878789436072
+    train cluster loss:       6.000449771881312
+    train separation loss:    0.04697113111615181
+    train avg sep loss:       0.11537890061736107
+    train l1_addon loss:      1.1521453857421875
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.05117573340733846
+    test cross_ent loss:      0.0008100608053306738
+    train time:               0.2027289867401123
+    test time:                0.03403902053833008
+    epoch time:               0.23982787132263184
+    last layer lr:            0.0003306195195381145
+epoch: 151 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.16235214425250888
+    train cross_ent loss:     0.05189895894145593
+    train cluster loss:       1.5020328331420387
+    train separation loss:    0.051156464498490095
+    train avg sep loss:       0.12306061796844006
+    train l1_addon loss:      1.1489222049713135
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.10416883478562038
+    test cross_ent loss:      0.053578356901804604
+    train time:               0.26940274238586426
+    test time:                0.03437995910644531
+    epoch time:               0.3069577217102051
+    joint lr:                 0.00017868417431406115
+epoch: 152 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3956645609810948
+    train cross_ent loss:     0.044540151584078556
+    train cluster loss:       7.502300586758065
+    train separation loss:    0.06220306484028697
+    train avg sep loss:       0.1474088005721569
+    train l1_addon loss:      1.1457748413085938
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.08300053824981053
+    test cross_ent loss:      0.03170559865732988
+    train time:               0.28029632568359375
+    test time:                0.03405952453613281
+    epoch time:               0.3173046112060547
+    joint lr:                 0.00016820799927771423
+epoch: 153 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.5043161261826754
+    train cross_ent loss:     0.03282053629081929
+    train cluster loss:       10.502167015109444
+    train separation loss:    0.06997024705633521
+    train avg sep loss:       0.16310414522886277
+    train l1_addon loss:      1.1431710720062256
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.07606852302948634
+    test cross_ent loss:      0.024278199921051662
+    train time:               0.2668311595916748
+    test time:                0.033022165298461914
+    epoch time:               0.3030233383178711
+    joint lr:                 0.00015792447932466282
+epoch: 154 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.20351415863260627
+    train cross_ent loss:     0.03150835742708295
+    train cluster loss:       3.0024288368585985
+    train separation loss:    0.07176254410296679
+    train avg sep loss:       0.1750713512301445
+    train l1_addon loss:      1.1409729719161987
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.07383979856967926
+    test cross_ent loss:      0.02188859631617864
+    train time:               0.26293039321899414
+    test time:                0.03459739685058594
+    epoch time:               0.30057764053344727
+    joint lr:                 0.00014783080897074467
+epoch: 155 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.07768467282876372
+    train cross_ent loss:     0.025582122290506958
+    train cluster loss:       0.002257080120034516
+    train separation loss:    0.07425109967589379
+    train avg sep loss:       0.17972007617354394
+    train l1_addon loss:      1.138568639755249
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.07162472854057948
+    test cross_ent loss:      0.01930224398771922
+    train time:               0.26336121559143066
+    test time:                0.03434586524963379
+    epoch time:               0.30086803436279297
+    joint lr:                 0.0001379242195759724
+epoch: 156 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.33787849312648177
+    train cross_ent loss:     0.04559886606875807
+    train cluster loss:       6.0023168182611695
+    train separation loss:    0.07659011986106634
+    train avg sep loss:       0.1862610574811697
+    train l1_addon loss:      1.137432336807251
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.07155647873878479
+    test cross_ent loss:      0.01886178118487199
+    train time:               0.26587581634521484
+    test time:                0.034014225006103516
+    epoch time:               0.30309009552001953
+    joint lr:                 0.00012820197888819854
+epoch: 157 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.32012003734707833
+    train cross_ent loss:     0.02783496388583444
+    train cluster loss:       6.00212209704041
+    train separation loss:    0.08366928286850453
+    train avg sep loss:       0.19394505769014359
+    train l1_addon loss:      1.1347637176513672
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.07011270026365916
+    test cross_ent loss:      0.017672084271907806
+    train time:               0.2662668228149414
+    test time:                0.0381619930267334
+    epoch time:               0.30502820014953613
+    joint lr:                 0.00011866139059222255
+epoch: 158 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.2536686588078737
+    train cross_ent loss:     0.02117287056753412
+    train cluster loss:       4.501923122437438
+    train separation loss:    0.0836805734783411
+    train avg sep loss:       0.1979828305542469
+    train l1_addon loss:      1.133479118347168
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06835970530907313
+    test cross_ent loss:      0.01595360040664673
+    train time:               0.29593324661254883
+    test time:                0.03432178497314453
+    epoch time:               0.333219051361084
+    joint lr:                 0.00010929979386427727
+epoch: 159 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.1310586360283196
+    train cross_ent loss:     0.018587106966879218
+    train cluster loss:       1.5018254471069667
+    train separation loss:    0.08493072576820851
+    train avg sep loss:       0.19892479255795478
+    train l1_addon loss:      1.1317970752716064
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06756227711836497
+    test cross_ent loss:      0.014802519542475542
+    train time:               0.27448487281799316
+    test time:                0.03398561477661133
+    epoch time:               0.3117070198059082
+    joint lr:                 0.00010011456293183164
+epoch: 160 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.37255117828026413
+    train cross_ent loss:     0.020086791639914735
+    train cluster loss:       7.502028942128527
+    train separation loss:    0.08730377312749624
+    train avg sep loss:       0.20144012197852135
+    train l1_addon loss:      1.129784345626831
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06664227197567622
+    test cross_ent loss:      0.013958657160401344
+    train time:               0.27312135696411133
+    test time:                0.034060001373291016
+    epoch time:               0.3101162910461426
+    joint lr:                 9.110310663864851e-05
+epoch: 161 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3113783745095134
+    train cross_ent loss:     0.018803845794172956
+    train cluster loss:       6.001824188264436
+    train separation loss:    0.08705413993448019
+    train avg sep loss:       0.2034974902868271
+    train l1_addon loss:      1.128143072128296
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.0659133791923523
+    test cross_ent loss:      0.013237971191604933
+    train time:               0.26517271995544434
+    test time:                0.0343022346496582
+    epoch time:               0.30267834663391113
+    joint lr:                 8.226286801503567e-05
+epoch: 162 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3104071820154786
+    train cross_ent loss:     0.017725901774247176
+    train cluster loss:       6.001658897427842
+    train separation loss:    0.08646270949393511
+    train avg sep loss:       0.205064744502306
+    train l1_addon loss:      1.128009557723999
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06565391769011815
+    test cross_ent loss:      0.012832444782058397
+    train time:               0.2679252624511719
+    test time:                0.03484082221984863
+    epoch time:               0.30591869354248047
+    joint lr:                 7.35913238532314e-05
+epoch: 163 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.13243560269474983
+    train cross_ent loss:     0.019635764241684228
+    train cluster loss:       1.5030677986214869
+    train separation loss:    0.08556869644671679
+    train avg sep loss:       0.20562222748994827
+    train l1_addon loss:      1.1251590251922607
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06507377574841182
+    test cross_ent loss:      0.012365774251520634
+    train time:               0.280658483505249
+    test time:                0.03447532653808594
+    epoch time:               0.31830811500549316
+    joint lr:                 6.508598428786174e-05
+epoch: 164 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.31136078452691435
+    train cross_ent loss:     0.018714830541284755
+    train cluster loss:       6.001708545707515
+    train separation loss:    0.08589782882481814
+    train avg sep loss:       0.20427537970244886
+    train l1_addon loss:      1.124100923538208
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06472209344307582
+    test cross_ent loss:      0.011970211441318193
+    train time:               0.2760457992553711
+    test time:                0.03475689888000488
+    epoch time:               0.31395387649536133
+    joint lr:                 5.674439238141413e-05
+epoch: 165 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.18920623026788236
+    train cross_ent loss:     0.016435781779000534
+    train cluster loss:       3.0021032333461335
+    train separation loss:    0.0869059769436717
+    train avg sep loss:       0.20749692171812056
+    train l1_addon loss:      1.1229336261749268
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06450319662690163
+    test cross_ent loss:      0.01183977723121643
+    train time:               0.26479005813598633
+    test time:                0.03442668914794922
+    epoch time:               0.3023538589477539
+    joint lr:                 4.856412371466648e-05
+epoch: 166 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24760244851931928
+    train cross_ent loss:     0.014867693054839037
+    train cluster loss:       4.50157392504043
+    train separation loss:    0.08718414455652237
+    train avg sep loss:       0.20727134719491005
+    train l1_addon loss:      1.122015118598938
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06414595370491345
+    test cross_ent loss:      0.011414576321840286
+    train time:               0.27692103385925293
+    test time:                0.034139394760131836
+    epoch time:               0.3141975402832031
+    joint lr:                 4.0542785982015846e-05
+epoch: 167 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.06663208128884435
+    train cross_ent loss:     0.013919896760489792
+    train cluster loss:       0.0015594482712913305
+    train separation loss:    0.0857568372040987
+    train avg sep loss:       0.2051402609795332
+    train l1_addon loss:      1.1211975812911987
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06387977798779805
+    test cross_ent loss:      0.011184125517805418
+    train time:               0.2765369415283203
+    test time:                0.03381609916687012
+    epoch time:               0.3135864734649658
+    joint lr:                 3.267801859164677e-05
+epoch: 168 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.4268634759820998
+    train cross_ent loss:     0.014301830428303219
+    train cluster loss:       9.001535701774992
+    train separation loss:    0.09003738574683666
+    train avg sep loss:       0.2068769134581089
+    train l1_addon loss:      1.1205497980117798
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06367643053332965
+    test cross_ent loss:      0.010993696438769499
+    train time:               0.26355957984924316
+    test time:                0.03439140319824219
+    epoch time:               0.3010544776916504
+    joint lr:                 2.496749227048687e-05
+epoch: 169 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24833903443068267
+    train cross_ent loss:     0.015600507265480701
+    train cluster loss:       4.501832218214986
+    train separation loss:    0.08689071759581565
+    train avg sep loss:       0.2068414632230997
+    train l1_addon loss:      1.1201804876327515
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06382458532849948
+    test cross_ent loss:      0.011031229980289936
+    train time:               0.27487945556640625
+    test time:                0.03396749496459961
+    epoch time:               0.3115048408508301
+    joint lr:                 1.7408908673891e-05
+epoch: 170 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3072472009807825
+    train cross_ent loss:     0.014504068624228239
+    train cluster loss:       6.001629009269527
+    train separation loss:    0.08743347246199847
+    train avg sep loss:       0.20776268355548383
+    train l1_addon loss:      1.119849681854248
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06359185526768367
+    test cross_ent loss:      0.0108555614327391
+    train time:               0.2685384750366211
+    test time:                0.03453683853149414
+    epoch time:               0.3057575225830078
+    joint lr:                 1e-05
+epoch: 171 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3090771405026317
+    train cross_ent loss:     0.01632691792328842
+    train cluster loss:       6.001532192237209
+    train separation loss:    0.08786697499454021
+    train avg sep loss:       0.20845858678221701
+    train l1_addon loss:      1.1195391416549683
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06379303336143494
+    test cross_ent loss:      0.010952485725283623
+    train time:               0.2651057243347168
+    test time:                0.03321528434753418
+    epoch time:               0.3009791374206543
+    joint lr:                 2.452294278256114e-05
+epoch: 172 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.30748936738818883
+    train cross_ent loss:     0.014788951157242991
+    train cluster loss:       6.001737194086308
+    train separation loss:    0.08809707798063755
+    train avg sep loss:       0.20752852335572242
+    train l1_addon loss:      1.1190052032470703
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06336037069559097
+    test cross_ent loss:      0.010608942558368048
+    train time:               0.2783052921295166
+    test time:                0.033293724060058594
+    epoch time:               0.31437039375305176
+    joint lr:                 3.875542670947106e-05
+epoch: 173 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3082787633873522
+    train cross_ent loss:     0.015603645032388157
+    train cluster loss:       6.00190652848396
+    train separation loss:    0.08841171376407146
+    train avg sep loss:       0.20736914165318013
+    train l1_addon loss:      1.1181426048278809
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06331799055139224
+    test cross_ent loss:      0.010590306172768274
+    train time:               0.2631654739379883
+    test time:                0.03440260887145996
+    epoch time:               0.3004469871520996
+    joint lr:                 5.270180866356452e-05
+epoch: 174 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24599679233506322
+    train cross_ent loss:     0.013281027186894789
+    train cluster loss:       4.501460323357605
+    train separation loss:    0.08846222050487995
+    train avg sep loss:       0.20857141502201557
+    train l1_addon loss:      1.116965413093567
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06296814978122711
+    test cross_ent loss:      0.010275937927265963
+    train time:               0.26683664321899414
+    test time:                0.03344297409057617
+    epoch time:               0.30304455757141113
+    joint lr:                 6.636638743590554e-05
+epoch: 175 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.12661843355745078
+    train cross_ent loss:     0.013844832580070942
+    train cluster loss:       1.5017648697190453
+    train separation loss:    0.08798507843166589
+    train avg sep loss:       0.2089284811168909
+    train l1_addon loss:      1.1155673265457153
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06286522125204404
+    test cross_ent loss:      0.009974363570412
+    train time:               0.2636754512786865
+    test time:                0.03421735763549805
+    epoch time:               0.30083465576171875
+    joint lr:                 7.975340445193301e-05
+epoch: 176 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.48937358520925045
+    train cross_ent loss:     0.01654834658256732
+    train cluster loss:       10.501588268292835
+    train separation loss:    0.0883807385340333
+    train avg sep loss:       0.2106735173612833
+    train l1_addon loss:      1.1144394874572754
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06268033509453137
+    test cross_ent loss:      0.009823433123528957
+    train time:               0.26460814476013184
+    test time:                0.033129215240478516
+    epoch time:               0.30054259300231934
+    joint lr:                 9.286704448889635e-05
+epoch: 177 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24634505044668914
+    train cross_ent loss:     0.01362932160263881
+    train cluster loss:       4.501775531805469
+    train separation loss:    0.08858780059963464
+    train avg sep loss:       0.20842284262180327
+    train l1_addon loss:      1.1126658916473389
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06220248838265737
+    test cross_ent loss:      0.009352326393127441
+    train time:               0.26401710510253906
+    test time:                0.03409147262573242
+    epoch time:               0.30104565620422363
+    joint lr:                 0.00010571143638467521
+epoch: 178 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.1295402841642499
+    train cross_ent loss:     0.01655526096583344
+    train cluster loss:       1.5022265815816354
+    train separation loss:    0.08715072758495808
+    train avg sep loss:       0.21220036186277866
+    train l1_addon loss:      1.1107450723648071
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06217938785751661
+    test cross_ent loss:      0.009181397035717964
+    train time:               0.26877903938293457
+    test time:                0.03396940231323242
+    epoch time:               0.30602550506591797
+    joint lr:                 0.00011829065373808962
+epoch: 179 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.1873104735277593
+    train cross_ent loss:     0.014448656840249896
+    train cluster loss:       3.001680049931747
+    train separation loss:    0.08711868450045586
+    train avg sep loss:       0.21015039160847665
+    train l1_addon loss:      1.1070077419281006
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06201688572764397
+    test cross_ent loss:      0.008956109484036764
+    train time:               0.2788584232330322
+    test time:                0.033943891525268555
+    epoch time:               0.31581926345825195
+    joint lr:                 0.00013060871560079728
+epoch: 180 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.4841725656762719
+    train cross_ent loss:     0.011424892261857167
+    train cluster loss:       10.501256828321493
+    train separation loss:    0.08982895016670227
+    train avg sep loss:       0.21093490161001682
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.06099774564305941
+    test cross_ent loss:      0.008159359451383352
+    train time:               0.27739715576171875
+    test time:                0.03406023979187012
+    epoch time:               0.3145110607147217
+    joint lr:                 0.00014266958716087697
+epoch: 180 (PUSH)
+    test acc:                 100.00%
+    train overall loss:       0.4841725656762719
+    train cross_ent loss:     0.011424892261857167
+    train cluster loss:       10.501256828321493
+    train separation loss:    0.08982895016670227
+    train avg sep loss:       0.21093490161001682
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            9.018783569335938
+    test overall loss:        0.05325783664981524
+    test cross_ent loss:      0.0005766451455807934
+    train time:               0.27739715576171875
+    test time:                0.03399324417114258
+    epoch time:               0.1948387622833252
+    [last_layer] Optimizer and LR scheduler reset for new push cycle.
+epoch: 180 (1/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.1761285450309515
+    train cross_ent loss:     0.0035867900485754946
+    train cluster loss:       3.0004277229414584
+    train separation loss:    0.083086091093719
+    train avg sep loss:       0.20141960084438323
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            9.012563705444336
+    test overall loss:        0.05326549212137858
+    test cross_ent loss:      0.0006715819666472574
+    train time:               0.20566606521606445
+    test time:                0.03419041633605957
+    epoch time:               0.2429208755493164
+    last layer lr:            4.233999999999988e-05
+    Best LAST_LAYER model saved: 100.00%
+epoch: 180 (2/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.2992212767712772
+    train cross_ent loss:     0.006758514724788256
+    train cluster loss:       6.0008924103031855
+    train separation loss:    0.0837561048567295
+    train avg sep loss:       0.20151581540703772
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            8.992904663085938
+    test overall loss:        0.05320879444479942
+    test cross_ent loss:      0.0006264454956787328
+    train time:               0.2035846710205078
+    test time:                0.03475332260131836
+    epoch time:               0.24146032333374023
+    last layer lr:            7.403320000000004e-05
+epoch: 180 (3/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.35719822738319634
+    train cross_ent loss:     0.004877509636571631
+    train cluster loss:       7.500532131197906
+    train separation loss:    0.08384216465055942
+    train avg sep loss:       0.20129204951226712
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            8.962665557861328
+    test overall loss:        0.05298032363255819
+    test cross_ent loss:      0.0006275957760711511
+    train time:               0.2048029899597168
+    test time:                0.03406238555908203
+    epoch time:               0.24184441566467285
+    last layer lr:            0.00010508930199999993
+epoch: 180 (4/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.05933144260197878
+    train cross_ent loss:     0.007059221306553809
+    train cluster loss:       0.001007385270895611
+    train separation loss:    0.08110107574611902
+    train avg sep loss:       0.20090862289071082
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            8.92206859588623
+    test overall loss:        0.053017571568489075
+    test cross_ent loss:      0.0008152903174050152
+    train time:               0.20250606536865234
+    test time:                0.034323692321777344
+    epoch time:               0.24007010459899902
+    last layer lr:            0.0001355178786400001
+epoch: 180 (5/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.11545450733974576
+    train cross_ent loss:     0.0034409485560900066
+    train cluster loss:       1.5004742431776321
+    train separation loss:    0.08164840769022703
+    train avg sep loss:       0.20123118460178374
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            8.862833023071289
+    test overall loss:        0.05246183152000109
+    test cross_ent loss:      0.0006986294562617937
+    train time:               0.20208072662353516
+    test time:                0.03392505645751953
+    epoch time:               0.23880505561828613
+    last layer lr:            0.00016532837481699996
+epoch: 180 (6/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.17784267533570527
+    train cross_ent loss:     0.006153505211113952
+    train cluster loss:       3.000715427403611
+    train separation loss:    0.08182022236287594
+    train avg sep loss:       0.20158954411745073
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            8.793922424316406
+    test overall loss:        0.05216199407974879
+    test cross_ent loss:      0.0006192498452340563
+    train time:               0.20156478881835938
+    test time:                0.034494638442993164
+    epoch time:               0.2391960620880127
+    last layer lr:            0.00019453010928259585
+epoch: 180 (7/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.19375370321795343
+    train cross_ent loss:     0.022346638728049584
+    train cluster loss:       3.0017429161190194
+    train separation loss:    0.08193390034139156
+    train avg sep loss:       0.202755094319582
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            8.713494300842285
+    test overall loss:        0.05185817430416743
+    test cross_ent loss:      0.0006663724974108239
+    train time:               0.2079617977142334
+    test time:                0.03496074676513672
+    epoch time:               0.24642252922058105
+    last layer lr:            0.0002231322762213984
+epoch: 180 (8/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.24255648674443364
+    train cross_ent loss:     0.011679037203430198
+    train cluster loss:       4.500885391256998
+    train separation loss:    0.08236099407076836
+    train avg sep loss:       0.2003675729036331
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            8.652956008911133
+    test overall loss:        0.05182793984810511
+    test cross_ent loss:      0.0011180383541310828
+    train time:               0.20851778984069824
+    test time:                0.03454089164733887
+    epoch time:               0.246290922164917
+    last layer lr:            0.0002511439468104964
+epoch: 180 (9/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.17619553189724685
+    train cross_ent loss:     0.005603288910060655
+    train cluster loss:       3.00072496414341
+    train separation loss:    0.08192016780376435
+    train avg sep loss:       0.2004864402115345
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            8.58024787902832
+    test overall loss:        0.05118894949555397
+    test cross_ent loss:      0.0007235494364673892
+    train time:               0.209686279296875
+    test time:                0.03463268280029297
+    epoch time:               0.24758577346801758
+    last layer lr:            0.00027857407076019053
+epoch: 180 (10/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.3555390299297869
+    train cross_ent loss:     0.0054765333748946435
+    train cluster loss:       7.500865478531068
+    train separation loss:    0.08517715595662594
+    train avg sep loss:       0.20103425681591033
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            8.493134498596191
+    test overall loss:        0.05065986389915148
+    test cross_ent loss:      0.0006486468288737038
+    train time:               0.21906399726867676
+    test time:                0.03520011901855469
+    epoch time:               0.2576634883880615
+    last layer lr:            0.0003054314778362094
+epoch: 180 (11/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.18432190604507923
+    train cross_ent loss:     0.014472107605251949
+    train cluster loss:       3.001106243176946
+    train separation loss:    0.08178543262183666
+    train avg sep loss:       0.20207574889063834
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            8.416797637939453
+    test overall loss:        0.05030844360589981
+    test cross_ent loss:      0.0006541199012038609
+    train time:               0.20857477188110352
+    test time:                0.034435272216796875
+    epoch time:               0.24630451202392578
+    last layer lr:            0.00033172487936363197
+epoch: 180 (12/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.2955103607848287
+    train cross_ent loss:     0.006097278604283929
+    train cluster loss:       6.0010657310670465
+    train separation loss:    0.08227447718381882
+    train avg sep loss:       0.20142526030540467
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            8.334424018859863
+    test overall loss:        0.05014430110653242
+    test cross_ent loss:      0.0008494273837034901
+    train time:               0.20826148986816406
+    test time:                0.034650325775146484
+    epoch time:               0.2461557388305664
+    last layer lr:            0.0003574628697127227
+epoch: 180 (13/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.35300012258812785
+    train cross_ent loss:     0.004160146192589309
+    train cluster loss:       7.500500926983113
+    train separation loss:    0.0852671829983592
+    train avg sep loss:       0.20138774029910564
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            8.24878215789795
+    test overall loss:        0.049395774801572166
+    test cross_ent loss:      0.000668448027378569
+    train time:               0.2044050693511963
+    test time:                0.03339648246765137
+    epoch time:               0.24098706245422363
+    last layer lr:            0.000382653927766895
+epoch: 180 (14/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.11205254560336471
+    train cross_ent loss:     0.003596594247210305
+    train cluster loss:       1.5005423355092717
+    train separation loss:    0.08254943955689668
+    train avg sep loss:       0.2010843653231859
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            8.136872291564941
+    test overall loss:        0.04904862493276596
+    test cross_ent loss:      0.000805086805485189
+    train time:               0.20441842079162598
+    test time:                0.03448224067687988
+    epoch time:               0.24213171005249023
+    last layer lr:            0.0004073064183730128
+epoch: 180 (15/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.35391302648931744
+    train cross_ent loss:     0.006121706283011008
+    train cluster loss:       7.500644340524286
+    train separation loss:    0.08414779845625162
+    train avg sep loss:       0.20061793252825738
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            8.024925231933594
+    test overall loss:        0.04832159851988157
+    test cross_ent loss:      0.0007097508253840109
+    train time:               0.2060234546661377
+    test time:                0.03474068641662598
+    epoch time:               0.24396538734436035
+    last layer lr:            0.00043142859377423137
+epoch: 180 (16/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.23514560759067535
+    train cross_ent loss:     0.007748139355680905
+    train cluster loss:       4.5017474937886615
+    train separation loss:    0.08343933150172234
+    train avg sep loss:       0.20166227035224438
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            7.922479629516602
+    test overall loss:        0.047824795047442116
+    test cross_ent loss:      0.0006900466978549957
+    train time:               0.20321202278137207
+    test time:                0.034273624420166016
+    epoch time:               0.24062633514404297
+    last layer lr:            0.0004105257355230295
+epoch: 180 (17/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.4701362227089703
+    train cross_ent loss:     0.0035616732435300945
+    train cluster loss:       10.500475673686287
+    train separation loss:    0.08728866800665855
+    train avg sep loss:       0.2012999765574932
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            7.801421642303467
+    test overall loss:        0.047483199586470924
+    test cross_ent loss:      0.0010004639625549316
+    train time:               0.20863580703735352
+    test time:                0.03386974334716797
+    epoch time:               0.24557852745056152
+    last layer lr:            0.00038999879157747416
+epoch: 180 (18/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.2921266303397715
+    train cross_ent loss:     0.0058884175057755785
+    train cluster loss:       6.001374301953637
+    train separation loss:    0.0825979620218277
+    train avg sep loss:       0.20088887214660645
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            7.687906265258789
+    test overall loss:        0.047027366856733956
+    test cross_ent loss:      0.0009737271466292441
+    train time:               0.20933103561401367
+    test time:                0.03484201431274414
+    epoch time:               0.2472696304321289
+    last layer lr:            0.0003698423339372778
+epoch: 180 (19/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.2309717323631048
+    train cross_ent loss:     0.005300351516052615
+    train cluster loss:       4.500606269839954
+    train separation loss:    0.08334640618413687
+    train avg sep loss:       0.2009036011993885
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            7.5937628746032715
+    test overall loss:        0.0470740832388401
+    test cross_ent loss:      0.0012814297418420513
+    train time:               0.206068754196167
+    test time:                0.03356432914733887
+    epoch time:               0.2422621250152588
+    last layer lr:            0.0003500510055707274
+epoch: 180 (20/20) (LAST_LAYER)
+    test acc:                 100.00%
+    train overall loss:       0.4093798350542784
+    train cross_ent loss:     0.00436556659406051
+    train cluster loss:       9.00054700852652
+    train separation loss:    0.0862854015082121
+    train avg sep loss:       0.20127117559313773
+    train l1_addon loss:      1.1026391983032227
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.04597295820713043
+    test cross_ent loss:      0.0009825344119841855
+    train time:               0.20809316635131836
+    test time:                0.03447461128234863
+    epoch time:               0.24539947509765625
+    last layer lr:            0.0003306195195381145
+epoch: 181 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.18092011073604225
+    train cross_ent loss:     0.015734526599408126
+    train cluster loss:       3.0022459602350864
+    train separation loss:    0.08658950906246901
+    train avg sep loss:       0.2090846009552479
+    train l1_addon loss:      1.0992193222045898
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.06315226356188457
+    test cross_ent loss:      0.017848906417687733
+    train time:               0.2793564796447754
+    test time:                0.03375744819641113
+    epoch time:               0.3157997131347656
+    joint lr:                 0.00013477574672480497
+epoch: 182 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.186690326500684
+    train cross_ent loss:     0.021162672512582505
+    train cluster loss:       3.0015978241077392
+    train separation loss:    0.09006408844143152
+    train avg sep loss:       0.2200034949928522
+    train l1_addon loss:      1.0951893329620361
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.0622229240834713
+    test cross_ent loss:      0.01663526737441619
+    train time:               0.2693452835083008
+    test time:                0.034476518630981445
+    epoch time:               0.3062293529510498
+    joint lr:                 0.00012702651613873798
+epoch: 183 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.12384861316531896
+    train cross_ent loss:     0.018360399210359903
+    train cluster loss:       1.5013116646092386
+    train separation loss:    0.09387649707496167
+    train avg sep loss:       0.2231209199875593
+    train l1_addon loss:      1.0919615030288696
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.06097033495704333
+    test cross_ent loss:      0.015446193516254425
+    train time:               0.26401185989379883
+    test time:                0.03372335433959961
+    epoch time:               0.3007466793060303
+    joint lr:                 0.00011941979258972001
+epoch: 184 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24495962131768464
+    train cross_ent loss:     0.019279271527193487
+    train cluster loss:       4.501513214141596
+    train separation loss:    0.0975181594491005
+    train avg sep loss:       0.23089311197400092
+    train l1_addon loss:      1.089896559715271
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.05998938033978144
+    test cross_ent loss:      0.014291605291267237
+    train time:               0.26552867889404297
+    test time:                0.03413987159729004
+    epoch time:               0.30291175842285156
+    joint lr:                 0.00011195350086006857
+epoch: 185 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3024519382044673
+    train cross_ent loss:     0.016764593531843276
+    train cluster loss:       6.0014513397443805
+    train separation loss:    0.10155883971601724
+    train avg sep loss:       0.23520041778683662
+    train l1_addon loss:      1.087159514427185
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.05933700750271479
+    test cross_ent loss:      0.013665484574933847
+    train time:               0.27580833435058594
+    test time:                0.03398323059082031
+    epoch time:               0.31305766105651855
+    joint lr:                 0.00010462559298575114
+epoch: 186 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.3050762095488608
+    train cross_ent loss:     0.019272950559388845
+    train cluster loss:       6.001637592341285
+    train separation loss:    0.10275787524878979
+    train avg sep loss:       0.2388552561402321
+    train l1_addon loss:      1.0845412015914917
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.05917347098390261
+    test cross_ent loss:      0.013345873914659023
+    train time:               0.2652266025543213
+    test time:                0.03416872024536133
+    epoch time:               0.3021852970123291
+    joint lr:                 9.743404791883409e-05
+epoch: 187 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24344452302902936
+    train cross_ent loss:     0.01753849768138025
+    train cluster loss:       4.501615066551312
+    train separation loss:    0.10383514557033777
+    train avg sep loss:       0.2418335009366274
+    train l1_addon loss:      1.0833046436309814
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.058962661772966385
+    test cross_ent loss:      0.012770424286524454
+    train time:               0.27115535736083984
+    test time:                0.033811092376708984
+    epoch time:               0.30779576301574707
+    joint lr:                 9.037687119395678e-05
+epoch: 188 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.12190041830763221
+    train cross_ent loss:     0.015910870814695954
+    train cluster loss:       1.5014064598391996
+    train separation loss:    0.1036981213837862
+    train avg sep loss:       0.2436231929808855
+    train l1_addon loss:      1.0807167291641235
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.05823673183719317
+    test cross_ent loss:      0.01226679515093565
+    train time:               0.27164316177368164
+    test time:                0.03449368476867676
+    epoch time:               0.30917882919311523
+    joint lr:                 8.345209459878514e-05
+epoch: 189 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.484381893556565
+    train cross_ent loss:     0.018447478039888665
+    train cluster loss:       10.502063999217352
+    train separation loss:    0.1082933060824871
+    train avg sep loss:       0.24687013179063796
+    train l1_addon loss:      1.0778542757034302
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.058167031655708946
+    test cross_ent loss:      0.011892462149262428
+    train time:               0.28233933448791504
+    test time:                0.03444862365722656
+    epoch time:               0.3197295665740967
+    joint lr:                 7.665777584839738e-05
+epoch: 190 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24145183647051455
+    train cross_ent loss:     0.01541786944726482
+    train cluster loss:       4.501547775306972
+    train separation loss:    0.10553589016199112
+    train avg sep loss:       0.2463895458728075
+    train l1_addon loss:      1.0758922100067139
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.057700218011935554
+    test cross_ent loss:      0.01160851555565993
+    train time:               0.2828190326690674
+    test time:                0.034609317779541016
+    epoch time:               0.3200387954711914
+    joint lr:                 6.999199826355766e-05
+epoch: 191 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.36018377197906376
+    train cross_ent loss:     0.014153012842871248
+    train cluster loss:       7.5013748169105385
+    train separation loss:    0.10927765052765608
+    train avg sep loss:       0.2506318539381027
+    train l1_addon loss:      1.073038101196289
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.05733241016666094
+    test cross_ent loss:      0.011225693859159946
+    train time:               0.26280856132507324
+    test time:                0.03409934043884277
+    epoch time:               0.29942774772644043
+    joint lr:                 6.34528704528299e-05
+epoch: 192 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.12025312287732959
+    train cross_ent loss:     0.01406876218970865
+    train cluster loss:       1.5015355301336968
+    train separation loss:    0.10689270161092282
+    train avg sep loss:       0.25121053531765936
+    train l1_addon loss:      1.070907711982727
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.05722378070155779
+    test cross_ent loss:      0.01112243595222632
+    train time:               0.2614295482635498
+    test time:                0.033835411071777344
+    epoch time:               0.2979428768157959
+    joint lr:                 5.703852599849032e-05
+epoch: 193 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.18250067327171565
+    train cross_ent loss:     0.016254857089370488
+    train cluster loss:       3.0021374511808974
+    train separation loss:    0.10703277718275786
+    train avg sep loss:       0.2521998301148415
+    train l1_addon loss:      1.0685064792633057
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.057630824546019234
+    test cross_ent loss:      0.011127022405465445
+    train time:               0.2610890865325928
+    test time:                0.034166574478149414
+    epoch time:               0.29798102378845215
+    joint lr:                 5.074712314619226e-05
+epoch: 194 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.1801288729533553
+    train cross_ent loss:     0.013923752208938822
+    train cluster loss:       3.0017729568848153
+    train separation loss:    0.10624343995004892
+    train avg sep loss:       0.25046961233019827
+    train l1_addon loss:      1.0666927099227905
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.05703047042091688
+    test cross_ent loss:      0.010693691981335482
+    train time:               0.2675502300262451
+    test time:                0.03326559066772461
+    epoch time:               0.30368876457214355
+    joint lr:                 4.457684449834031e-05
+epoch: 195 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.30055702198296785
+    train cross_ent loss:     0.014506580520537682
+    train cluster loss:       6.001712551122182
+    train separation loss:    0.1113389601930976
+    train avg sep loss:       0.2529851090162992
+    train l1_addon loss:      1.0656594038009644
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.05671484147508939
+    test cross_ent loss:      0.010578866737584272
+    train time:               0.26601552963256836
+    test time:                0.03461003303527832
+    epoch time:               0.3035459518432617
+    joint lr:                 3.852589671113078e-05
+epoch: 196 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.4825896734371781
+    train cross_ent loss:     0.016551130963489414
+    train cluster loss:       10.501450614942588
+    train separation loss:    0.11097061261534691
+    train avg sep loss:       0.25221769586205484
+    train l1_addon loss:      1.0645380020141602
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.05675433079401652
+    test cross_ent loss:      0.01041260144362847
+    train time:               0.2976820468902588
+    test time:                0.0344390869140625
+    epoch time:               0.33539700508117676
+    joint lr:                 3.2592510195215606e-05
+epoch: 197 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.36091537503525617
+    train cross_ent loss:     0.014825790710165165
+    train cluster loss:       7.501660385173454
+    train separation loss:    0.11115387100726366
+    train avg sep loss:       0.25380770601332187
+    train l1_addon loss:      1.0637059211730957
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.056743369748195015
+    test cross_ent loss:      0.010391911181310812
+    train time:               0.2668571472167969
+    test time:                0.034285783767700195
+    epoch time:               0.3042466640472412
+    joint lr:                 2.677493881994748e-05
+epoch: 198 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.2996619497425854
+    train cross_ent loss:     0.013396595179801806
+    train cluster loss:       6.001426639570854
+    train separation loss:    0.10760147217661142
+    train avg sep loss:       0.2537287030369043
+    train l1_addon loss:      1.062903881072998
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.056424934417009354
+    test cross_ent loss:      0.010247580086191496
+    train time:               0.26642537117004395
+    test time:                0.03461313247680664
+    epoch time:               0.3041059970855713
+    joint lr:                 2.1071459621165335e-05
+epoch: 199 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.2992626527324319
+    train cross_ent loss:     0.013123694484238512
+    train cluster loss:       6.001407661449048
+    train separation loss:    0.11032608170062304
+    train avg sep loss:       0.2539420105516911
+    train l1_addon loss:      1.0623128414154053
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.05653539920846621
+    test cross_ent loss:      0.010171260063846907
+    train time:               0.2661416530609131
+    test time:                0.03441476821899414
+    epoch time:               0.30363917350769043
+    joint lr:                 1.548037251247684e-05
+epoch: 200 (JOINT)
+    test acc:                 100.00%
+    train overall loss:       0.24022751925513147
+    train cross_ent loss:     0.014046497747767717
+    train cluster loss:       4.501749210392882
+    train separation loss:    0.10950576923787594
+    train avg sep loss:       0.2539799213409424
+    train l1_addon loss:      1.0619335174560547
+    train l1 loss:            7.4884257316589355
+    test overall loss:        0.05627801641821861
+    test cross_ent loss:      0.010053699525694052
+    train time:               0.2734873294830322
+    test time:                0.03419923782348633
+    epoch time:               0.3107471466064453
+    joint lr:                 1e-05
+Finished training in 73.02 seconds
+Last epoch test accu: 100.00%
+Done in 200 epochs, 89.25s

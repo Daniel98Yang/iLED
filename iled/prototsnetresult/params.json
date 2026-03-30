@@ -1,0 +1,24 @@
+{
+    "proto_num": 5,
+    "proto_features": 3,
+    "proto_len_latent": 100,
+    "protos_per_class": 1,
+    "ts_len": 200,
+    "num_classes": 5,
+    "coeffs": {
+        "crs_ent": 1,
+        "clst": 0.04,
+        "sep": -0.05,
+        "l1": 0.005,
+        "l1_addon": 0.001
+    },
+    "num_warm_epochs": 50,
+    "push_start_epoch": 150,
+    "num_last_layer_epochs": 20,
+    "epochs": 200,
+    "learning_rates": "{<EpochType.JOINT: 2>: {'features': 0.001, 'add_on_layers': 0.003, 'prototype_vectors': 0.003}, <EpochType.WARM: 1>: {'add_on_layers': 0.003, 'prototype_vectors': 0.003}, <EpochType.LAST_LAYER: 4>: {'add_on_layers': 0.001}}",
+    "encoder_pretraining": true,
+    "permuting_encoder": false,
+    "reception": 1.0,
+    "proto_len_fraction": "0.500"
+}
