@@ -16,7 +16,7 @@ import joblib
 import os
 
 from myautoencoder   import MyAutoEncoder
-from smallscaleae    import TimeAutoEncoder
+from smallscaleae    import TimeAutoEncoder, FNOEncoder, FNODecoder
 from koopmandataset  import KoopmanDataset, CycleDataset
 from koopmandynamics import KoopmanDynamics
 from sklearn.preprocessing import StandardScaler
@@ -44,7 +44,7 @@ BATCH_SIZE_TIME  = 256    # larger batch is fine — many more time-pairs
 N_EPOCHS         = 500
 LR_K             = 3e-3   # Koopman K matrices  (physics)
 LR_B             = 1e-3   # Koopman B matrices  (control — more conservative)
-LR_TIME_AE       = 1e-3   # TimeAutoEncoder     (trained jointly)
+LR_TIME_AE       = 5e-4   # TimeAutoEncoder     (trained jointly)
 FREEZE_WINDOW_AE = True   # keep pretrained CNN AE frozen
 PRETRAIN_EPOCHS = 40
 KOOPMAN_EPOCHS  = 200
@@ -201,6 +201,18 @@ def normalize_control(u):
 
 print("Scaler loaded ✅")
 
+def koopman_step(z, K, B, u):
+    # z: (B, S, d)
+    # K: (d, d)
+
+    z_next = torch.einsum("bsd,dd->bsd", z, K)
+
+    if u is not None:
+        Bu = torch.matmul(u, B.T)         # (B, d)
+        z_next = z_next + Bu.unsqueeze(1) # broadcast over sensors
+
+    return z_next
+
 # ─────────────────────────────────────────────────────────
 # 4. Models
 # ─────────────────────────────────────────────────────────
@@ -230,7 +242,8 @@ if FREEZE_WINDOW_AE:
     print("Cycle AE frozen")
 
 # 4b. Time AE — MLP, trained from scratch
-time_ae = TimeAutoEncoder(input_dim=NUM_FEATURES, latent_dim=TIME_LATENT_DIM).to(device)
+timeencoder = FNOEncoder(in_channels=1, latent_dim=8)
+timedecoder = FNODecoder(latent_dim=8)
 
 # 4c. Koopman: cycle scale  K(3×3)  B(3×8)
 cycle_dynamics = KoopmanDynamics(latent_dim=LATENT_DIM,      control_dim=CONTROL_DIM).to(device)
@@ -296,30 +309,29 @@ def forward_cycle(batch):
 
 
 def forward_time(batch):
-    """
-    Timestep-scale forward.
-    x_t, x_next : (B, 314)   single sensor snapshots
-    u_t          : (B, 8)    control at that exact timestep
-    """
-    x_t    = batch['x_t'].to(device)
+    x_t = batch['x_t'].to(device)      # (B, 314)
     x_next = batch['x_next'].to(device)
-    u_t    = batch['u_t'].to(device) if 'u_t' in batch else None
-    if u_t is not None:
-        u_t = normalize_control(u_t)
+    u_t = batch['u_t'].to(device)
 
-    xs  = normalize_time(x_t)
-    xns = normalize_time(x_next)
+    u_t = normalize_control(u_t)
 
-    z           = time_ae.encode(xs)             # (B, 6)
-    z_next      = time_ae.encode(xns)            # (B, 6)  target
-    z_next_pred = time_dynamics(z, u_t)          # (B, 6)  K@z + B@u
+    z = timeencoder(x_t)                   # (B, 314, d)
+    z_next = timeencoder(x_next)
 
-    recon       = denormalize_time(time_ae.decode(z))
-    recon_pred  = denormalize_time(time_ae.decode(z_next_pred))
+    z_next_pred = koopman_step(z, time_dynamics.K, time_dynamics.B, u_t)
 
-    return {'z': z, 'z_next': z_next, 'z_next_pred': z_next_pred,
-            'recon': recon, 'recon_pred': recon_pred,
-            'x_t': x_t, 'x_next': x_next}
+    recon = timedecoder(z)
+    recon_pred = timedecoder(z_next_pred)
+
+    return {
+        'z': z,
+        'z_next': z_next,
+        'z_next_pred': z_next_pred,
+        'recon': recon,
+        'recon_pred': recon_pred,
+        'x_t': x_t,
+        'x_next': x_next
+    }
 
 # ─────────────────────────────────────────────────────────
 # 7. Loss helpers
