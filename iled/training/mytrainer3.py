@@ -310,33 +310,38 @@ def forward_cycle(batch):
 def forward_time(batch):
     """
     Timestep-scale forward.
-    x_t, x_next : (B, 314)   single sensor snapshots
-    u_t          : (B, 8)    control at that exact timestep
+    x_t, x_next : (B, 314)
+    u_t         : (B, 8)
     """
     x_t    = batch['x_t'].to(device)
     x_next = batch['x_next'].to(device)
     u_t    = batch['u_t'].to(device) if 'u_t' in batch else None
+
     if u_t is not None:
         u_t = normalize_control(u_t)
 
     xs  = normalize_time(x_t)
     xns = normalize_time(x_next)
 
-    z_seq      = time_ae.encode(xs)       # (B, 314, d)
-    z_next_seq = time_ae.encode(xns)
+    # ── MLP AE → already global latent ──
+    z      = time_ae.encode(xs)      # (B, d)
+    z_next = time_ae.encode(xns)     # (B, d)
 
-    # collapse sensors → global latent
-    z      = z_seq.mean(dim=1)            # (B, d)
-    z_next = z_next_seq.mean(dim=1)       # (B, d)
-
+    # Koopman step
     z_next_pred = time_dynamics(z, u_t)   # (B, d)
 
-    recon = denormalize_time(time_ae.decode(z))
+    recon      = denormalize_time(time_ae.decode(z))
     recon_pred = denormalize_time(time_ae.decode(z_next_pred))
 
-    return {'z': z, 'z_next': z_next, 'z_next_pred': z_next_pred,
-            'recon': recon, 'recon_pred': recon_pred,
-            'x_t': x_t, 'x_next': x_next}
+    return {
+        'z': z,
+        'z_next': z_next,
+        'z_next_pred': z_next_pred,
+        'recon': recon,
+        'recon_pred': recon_pred,
+        'x_t': x_t,
+        'x_next': x_next
+    }
 
 # ─────────────────────────────────────────────────────────
 # 7. Loss helpers
