@@ -473,7 +473,7 @@ for epoch in range(1, N_EPOCHS + 1):
             out = forward_time(batch)
             va_ts.append(koopman_loss(forward_time(batch), w_latent=0.5, w_recon=1e-8).item())
             recon_loss = (((out['recon'] - out['x_t']) / (out['x_t'].std() + 1e-6))**2).mean()
-            va_recon.append(recon_loss)
+            va_recon.append(recon_loss.detach().cpu().item())
 
     tr_c = np.mean(tr_cyc);  tr_t = np.mean(tr_ts)
     va_c = np.mean(va_cyc);  va_t = np.mean(va_ts)
