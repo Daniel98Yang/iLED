@@ -449,8 +449,8 @@ for epoch in range(1, N_EPOCHS + 1):
         torch.nn.utils.clip_grad_norm_(time_ae.parameters(), max_norm=1.0)
 
         optimizer.step()
-        tr_cyc.append(float(loss_cyc))
-        tr_ts.append(float(loss_ts))
+        tr_ts.append(loss_ts.detach().item())
+        tr_cyc.append(loss_cyc.detach().item())
 
     # ── eval mode ───────────────────────────────────────
     cycle_dynamics.eval()
