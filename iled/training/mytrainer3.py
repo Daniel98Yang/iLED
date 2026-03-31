@@ -20,6 +20,7 @@ from smallscaleae    import TimeAutoEncoder
 from koopmandataset  import KoopmanDataset, CycleDataset
 from koopmandynamics import KoopmanDynamics
 from sklearn.preprocessing import StandardScaler
+from datasets_utils import transform_ts_data
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # ★ PATHS
@@ -140,8 +141,29 @@ _scalec = torch.tensor(cycle_sklearn_scaler.scale_, dtype=torch.float32).to(devi
 mean_cyc  = _meanc.view(1, -1, 1)   # (1, 314, 1)
 scale_cyc = _scalec.view(1, -1, 1)
 
-def normalize_cycle(x):   return (x - mean_cyc)  / (scale_cyc + 1e-8)
-def denormalize_cycle(x): return x * scale_cyc   + mean_cyc
+
+def normalize_cycle_ae(x):
+    # x: (B, 314, T)
+    x_np = x.detach().cpu().numpy()
+    
+    x_scaled = np.stack([
+        transform_ts_data(sample.copy(), cycle_sklearn_scaler, scale_separately=True, fit=False)
+        for sample in x_np
+    ])
+    
+    return torch.tensor(x_scaled, dtype=torch.float32).to(device)
+
+
+def denormalize_cycle_ae(x):
+    x_np = x.detach().cpu().numpy()
+    
+    x_inv = np.stack([
+        cycle_sklearn_scaler.inverse_transform(sample.T).T
+        for sample in x_np
+    ])
+    
+    return torch.tensor(x_inv, dtype=torch.float32).to(device)
+
 def normalize_time(x):    return (x - mean_ts)   / (scale_ts  + 1e-8)
 def denormalize_time(x):  return x * scale_ts    + mean_ts
 
@@ -216,20 +238,15 @@ def forward_cycle(batch):
     x_next = batch['x_next'].to(device)
     u_t    = batch['u_t'].to(device) if 'u_t' in batch else None
 
-    xs  = normalize_cycle(x_t)
-    xns = normalize_cycle(x_next)
+    xs  = normalize_cycle_ae(x_t)
+    xns = normalize_cycle_ae(x_next)
 
     z           = cycle_ae.encode(xs)            # (B, 3)
     z_next      = cycle_ae.encode(xns)           # (B, 3)  target
     z_next_pred = cycle_dynamics(z, u_t)         # (B, 3)  K@z + B@u
 
-    recon       = denormalize_cycle(cycle_ae.decode(z))
-    recon_pred  = denormalize_cycle(cycle_ae.decode(z_next_pred))
-    
-    print("x_t mean/std:", x_t.mean().item(), x_t.std().item())
-
-    print("recon mean/std:", recon.mean().item(), recon.std().item())
-    print("z mean:", z.abs().mean().item())
+    recon       = denormalize_cycle_ae(cycle_ae.decode(z))
+    recon_pred  = denormalize_cycle_ae(cycle_ae.decode(z_next_pred))
 
     return {'z': z, 'z_next': z_next, 'z_next_pred': z_next_pred,
             'recon': recon, 'recon_pred': recon_pred,
