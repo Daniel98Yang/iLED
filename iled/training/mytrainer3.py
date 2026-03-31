@@ -276,13 +276,13 @@ def forward_cycle(batch):
     z_next      = cycle_ae.encode(xns)           # (B, 3)  target
     z_next_pred = cycle_dynamics(z, u_t)         # (B, 3)  K@z + B@u
 
-    with torch.no_grad():
-        kz = z @ cycle_dynamics.K.T
-        bu = u_t @ cycle_dynamics.B.T if u_t is not None else 0
+    # with torch.no_grad():
+    #     kz = z @ cycle_dynamics.K.T
+    #     bu = u_t @ cycle_dynamics.B.T if u_t is not None else 0
 
-        print("||Kz||:", kz.norm(dim=1).mean().item())
-        if u_t is not None:
-            print("||Bu||:", bu.norm(dim=1).mean().item())
+    #     print("||Kz||:", kz.norm(dim=1).mean().item())
+    #     if u_t is not None:
+    #         print("||Bu||:", bu.norm(dim=1).mean().item())
 
     recon       = denormalize_cycle_ae(cycle_ae.decode(z))
     recon_pred  = denormalize_cycle_ae(cycle_ae.decode(z_next_pred))
