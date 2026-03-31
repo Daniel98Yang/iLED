@@ -422,29 +422,18 @@ for epoch in range(1, N_EPOCHS + 1):
 
         optimizer.zero_grad()
 
-        if phase == "pretrain":
-            out_ts = forward_time(ts_batch)
+        out_cyc = forward_cycle(cyc_batch)
+        out_ts  = forward_time(ts_batch)
+        loss_cyc = koopman_loss(out_cyc, w_latent=1.0, w_recon=1e-8)
+        loss_ts  = koopman_loss(out_ts,  w_latent=0.5, w_recon=1e-8)
 
+        if phase == "pretrain":
             loss = ((out_ts['recon'] - out_ts['x_t']) ** 2).mean()
             
-
-
         elif phase == "koopman":
-            out_cyc = forward_cycle(cyc_batch)
-            out_ts  = forward_time(ts_batch)
-
-            loss_cyc = koopman_loss(out_cyc, w_latent=1.0, w_recon=1e-8)
-            loss_ts  = koopman_loss(out_ts,  w_latent=0.5, w_recon=1e-8)
-
             loss = loss_cyc + loss_ts
         
         elif phase == "joint":
-            out_cyc = forward_cycle(cyc_batch)
-            out_ts  = forward_time(ts_batch)
-
-            loss_cyc = koopman_loss(out_cyc, w_latent=1.0, w_recon=1e-8)
-            loss_ts  = koopman_loss(out_ts,  w_latent=0.5, w_recon=1e-8)
-
             loss = loss_cyc + loss_ts
 
         stab = (stability_penalty(cycle_dynamics.K) +
