@@ -132,8 +132,18 @@ cycle_ae = MyAutoEncoder(
     latent_features=LATENT_DIM,
     seq_len=SEQ_LEN,
 ).to(device)
-cycle_ae.load_state_dict(torch.load(AE_PATH, map_location=device, weights_only=False))
+
+state_dict = torch.load(AE_PATH, map_location=device)
+print(list(state_dict.keys())[:10])
+# If saved from bare RegularConvAutoencoder, add "model." prefix
+new_state_dict = {}
+for k, v in state_dict.items():
+    new_key = "model." + k   # critical fix
+    new_state_dict[new_key] = v
+
+cycle_ae.load_state_dict(new_state_dict)
 print("Cycle AE weights loaded ✅")
+
 if FREEZE_WINDOW_AE:
     for p in cycle_ae.parameters():
         p.requires_grad = False
