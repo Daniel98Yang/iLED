@@ -19,6 +19,7 @@ from myautoencoder   import MyAutoEncoder
 from smallscaleae    import TimeAutoEncoder
 from koopmandataset  import KoopmanDataset, CycleDataset
 from koopmandynamics import KoopmanDynamics
+from sklearn.preprocessing import StandardScaler
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # ★ PATHS
@@ -67,6 +68,8 @@ sensor_val   = load_npz_or_npy(VAL_DATA_PATH)
 ctrl_train   = load_npz_or_npy(CONTROL_PATH)     # (N, 200, 8)
 ctrl_val     = load_npz_or_npy(VAL_CONTROL_PATH)
 
+print(ctrl_train.mean(), ctrl_train.std())
+
 print(f"Train sensor : {sensor_train.shape}")
 print(f"Val   sensor : {sensor_val.shape}")
 print(f"Train ctrl   : {ctrl_train.shape}")
@@ -106,14 +109,36 @@ print(f"Time   train: {len(time_train_ds):>6,} pairs | val: {len(time_val_ds):>6
 #    Cycle forward uses (B, 314, T) → broadcast shape (1, 314, 1)
 #    Time  forward uses (B, 314)    → broadcast shape (1, 314)
 # ─────────────────────────────────────────────────────────
-sklearn_scaler = joblib.load(SCALER_PATH)
-_mean  = torch.tensor(sklearn_scaler.mean_,  dtype=torch.float32).to(device)
-_scale = torch.tensor(sklearn_scaler.scale_, dtype=torch.float32).to(device)
+cycle_sklearn_scaler = joblib.load(SCALER_PATH)
 
-mean_cyc  = _mean.view(1, -1, 1)   # (1, 314, 1)
-scale_cyc = _scale.view(1, -1, 1)
-mean_ts   = _mean.view(1, -1)      # (1, 314)
+TIME_SCALER_SAVE_PATH = "/content/time_scaler.pkl"
+
+if os.path.exists(TIME_SCALER_SAVE_PATH):
+    time_scaler = joblib.load(TIME_SCALER_SAVE_PATH)
+    print("Time scaler loaded ✅")
+else:
+    print("Fitting time scaler...")
+
+    # reshape (N, 314, 200) → (N*200, 314)
+    data_for_scaler = sensor_train.transpose(0, 2, 1).reshape(-1, NUM_FEATURES)
+
+    time_scaler = StandardScaler()
+    time_scaler.fit(data_for_scaler)
+
+    joblib.dump(time_scaler, TIME_SCALER_SAVE_PATH)
+    print("Time scaler fitted & saved ✅")
+
+_mean  = torch.tensor(time_scaler.mean_,  dtype=torch.float32).to(device)
+_scale = torch.tensor(time_scaler.scale_, dtype=torch.float32).to(device)
+
+mean_ts   = _mean.view(1, -1)
 scale_ts  = _scale.view(1, -1)
+
+_meanc  = torch.tensor(cycle_sklearn_scaler.mean_,  dtype=torch.float32).to(device)
+_scalec = torch.tensor(cycle_sklearn_scaler.scale_, dtype=torch.float32).to(device)
+
+mean_cyc  = _meanc.view(1, -1, 1)   # (1, 314, 1)
+scale_cyc = _scalec.view(1, -1, 1)
 
 def normalize_cycle(x):   return (x - mean_cyc)  / (scale_cyc + 1e-8)
 def denormalize_cycle(x): return x * scale_cyc   + mean_cyc
@@ -237,7 +262,7 @@ def forward_time(batch):
 def koopman_loss(out, w_latent=1.0, w_recon=0.5):
     """Latent prediction loss + reconstruction loss."""
     loss_latent = ((out['z_next_pred'] - out['z_next']) ** 2).mean()
-    loss_recon  = ((out['recon'] - out['x_t']) ** 2).mean()
+    loss_recon  = ((out['recon'] - out['x_t']) ** 2).mean()*0.5 #HYPERPARAMETER - WEIGHTING OF THISf
     return w_latent * loss_latent + w_recon * loss_recon
 
 
