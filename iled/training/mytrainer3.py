@@ -43,9 +43,12 @@ BATCH_SIZE_CYCLE = 32
 BATCH_SIZE_TIME  = 256    # larger batch is fine — many more time-pairs
 N_EPOCHS         = 500
 LR_K             = 1e-3   # Koopman K matrices  (physics)
-LR_B             = 1e-4   # Koopman B matrices  (control — more conservative)
+LR_B             = 5e-4   # Koopman B matrices  (control — more conservative)
 LR_TIME_AE       = 1e-3   # TimeAutoEncoder     (trained jointly)
 FREEZE_WINDOW_AE = True   # keep pretrained CNN AE frozen
+PRETRAIN_EPOCHS = 40
+KOOPMAN_EPOCHS  = 200
+JOINT_EPOCHS    = 260   # total = 500
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 os.makedirs(SAVE_DIR, exist_ok=True)
@@ -322,7 +325,7 @@ def forward_time(batch):
 # 7. Loss helpers
 # ─────────────────────────────────────────────────────────
 
-def koopman_loss(out, w_latent=1.0, w_recon=0.5):
+def koopman_loss(out, w_latent=1.0, w_recon=0.00001):
     """Latent prediction loss + reconstruction loss."""
     loss_latent = ((out['z_next_pred'] - out['z_next']) ** 2).mean()
     loss_recon  = ((out['recon'] - out['x_t']) ** 2).mean()*0.5 #HYPERPARAMETER - WEIGHTING OF THISf
@@ -344,10 +347,61 @@ print(f"  TimeAE LR={LR_TIME_AE}\n")
 
 for epoch in range(1, N_EPOCHS + 1):
 
+    if epoch <= PRETRAIN_EPOCHS:
+        phase = "pretrain"
+    elif epoch <= PRETRAIN_EPOCHS + KOOPMAN_EPOCHS:
+        phase = "koopman"
+    else:
+        phase = "joint"
+
+    if phase == "pretrain":
+        time_ae.train()
+        cycle_ae.eval()
+
+        for p in time_ae.parameters():
+            p.requires_grad = True
+
+        for p in cycle_dynamics.parameters():
+            p.requires_grad = False
+        for p in time_dynamics.parameters():
+            p.requires_grad = False
+
+
+    elif phase == "koopman":
+        time_ae.eval()
+        cycle_ae.eval()
+
+        for p in time_ae.parameters():
+            p.requires_grad = False
+
+        for p in cycle_dynamics.parameters():
+            p.requires_grad = True
+        for p in time_dynamics.parameters():
+            p.requires_grad = True
+
+
+    elif phase == "joint":
+        time_ae.train()
+        cycle_ae.eval()
+
+        for p in time_ae.parameters():
+            p.requires_grad = True
+
+        for p in cycle_dynamics.parameters():
+            p.requires_grad = True
+        for p in time_dynamics.parameters():
+            p.requires_grad = True
+
     # ── train mode ──────────────────────────────────────
+    if phase == "pretrain":
+        time_ae.train()
+    elif phase == "koopman":
+        time_ae.eval()
+    elif phase == "joint":
+        time_ae.train()
+
     cycle_dynamics.train()
     time_dynamics.train()
-    time_ae.train()
     if FREEZE_WINDOW_AE:
         cycle_ae.eval()   # keep frozen AE in eval (BN running stats fixed)
 
@@ -368,16 +422,36 @@ for epoch in range(1, N_EPOCHS + 1):
 
         optimizer.zero_grad()
 
-        out_cyc = forward_cycle(cyc_batch)
-        out_ts  = forward_time(ts_batch)
+        if phase == "pretrain":
+            out_ts = forward_time(ts_batch)
 
-        loss_cyc  = koopman_loss(out_cyc, w_latent=1.0, w_recon=0.5)
-        loss_ts   = koopman_loss(out_ts,  w_latent=0.5, w_recon=0.2)
+            loss = ((out_ts['recon'] - out_ts['x_t']) ** 2).mean()
+            
+
+
+        elif phase == "koopman":
+            out_cyc = forward_cycle(cyc_batch)
+            out_ts  = forward_time(ts_batch)
+
+            loss_cyc = koopman_loss(out_cyc, w_latent=1.0, w_recon=1e-8)
+            loss_ts  = koopman_loss(out_ts,  w_latent=0.5, w_recon=1e-8)
+
+            loss = loss_cyc + loss_ts
+        
+        elif phase == "joint":
+            out_cyc = forward_cycle(cyc_batch)
+            out_ts  = forward_time(ts_batch)
+
+            loss_cyc = koopman_loss(out_cyc, w_latent=1.0, w_recon=1e-8)
+            loss_ts  = koopman_loss(out_ts,  w_latent=0.5, w_recon=1e-8)
+
+            loss = loss_cyc + loss_ts
 
         stab = (stability_penalty(cycle_dynamics.K) +
                 stability_penalty(time_dynamics.K))
 
-        loss = loss_cyc + loss_ts + 1e-3 * stab
+        if phase != "pretrain":
+            loss = loss + 1e-3 * stab
         loss.backward()
 
         # K and B clipped separately — tighter clip for B
@@ -386,8 +460,8 @@ for epoch in range(1, N_EPOCHS + 1):
         torch.nn.utils.clip_grad_norm_(time_ae.parameters(), max_norm=1.0)
 
         optimizer.step()
-        tr_cyc.append(loss_cyc.item())
-        tr_ts.append(loss_ts.item())
+        tr_cyc.append(float(loss_cyc))
+        tr_ts.append(float(loss_ts))
 
     # ── eval mode ───────────────────────────────────────
     cycle_dynamics.eval()
@@ -401,7 +475,7 @@ for epoch in range(1, N_EPOCHS + 1):
         for batch in cycle_val_loader:
             va_cyc.append(koopman_loss(forward_cycle(batch)).item())
         for batch in time_val_loader:
-            va_ts.append(koopman_loss(forward_time(batch), w_latent=0.5, w_recon=0.2).item())
+            va_ts.append(koopman_loss(forward_time(batch), w_latent=0.5, w_recon=1e-8).item())
 
     tr_c = np.mean(tr_cyc);  tr_t = np.mean(tr_ts)
     va_c = np.mean(va_cyc);  va_t = np.mean(va_ts)
