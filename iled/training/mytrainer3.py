@@ -145,25 +145,28 @@ scale_cyc = _scalec.view(1, -1, 1)
 def normalize_cycle_ae(x):
     x_np = x.detach().cpu().numpy()   # (B, 314, T)
 
-    x_scaled = transform_ts_data(
-        x_np, 
-        cycle_sklearn_scaler, 
-        scale_separately=True, 
-        fit=False
-    )
+    x_scaled = np.empty_like(x_np)
+
+    for i in range(x_np.shape[0]):
+        sample = x_np[i]              # (314, T)
+
+        # transpose to (T, C) → apply scaler → back
+        sample_scaled = cycle_sklearn_scaler.transform(sample.T).T
+
+        x_scaled[i] = sample_scaled
 
     return torch.tensor(x_scaled, dtype=torch.float32).to(device)
 
 
 def denormalize_cycle_ae(x):
-    x_np = x.detach().cpu().numpy()   # (B, 314, T)
+    x_np = x.detach().cpu().numpy()
 
-    B, C, T = x_np.shape
-    x_reshaped = x_np.transpose(0, 2, 1).reshape(-1, C)   # (B*T, C)
+    x_inv = np.empty_like(x_np)
 
-    x_inv = cycle_sklearn_scaler.inverse_transform(x_reshaped)
-
-    x_inv = x_inv.reshape(B, T, C).transpose(0, 2, 1)     # back to (B, C, T)
+    for i in range(x_np.shape[0]):
+        sample = x_np[i]
+        sample_inv = cycle_sklearn_scaler.inverse_transform(sample.T).T
+        x_inv[i] = sample_inv
 
     return torch.tensor(x_inv, dtype=torch.float32).to(device)
 
