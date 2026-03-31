@@ -121,11 +121,7 @@ def build_memory(z_seq, k=3):
     return mem
 
 # ── 4. Autoencoder ────────────────────────────────────────
-ae = MyAutoEncoder(
-    num_features=NUM_FEATURES,
-    latent_features=LATENT_DIM,
-    seq_len=SEQ_LEN,
-).to(device)
+ae = MyAutoEncoder(NUM_FEATURES, LATENT_DIM).to(device)
 
 state = torch.load(AE_PATH, map_location=device, weights_only=False)
 ae.load_state_dict(state)
@@ -299,7 +295,7 @@ for epoch in range(1, N_EPOCHS + 1):
         loss_cycle  = torch.mean((z_pred_c - z_next_c)**2)
         loss_couple = torch.mean((z_t_proj - z_c)**2)
 
-        loss = loss_cycle + 0.5 * loss_time + 0.1 * loss_couple
+        loss = loss_cycle + 0.5 * loss_time + 0.005 * loss_couple
 
         # stability
         eigvals = torch.linalg.eigvals(dynamics.K)
@@ -355,7 +351,7 @@ for epoch in range(1, N_EPOCHS + 1):
             loss_cycle  = torch.mean((z_pred_c - z_next_c)**2)
             loss_couple = torch.mean((z_t_proj - z_c)**2)
 
-            loss = loss_cycle + 0.5 * loss_time + 0.1 * loss_couple
+            loss = loss_cycle + 0.5 * loss_time + 0.005 * loss_couple
 
             val_losses.append(loss.item())
 
