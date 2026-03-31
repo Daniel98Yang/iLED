@@ -166,32 +166,10 @@ scale_cyc = _scalec.view(1, -1, 1)
 
 
 def normalize_cycle_ae(x):
-    x_np = x.detach().cpu().numpy()   # (B, 314, T)
-
-    x_scaled = np.empty_like(x_np)
-
-    for i in range(x_np.shape[0]):
-        sample = x_np[i]              # (314, T)
-
-        # transpose to (T, C) → apply scaler → back
-        sample_scaled = cycle_sklearn_scaler.transform(sample.T).T
-
-        x_scaled[i] = sample_scaled
-
-    return torch.tensor(x_scaled, dtype=torch.float32).to(device)
-
+    return (x - mean_cyc) / (scale_cyc + 1e-8)
 
 def denormalize_cycle_ae(x):
-    x_np = x.detach().cpu().numpy()
-
-    x_inv = np.empty_like(x_np)
-
-    for i in range(x_np.shape[0]):
-        sample = x_np[i]
-        sample_inv = cycle_sklearn_scaler.inverse_transform(sample.T).T
-        x_inv[i] = sample_inv
-
-    return torch.tensor(x_inv, dtype=torch.float32).to(device)
+    return x * scale_cyc + mean_cyc
 
 def normalize_time(x):    return (x - mean_ts)   / (scale_ts  + 1e-8)
 def denormalize_time(x):  return x * scale_ts    + mean_ts
@@ -252,6 +230,11 @@ diffs = (z_all[1:] - z_all[:-1]).norm(dim=-1)
 print(f"Consecutive latent distances: {diffs.numpy().round(3)}")
 print(f"Mean: {diffs.mean():.3f}  Max: {diffs.max():.3f}")
 
+with torch.no_grad():
+    x = torch.tensor(sensor_val[:10], dtype=torch.float32).to(device)
+    z = cycle_ae.encode(normalize_cycle_ae(x))
+    print("VAL latent mean:", z.mean().item(), "std:", z.std().item())
+
 if FREEZE_WINDOW_AE:
     for p in cycle_ae.parameters():
         p.requires_grad = False
@@ -259,7 +242,7 @@ if FREEZE_WINDOW_AE:
     print("Cycle AE frozen")
 
 # 4b. Time AE — MLP, trained from scratch
-time_ae = TimeFNOAutoEncoder(input_dim=NUM_FEATURES, latent_dim=TIME_LATENT_DIM).to(device)
+time_ae = TimeAutoEncoder(input_dim=NUM_FEATURES, latent_dim=TIME_LATENT_DIM).to(device)
 
 # 4c. Koopman: cycle scale  K(3×3)  B(3×8)
 cycle_dynamics = KoopmanDynamics(latent_dim=LATENT_DIM,      control_dim=CONTROL_DIM).to(device)
@@ -339,12 +322,17 @@ def forward_time(batch):
     xs  = normalize_time(x_t)
     xns = normalize_time(x_next)
 
-    z           = time_ae.encode(xs)             # (B, 6)
-    z_next      = time_ae.encode(xns)            # (B, 6)  target
-    z_next_pred = koopman_step(z, time_dynamics, u_t)          # (B, 6)  K@z + B@u
+    z_seq      = time_ae.encode(xs)       # (B, 314, d)
+    z_next_seq = time_ae.encode(xns)
 
-    recon       = denormalize_time(time_ae.decode(z))
-    recon_pred  = denormalize_time(time_ae.decode(z_next_pred))
+    # collapse sensors → global latent
+    z      = z_seq.mean(dim=1)            # (B, d)
+    z_next = z_next_seq.mean(dim=1)       # (B, d)
+
+    z_next_pred = time_dynamics(z, u_t)   # (B, d)
+
+    recon = denormalize_time(time_ae.decode(z))
+    recon_pred = denormalize_time(time_ae.decode(z_next_pred))
 
     return {'z': z, 'z_next': z_next, 'z_next_pred': z_next_pred,
             'recon': recon, 'recon_pred': recon_pred,
@@ -453,8 +441,8 @@ for epoch in range(1, N_EPOCHS + 1):
 
         out_cyc = forward_cycle(cyc_batch)
         out_ts  = forward_time(ts_batch)
-        loss_cyc = koopman_loss(out_cyc, w_latent=1.5, w_recon=1e-8)
-        loss_ts  = koopman_loss(out_ts,  w_latent=0.05, w_recon=1e-8)
+        loss_cyc = koopman_loss(out_cyc, w_latent=1.5, w_recon=1e-3)
+        loss_ts  = koopman_loss(out_ts,  w_latent=0.05, w_recon=1e-3)
 
         if phase == "pretrain":
             loss = ((out_ts['recon'] - out_ts['x_t']) ** 2).mean()
@@ -497,10 +485,12 @@ for epoch in range(1, N_EPOCHS + 1):
 
     with torch.no_grad():
         for batch in cycle_val_loader:
-            va_cyc.append(koopman_loss(forward_cycle(batch)).item())
+            va_cyc.append(
+                koopman_loss(forward_cycle(batch), w_latent=1.5, w_recon=1e-3).item()
+            )
         for batch in time_val_loader:
             out = forward_time(batch)
-            va_ts.append(koopman_loss(forward_time(batch), w_latent=0.05, w_recon=1e-8).item())
+            va_ts.append(koopman_loss(forward_time(batch), w_latent=0.05, w_recon=1e-3).item())
             recon_loss = (((out['recon'] - out['x_t']) / (out['x_t'].std() + 1e-6))**2).mean()
             va_recon.append(recon_loss.detach().cpu().item())
 
