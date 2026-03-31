@@ -1,7 +1,7 @@
 # my_autoencoder.py
 import torch
 import torch.nn as nn
-from iled.nn.autoencoders import AutoEncoder  # adjust import path to match your install
+from autoencoders import AutoEncoder  # adjust import path to match your install
 
 class MyEncoder(nn.Module):
     def __init__(self, input_dim, latent_dim=3):
