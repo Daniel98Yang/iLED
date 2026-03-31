@@ -8,7 +8,7 @@ import os
 
 from myautoencoder   import MyAutoEncoder
 from smallscaleae    import TimeAutoEncoder
-from koopmandataset  import KoopmanDataset
+from koopmandataset  import KoopmanDataset, CycleDataset
 from koopmandynamics import KoopmanDynamics
 from losslib         import KoopmanLoss
 from timeAttention   import TemporalAttention
@@ -58,18 +58,43 @@ else:
 CONTROL_DIM  = controls.shape[-1]
 
 print(f"Data shape: {data.shape}")
+print(f"Controls shape: {controls.shape}")
 assert data.shape[1] == NUM_FEATURES, f"Expected {NUM_FEATURES} channels, got {data.shape[1]}"
 assert data.shape[2] == SEQ_LEN,      f"Expected {SEQ_LEN} timesteps, got {data.shape[2]}"
 
 # ── 2. Dataset and loaders ────────────────────────────────
-dataset = KoopmanDataset(data, sequential_trajectories=SEQUENTIAL_TRAJECTORIES, controls=controls)
-n_val   = max(1, int(VAL_SPLIT * len(dataset)))
-n_train = len(dataset) - n_val
-train_ds, val_ds = random_split(dataset, [n_train, n_val],
-                                generator=torch.Generator().manual_seed(42))
-train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True,  num_workers=2, pin_memory=True)
-val_loader   = DataLoader(val_ds,   batch_size=BATCH_SIZE, shuffle=False, num_workers=2, pin_memory=True)
-print(f"Train pairs: {len(train_ds):,} | Val pairs: {len(val_ds):,}")
+# ── 2. Dataset and loaders ────────────────────────────────
+
+# ===== TRAIN DATA =====
+cycle_dataset = CycleDataset(data, controls)
+time_dataset  = KoopmanDataset(data.transpose(0,2,1), controls=controls)
+
+cycle_loader = DataLoader(cycle_dataset, batch_size=BATCH_SIZE, shuffle=True)
+time_loader  = DataLoader(time_dataset,  batch_size=BATCH_SIZE, shuffle=True)
+
+# ===== VALIDATION / TEST DATA =====
+VAL_DATA_PATH    = "/content/drive/MyDrive/helicopter_data/class1_test.npy"
+VAL_CONTROL_PATH = "/content/drive/MyDrive/helicopter_data/control_class1_test.npz"
+
+val_data = np.load(VAL_DATA_PATH)
+
+val_controls = np.load(VAL_CONTROL_PATH)
+if isinstance(val_controls, np.lib.npyio.NpzFile):
+    val_controls = val_controls[list(val_controls.keys())[0]]
+
+val_controls = val_controls[:, :-1, :]
+
+# build datasets
+val_cycle_dataset = CycleDataset(val_data, val_controls)
+val_time_dataset  = KoopmanDataset(val_data.transpose(0,2,1), controls=val_controls)
+
+# loaders
+val_cycle_loader = DataLoader(val_cycle_dataset, batch_size=BATCH_SIZE, shuffle=False)
+val_time_loader  = DataLoader(val_time_dataset,  batch_size=BATCH_SIZE, shuffle=False)
+
+print(f"Train cycle: {len(cycle_dataset):,} | Train time: {len(time_dataset):,}")
+print(f"Val cycle:   {len(val_cycle_dataset):,} | Val time:   {len(val_time_dataset):,}")
+
 
 # ── 3. Scaler (sklearn → torch, lives on device) ─────────
 sklearn_scaler = joblib.load(SCALER_PATH)
@@ -234,45 +259,57 @@ for epoch in range(1, N_EPOCHS + 1):
     dynamics.train()
     train_losses = []
 
-    for batch in train_loader:
+    for (batch_time, batch_cycle) in zip(time_loader, cycle_loader):
+
         optimizer.zero_grad()
-        out, x_t, x_next, u_t = run_forward(batch)
 
-        loss_fn = KoopmanLoss(recon_scale=1.0, latent_scale=1.0, forecast_scale=0.0)
+        # ===== TIME SCALE =====
+        x_t_time    = batch_time['x_t'].to(device)
+        x_next_time = batch_time['x_next'].to(device)
+        u_time      = batch_time['u_t'].to(device)
 
-        
-        
+        z_t      = time_ae.encode(x_t_time)
+        z_next_t = time_ae.encode(x_next_time)
+        z_pred_t = time_dynamics(z_t, u_time)
 
-        # KoopmanLoss needs x_t and x_next in the batch dict, u_t for control input
-        loss_batch = {
-            'x_t':    x_t,
-            'x_next': x_next,
-            'u_t':    u_t
-        }
-        loss = loss_fn(out, loss_batch)
-        # ===== Time-scale loss =====
-        loss_time = torch.mean((out["z_t_pred"] - out["z_t_next"])**2)
+        # ===== CYCLE SCALE =====
+        x_t_cycle    = batch_cycle['x_t'].to(device)
+        x_next_cycle = batch_cycle['x_next'].to(device)
+        u_cycle      = batch_cycle['u_t'].to(device)
 
-        # ===== Coupling loss =====
-        # map time latent → cycle latent size
-        loss_couple = torch.mean((out["z_t_proj"] - out["z"])**2)
+        x_t_sc    = scale(x_t_cycle)
+        x_next_sc = scale(x_next_cycle)
 
-        # combine
-        loss += 0.5 * loss_time + 0.1 * loss_couple
+        z_c      = ae.encode(x_t_sc)
+        z_next_c = ae.encode(x_next_sc)
+        z_pred_c = dynamics(z_c, u_cycle)
+
+        # ===== COUPLING =====
+        B = x_t_cycle.shape[0]
+        T = x_t_cycle.shape[2]
+
+        # reshape timestep latent into sequence
+        z_t_seq = z_t.view(B, -1, z_t.shape[-1])
+
+        z_t_attn = attn(z_t_seq)
+        z_t_proj = proj(z_t_attn)
+
+        # ===== LOSSES =====
+        loss_time   = torch.mean((z_pred_t - z_next_t)**2)
+        loss_cycle  = torch.mean((z_pred_c - z_next_c)**2)
+        loss_couple = torch.mean((z_t_proj - z_c)**2)
+
+        loss = loss_cycle + 0.5 * loss_time + 0.1 * loss_couple
+
+        # stability
         eigvals = torch.linalg.eigvals(dynamics.K)
         loss += 1e-3 * torch.mean(torch.relu(torch.abs(eigvals) - 1.0))
 
-        #entropy regularization
-        weights = torch.softmax(attn.score(z_t), dim=1)
-        entropy = -torch.sum(weights * torch.log(weights + 1e-8), dim=1).mean()
-        loss += 1e-3 * entropy
         loss.backward()
-       
 
-        # Gradient clipping — helps stabilise early training
         torch.nn.utils.clip_grad_norm_(dynamics.parameters(), max_norm=1.0)
-
         optimizer.step()
+
         train_losses.append(loss.item())
 
     # --- Validate ---
@@ -281,15 +318,45 @@ for epoch in range(1, N_EPOCHS + 1):
         ae.eval()
 
     val_losses = []
-    with torch.no_grad():
-        for batch in val_loader:
-            out, x_t, x_next, u_t = run_forward(batch)
-            loss_batch = {'x_t': x_t, 'x_next': x_next, 'u_t': u_t}
-            loss = loss_fn(out, loss_batch)
-            loss_time = torch.mean((out["z_t_pred"] - out["z_t_next"])**2)
-            loss_couple = torch.mean((out["z_t_proj"] - out["z"])**2)
 
-            loss += 0.5 * loss_time + 0.1 * loss_couple
+    with torch.no_grad():
+        for (batch_time, batch_cycle) in zip(val_time_loader, val_cycle_loader):
+
+            # ===== TIME =====
+            x_t_time    = batch_time['x_t'].to(device)
+            x_next_time = batch_time['x_next'].to(device)
+            u_time      = batch_time['u_t'].to(device)
+
+            z_t      = time_ae.encode(x_t_time)
+            z_next_t = time_ae.encode(x_next_time)
+            z_pred_t = time_dynamics(z_t, u_time)
+
+            # ===== CYCLE =====
+            x_t_cycle    = batch_cycle['x_t'].to(device)
+            x_next_cycle = batch_cycle['x_next'].to(device)
+            u_cycle      = batch_cycle['u_t'].to(device)
+
+            x_t_sc    = scale(x_t_cycle)
+            x_next_sc = scale(x_next_cycle)
+
+            z_c      = ae.encode(x_t_sc)
+            z_next_c = ae.encode(x_next_sc)
+            z_pred_c = dynamics(z_c, u_cycle)
+
+            # ===== COUPLING =====
+            B = x_t_cycle.shape[0]
+            z_t_seq = z_t.view(B, -1, z_t.shape[-1])
+
+            z_t_attn = attn(z_t_seq)
+            z_t_proj = proj(z_t_attn)
+
+            # ===== LOSSES =====
+            loss_time   = torch.mean((z_pred_t - z_next_t)**2)
+            loss_cycle  = torch.mean((z_pred_c - z_next_c)**2)
+            loss_couple = torch.mean((z_t_proj - z_c)**2)
+
+            loss = loss_cycle + 0.5 * loss_time + 0.1 * loss_couple
+
             val_losses.append(loss.item())
 
     tr = np.mean(train_losses)
