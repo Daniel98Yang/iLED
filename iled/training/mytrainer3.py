@@ -174,7 +174,7 @@ optimizer = torch.optim.Adam([
     {'params': list(time_ae.parameters()),        'lr': LR_TIME_AE, 'name': 'time_ae'},
 ])
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-    optimizer, mode='min', factor=0.5, patience=20, verbose=True
+    optimizer, mode='min', factor=0.5, patience=20
 )
 
 # ─────────────────────────────────────────────────────────
