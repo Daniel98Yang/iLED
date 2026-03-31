@@ -15,8 +15,8 @@ import numpy as np
 import joblib
 import os
 
-from myautoencoder   import MyAutoEncoder, CycleFNOAutoEncoder
-from smallscaleae    import TimeAutoEncoder, TimeFNOAutoEncoder
+from myautoencoder   import MyAutoEncoder
+from smallscaleae    import TimeAutoEncoder
 from koopmandataset  import KoopmanDataset, CycleDataset
 from koopmandynamics import KoopmanDynamics
 from sklearn.preprocessing import StandardScaler
@@ -44,7 +44,7 @@ BATCH_SIZE_TIME  = 256    # larger batch is fine — many more time-pairs
 N_EPOCHS         = 500
 LR_K             = 3e-3   # Koopman K matrices  (physics)
 LR_B             = 1e-3   # Koopman B matrices  (control — more conservative)
-LR_TIME_AE       = 5e-4   # TimeAutoEncoder     (trained jointly)
+LR_TIME_AE       = 1e-3   # TimeAutoEncoder     (trained jointly)
 FREEZE_WINDOW_AE = True   # keep pretrained CNN AE frozen
 PRETRAIN_EPOCHS = 40
 KOOPMAN_EPOCHS  = 200
@@ -66,8 +66,6 @@ def load_npz_or_npy(path):
 
 sensor_train = load_npz_or_npy(DATA_PATH)        # (N, 314, 200)
 sensor_val   = load_npz_or_npy(VAL_DATA_PATH)
-
-
 
 # Controls shape must be (N, 200, 8) — full 200 timesteps, NOT pre-trimmed
 # Trimming (to align pairs) is handled inside each Dataset class
@@ -166,10 +164,32 @@ scale_cyc = _scalec.view(1, -1, 1)
 
 
 def normalize_cycle_ae(x):
-    return (x - mean_cyc) / (scale_cyc + 1e-8)
+    x_np = x.detach().cpu().numpy()   # (B, 314, T)
+
+    x_scaled = np.empty_like(x_np)
+
+    for i in range(x_np.shape[0]):
+        sample = x_np[i]              # (314, T)
+
+        # transpose to (T, C) → apply scaler → back
+        sample_scaled = cycle_sklearn_scaler.transform(sample.T).T
+
+        x_scaled[i] = sample_scaled
+
+    return torch.tensor(x_scaled, dtype=torch.float32).to(device)
+
 
 def denormalize_cycle_ae(x):
-    return x * scale_cyc + mean_cyc
+    x_np = x.detach().cpu().numpy()
+
+    x_inv = np.empty_like(x_np)
+
+    for i in range(x_np.shape[0]):
+        sample = x_np[i]
+        sample_inv = cycle_sklearn_scaler.inverse_transform(sample.T).T
+        x_inv[i] = sample_inv
+
+    return torch.tensor(x_inv, dtype=torch.float32).to(device)
 
 def normalize_time(x):    return (x - mean_ts)   / (scale_ts  + 1e-8)
 def denormalize_time(x):  return x * scale_ts    + mean_ts
@@ -180,21 +200,6 @@ def normalize_control(u):
     return torch.tensor(u_scaled, dtype=torch.float32).to(device)
 
 print("Scaler loaded ✅")
-
-def koopman_step(z, dynamics, u):
-    # z: (B, S, d)
-    K = dynamics.K
-    B = dynamics.B
-
-    z_next = torch.einsum("bsd,dd->bsd", z, K)
-
-    if u is not None:
-        Bu = torch.matmul(u, B.T)          # (B, d)
-        z_next = z_next + Bu.unsqueeze(1)  # broadcast over sensors
-
-    return z_next
-
-
 
 # ─────────────────────────────────────────────────────────
 # 4. Models
@@ -217,23 +222,6 @@ for k, v in state_dict.items():
 
 cycle_ae.load_state_dict(new_state_dict)
 print("Cycle AE weights loaded ✅")
-
-with torch.no_grad():
-    z_all = []
-    for i in range(min(20, len(sensor_train))):
-        x = torch.tensor(sensor_train[i:i+1], dtype=torch.float32).to(device)
-        z = cycle_ae.encode(normalize_cycle_ae(x))
-        z_all.append(z.cpu())
-
-z_all = torch.cat(z_all, dim=0)
-diffs = (z_all[1:] - z_all[:-1]).norm(dim=-1)
-print(f"Consecutive latent distances: {diffs.numpy().round(3)}")
-print(f"Mean: {diffs.mean():.3f}  Max: {diffs.max():.3f}")
-
-with torch.no_grad():
-    x = torch.tensor(sensor_val[:10], dtype=torch.float32).to(device)
-    z = cycle_ae.encode(normalize_cycle_ae(x))
-    print("VAL latent mean:", z.mean().item(), "std:", z.std().item())
 
 if FREEZE_WINDOW_AE:
     for p in cycle_ae.parameters():
@@ -287,15 +275,8 @@ def forward_cycle(batch):
     xs  = normalize_cycle_ae(x_t)
     xns = normalize_cycle_ae(x_next)
 
-    z = cycle_ae.encode(xs)
-    z_next = cycle_ae.encode(xns)
-
-    # normalize latent (critical)
-    z_mean = z.mean(dim=0, keepdim=True)
-    z_std  = z.std(dim=0, keepdim=True) + 1e-6
-
-    z      = (z - z_mean) / z_std
-    z_next = (z_next - z_mean) / z_std
+    z           = cycle_ae.encode(xs)            # (B, 3)
+    z_next      = cycle_ae.encode(xns)           # (B, 3)  target
     z_next_pred = cycle_dynamics(z, u_t)         # (B, 3)  K@z + B@u
 
     # with torch.no_grad():
@@ -317,44 +298,28 @@ def forward_cycle(batch):
 def forward_time(batch):
     """
     Timestep-scale forward.
-    x_t, x_next : (B, 314)
-    u_t         : (B, 8)
+    x_t, x_next : (B, 314)   single sensor snapshots
+    u_t          : (B, 8)    control at that exact timestep
     """
     x_t    = batch['x_t'].to(device)
     x_next = batch['x_next'].to(device)
     u_t    = batch['u_t'].to(device) if 'u_t' in batch else None
-
     if u_t is not None:
         u_t = normalize_control(u_t)
 
     xs  = normalize_time(x_t)
     xns = normalize_time(x_next)
 
-    # ── MLP AE → already global latent ──
-    z      = time_ae.encode(xs)      # (B, d)
-    z_next = time_ae.encode(xns)     # (B, d)
+    z           = time_ae.encode(xs)             # (B, 6)
+    z_next      = time_ae.encode(xns)            # (B, 6)  target
+    z_next_pred = time_dynamics(z, u_t)          # (B, 6)  K@z + B@u
 
-    z_mean = z.mean(dim=0, keepdim=True)
-    z_std  = z.std(dim=0, keepdim=True) + 1e-6
+    recon       = denormalize_time(time_ae.decode(z))
+    recon_pred  = denormalize_time(time_ae.decode(z_next_pred))
 
-    z      = (z - z_mean) / z_std
-    z_next = (z_next - z_mean) / z_std
-
-    # Koopman step
-    z_next_pred = time_dynamics(z, u_t)   # (B, d)
-
-    recon      = denormalize_time(time_ae.decode(z))
-    recon_pred = denormalize_time(time_ae.decode(z_next_pred))
-
-    return {
-        'z': z,
-        'z_next': z_next,
-        'z_next_pred': z_next_pred,
-        'recon': recon,
-        'recon_pred': recon_pred,
-        'x_t': x_t,
-        'x_next': x_next
-    }
+    return {'z': z, 'z_next': z_next, 'z_next_pred': z_next_pred,
+            'recon': recon, 'recon_pred': recon_pred,
+            'x_t': x_t, 'x_next': x_next}
 
 # ─────────────────────────────────────────────────────────
 # 7. Loss helpers
@@ -363,12 +328,8 @@ def forward_time(batch):
 def koopman_loss(out, w_latent=1.0, w_recon=0.00001):
     """Latent prediction loss + reconstruction loss."""
     loss_latent = ((out['z_next_pred'] - out['z_next']) ** 2).mean()
-
-    # keep latent bounded (very important)
-    latent_reg = (out['z']**2).mean()
-    
     loss_recon  = ((out['recon'] - out['x_t']) ** 2).mean()*0.5 #HYPERPARAMETER - WEIGHTING OF THISf
-    return w_latent * loss_latent + w_recon * loss_recon + 1e-3 * latent_reg
+    return w_latent * loss_latent + w_recon * loss_recon
 
 
 def stability_penalty(K):
@@ -463,8 +424,8 @@ for epoch in range(1, N_EPOCHS + 1):
 
         out_cyc = forward_cycle(cyc_batch)
         out_ts  = forward_time(ts_batch)
-        loss_cyc = koopman_loss(out_cyc, w_latent=0.5, w_recon=1e-3)
-        loss_ts  = koopman_loss(out_ts,  w_latent=0.2, w_recon=1e-3)
+        loss_cyc = koopman_loss(out_cyc, w_latent=1.5, w_recon=1e-8)
+        loss_ts  = koopman_loss(out_ts,  w_latent=0.5, w_recon=1e-8)
 
         if phase == "pretrain":
             loss = ((out_ts['recon'] - out_ts['x_t']) ** 2).mean()
@@ -507,12 +468,10 @@ for epoch in range(1, N_EPOCHS + 1):
 
     with torch.no_grad():
         for batch in cycle_val_loader:
-            va_cyc.append(
-                koopman_loss(forward_cycle(batch), w_latent=0.5, w_recon=1e-3).item()
-            )
+            va_cyc.append(koopman_loss(forward_cycle(batch)).item())
         for batch in time_val_loader:
             out = forward_time(batch)
-            va_ts.append(koopman_loss(forward_time(batch), w_latent=0.05, w_recon=1e-3).item())
+            va_ts.append(koopman_loss(forward_time(batch), w_latent=0.5, w_recon=1e-8).item())
             recon_loss = (((out['recon'] - out['x_t']) / (out['x_t'].std() + 1e-6))**2).mean()
             va_recon.append(recon_loss.detach().cpu().item())
 
