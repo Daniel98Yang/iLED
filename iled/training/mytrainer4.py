@@ -42,10 +42,10 @@ TIME_LATENT_DIM  = 6      # timestep-scale (freely chosen)
 BATCH_SIZE_CYCLE = 32
 BATCH_SIZE_TIME  = 256    # larger batch is fine — many more time-pairs
 N_EPOCHS         = 500
-LR_K             = 3e-3   # Koopman K matrices  (physics)
+LR_K             = 1e-3   # Koopman K matrices  (physics)
 LR_B             = 1e-3   # Koopman B matrices  (control — more conservative)
 LR_TIME_AE       = 5e-4   # TimeAutoEncoder     (trained jointly)
-FREEZE_WINDOW_AE = True   # keep pretrained CNN AE frozen
+FREEZE_WINDOW_AE = False   # keep pretrained CNN AE frozen
 PRETRAIN_EPOCHS = 40
 KOOPMAN_EPOCHS  = 200
 JOINT_EPOCHS    = 260   # total = 500
@@ -219,7 +219,7 @@ def koopman_step(z, dynamics, u):
 # ─────────────────────────────────────────────────────────
 
 # 4a. Cycle AE — pretrained CNN, frozen
-cycle_ae = MyAutoEncoder(
+cycle_ae = CycleFNOAutoEncoder(
     num_features=NUM_FEATURES,
     latent_features=LATENT_DIM,
     seq_len=SEQ_LEN,
@@ -233,8 +233,8 @@ for k, v in state_dict.items():
     new_key = "model." + k   # critical fix
     new_state_dict[new_key] = v
 
-cycle_ae.load_state_dict(new_state_dict)
-print("Cycle AE weights loaded ✅")
+# cycle_ae.load_state_dict(new_state_dict)
+# print("Cycle AE weights loaded ✅")
 
 if FREEZE_WINDOW_AE:
     for p in cycle_ae.parameters():
@@ -288,9 +288,22 @@ def forward_cycle(batch):
     xs  = normalize_cycle_ae(x_t)
     xns = normalize_cycle_ae(x_next)
 
-    z           = cycle_ae.encode(xs)            # (B, 3)
-    z_next      = cycle_ae.encode(xns)           # (B, 3)  target
-    z_next_pred = cycle_dynamics(z, u_t)         # (B, 3)  K@z + B@u
+    z = cycle_ae.encode(xs)          # (B, 314, 200, d)
+    z_next = cycle_ae.encode(xns)
+
+    def koopman_step_cycle(z, dynamics, u):
+        K = dynamics.K
+        B = dynamics.B
+
+        z_next = torch.einsum("bctd,dd->bctd", z, K)
+
+        if u is not None:
+            Bu = torch.matmul(u, B.T)      # (B, d)
+            z_next = z_next + Bu.unsqueeze(1).unsqueeze(1)
+
+        return z_next
+
+    z_next_pred = koopman_step_cycle(z, cycle_dynamics, u_t)
 
     # with torch.no_grad():
     #     kz = z @ cycle_dynamics.K.T
@@ -338,7 +351,7 @@ def forward_time(batch):
 # 7. Loss helpers
 # ─────────────────────────────────────────────────────────
 
-def koopman_loss(out, w_latent=1.0, w_recon=0.00001):
+def koopman_loss(out, w_latent=0.05, w_recon=0.00001):
     """Latent prediction loss + reconstruction loss."""
     loss_latent = ((out['z_next_pred'] - out['z_next']) ** 2).mean()
     loss_recon  = ((out['recon'] - out['x_t']) ** 2).mean()*0.5 #HYPERPARAMETER - WEIGHTING OF THISf
@@ -437,7 +450,7 @@ for epoch in range(1, N_EPOCHS + 1):
 
         out_cyc = forward_cycle(cyc_batch)
         out_ts  = forward_time(ts_batch)
-        loss_cyc = koopman_loss(out_cyc, w_latent=1.5, w_recon=1e-8)
+        loss_cyc = koopman_loss(out_cyc, w_latent=0.05, w_recon=1e-8)
         loss_ts  = koopman_loss(out_ts,  w_latent=0.05, w_recon=1e-8)
 
         if phase == "pretrain":
