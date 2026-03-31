@@ -254,10 +254,6 @@ def forward_cycle(batch):
     recon       = denormalize_cycle_ae(cycle_ae.decode(z))
     recon_pred  = denormalize_cycle_ae(cycle_ae.decode(z_next_pred))
 
-    print("x_t mean/std:", x_t.mean().item(), x_t.std().item())
-    print("recon mean/std:", recon.mean().item(), recon.std().item())
-    print("z mean:", z.abs().mean().item())
-
     return {'z': z, 'z_next': z_next, 'z_next_pred': z_next_pred,
             'recon': recon, 'recon_pred': recon_pred,
             'x_t': x_t, 'x_next': x_next}
