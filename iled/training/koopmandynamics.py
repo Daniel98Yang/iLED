@@ -7,7 +7,7 @@ class KoopmanDynamics(nn.Module):
         super().__init__()
         self.latent_dim = latent_dim
         self.control_dim = control_dim
-        self.K = nn.Parameter(torch.randn(latent_dim, latent_dim) * 0.01)
+        nn.init.eye_(self.K)
         if control_dim > 0:
             self.B = nn.Parameter(torch.randn(latent_dim, control_dim) * 0.01)
         else:

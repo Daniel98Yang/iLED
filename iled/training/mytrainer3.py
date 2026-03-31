@@ -69,6 +69,25 @@ sensor_val   = load_npz_or_npy(VAL_DATA_PATH)
 ctrl_train   = load_npz_or_npy(CONTROL_PATH)     # (N, 200, 8)
 ctrl_val     = load_npz_or_npy(VAL_CONTROL_PATH)
 
+CTRL_SCALER_SAVE_PATH = "/content/control_scaler.pkl"
+CONTROL_DIM = ctrl_train.shape[-1]  # = 8
+
+if os.path.exists(CTRL_SCALER_SAVE_PATH):
+    ctrl_scaler = joblib.load(CTRL_SCALER_SAVE_PATH)
+    print("Control scaler loaded ✅")
+else:
+    print("Fitting control scaler...")
+
+    # reshape (N, 200, 8) → (N*200, 8)
+    ctrl_for_scaler = ctrl_train.reshape(-1, CONTROL_DIM)
+
+    ctrl_scaler = StandardScaler()
+    ctrl_scaler.fit(ctrl_for_scaler)
+
+    joblib.dump(ctrl_scaler, CTRL_SCALER_SAVE_PATH)
+    print("Control scaler fitted & saved ✅")
+
+
 print(ctrl_train.mean(), ctrl_train.std())
 
 print(f"Train sensor : {sensor_train.shape}")
@@ -78,7 +97,6 @@ print(f"Val   ctrl   : {ctrl_val.shape}")
 
 assert sensor_train.shape[1] == NUM_FEATURES
 assert sensor_train.shape[2] == SEQ_LEN
-CONTROL_DIM = ctrl_train.shape[-1]  # = 8
 
 # ─────────────────────────────────────────────────────────
 # 2. Datasets
@@ -173,6 +191,11 @@ def denormalize_cycle_ae(x):
 def normalize_time(x):    return (x - mean_ts)   / (scale_ts  + 1e-8)
 def denormalize_time(x):  return x * scale_ts    + mean_ts
 
+def normalize_control(u):
+    u_np = u.detach().cpu().numpy()   # (B, 8)
+    u_scaled = ctrl_scaler.transform(u_np)
+    return torch.tensor(u_scaled, dtype=torch.float32).to(device)
+
 print("Scaler loaded ✅")
 
 # ─────────────────────────────────────────────────────────
@@ -243,6 +266,8 @@ def forward_cycle(batch):
     x_t    = batch['x_t'].to(device)
     x_next = batch['x_next'].to(device)
     u_t    = batch['u_t'].to(device) if 'u_t' in batch else None
+    if u_t is not None:
+        u_t = normalize_control(u_t)
 
     xs  = normalize_cycle_ae(x_t)
     xns = normalize_cycle_ae(x_next)
@@ -276,6 +301,8 @@ def forward_time(batch):
     x_t    = batch['x_t'].to(device)
     x_next = batch['x_next'].to(device)
     u_t    = batch['u_t'].to(device) if 'u_t' in batch else None
+    if u_t is not None:
+        u_t = normalize_control(u_t)
 
     xs  = normalize_time(x_t)
     xns = normalize_time(x_next)
