@@ -60,3 +60,68 @@ class MyAutoEncoder(nn.Module):
 
     def forward(self, x):
         return self.decode(self.encode(x))
+
+class CycleFNOAutoEncoder(nn.Module):
+    def __init__(self, num_features=314, seq_len=200, latent_dim=8, width=32):
+        super().__init__()
+
+        self.num_features = num_features
+        self.seq_len = seq_len
+        self.latent_dim = latent_dim
+        self.width = width
+
+        # ── Encoder ─────────────────────────────
+        self.enc_fc0 = nn.Linear(1, width)
+        self.enc_conv = nn.Conv1d(width, width, kernel_size=1)
+        self.enc_fc1 = nn.Linear(width, latent_dim)
+
+        # ── Decoder ─────────────────────────────
+        self.dec_fc0 = nn.Linear(latent_dim, width)
+        self.dec_conv = nn.Conv1d(width, width, kernel_size=1)
+        self.dec_fc1 = nn.Linear(width, 1)
+
+    # ───────────────────────────────────────────
+    # Encode: (B, 314, 200) → (B, 314, 200, d)
+    # ───────────────────────────────────────────
+    def encode(self, x):
+        B, C, T = x.shape
+
+        x = x.view(B * C, T)              # treat each sensor separately
+        x = x.unsqueeze(-1)              # (B*C, T, 1)
+
+        x = self.enc_fc0(x)              # (B*C, T, width)
+        x = x.permute(0, 2, 1)           # (B*C, width, T)
+
+        x = self.enc_conv(x)             # (B*C, width, T)
+
+        x = x.permute(0, 2, 1)           # (B*C, T, width)
+        z = self.enc_fc1(x)              # (B*C, T, d)
+
+        z = z.view(B, C, T, self.latent_dim)
+
+        return z
+
+    # ───────────────────────────────────────────
+    # Decode: (B, 314, 200, d) → (B, 314, 200)
+    # ───────────────────────────────────────────
+    def decode(self, z):
+        B, C, T, d = z.shape
+
+        z = z.view(B * C, T, d)
+
+        x = self.dec_fc0(z)              # (B*C, T, width)
+        x = x.permute(0, 2, 1)
+
+        x = self.dec_conv(x)
+
+        x = x.permute(0, 2, 1)
+        x = self.dec_fc1(x).squeeze(-1)  # (B*C, T)
+
+        x = x.view(B, C, T)
+
+        return x
+
+    def forward(self, x):
+        z = self.encode(x)
+        recon = self.decode(z)
+        return recon, z
