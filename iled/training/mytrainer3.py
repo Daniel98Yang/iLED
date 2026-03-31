@@ -28,14 +28,14 @@ DATA_PATH        = "/content/drive/MyDrive/helicopter_data/class1_train.npy"
 CONTROL_PATH     = "/content/drive/MyDrive/helicopter_data/control_class1_train.npz"
 VAL_DATA_PATH    = "/content/drive/MyDrive/helicopter_data/class1_test.npy"
 VAL_CONTROL_PATH = "/content/drive/MyDrive/helicopter_data/control_class1_test.npz"
-AE_PATH          = "/content/iLED/iled/prototsnetresult/autoencoder_pretrained.pth"
-SCALER_PATH      = "/content/iLED/iled/prototsnetresult/scalers/s2_pf3_pc1_pl0.5_cl0.04_sp-0.05_scaler.pkl"
+AE_PATH          = "/content/iLED/iled/prototsnetresult2/autoencoder_pretrained.pth"
+SCALER_PATH      = "/content/iLED/iled/prototsnetresult2/scalers/s2_pf8_pc2_pl0.5_cl0.06_sp-0.03_scaler.pkl"
 SAVE_DIR         = "/content/drive/MyDrive/helicopter_data/koopman_checkpoints"
 
 # ★ ARCHITECTURE
 NUM_FEATURES     = 314
 SEQ_LEN          = 200
-LATENT_DIM       = 3      # cycle-scale (must match saved CNN AE)
+LATENT_DIM       = 8      # cycle-scale (must match saved CNN AE)
 TIME_LATENT_DIM  = 6      # timestep-scale (freely chosen)
 
 # ★ TRAINING
@@ -440,7 +440,7 @@ for epoch in range(1, N_EPOCHS + 1):
                 stability_penalty(time_dynamics.K))
 
         if phase != "pretrain":
-            loss = loss + 1e-3 * stab
+            loss = loss + 5e-3 * stab
         loss.backward()
 
         # K and B clipped separately — tighter clip for B
