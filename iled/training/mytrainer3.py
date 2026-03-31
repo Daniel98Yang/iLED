@@ -42,8 +42,8 @@ TIME_LATENT_DIM  = 6      # timestep-scale (freely chosen)
 BATCH_SIZE_CYCLE = 32
 BATCH_SIZE_TIME  = 256    # larger batch is fine — many more time-pairs
 N_EPOCHS         = 500
-LR_K             = 1e-3   # Koopman K matrices  (physics)
-LR_B             = 5e-4   # Koopman B matrices  (control — more conservative)
+LR_K             = 3e-3   # Koopman K matrices  (physics)
+LR_B             = 1e-3   # Koopman B matrices  (control — more conservative)
 LR_TIME_AE       = 1e-3   # TimeAutoEncoder     (trained jointly)
 FREEZE_WINDOW_AE = True   # keep pretrained CNN AE frozen
 PRETRAIN_EPOCHS = 40
@@ -424,7 +424,7 @@ for epoch in range(1, N_EPOCHS + 1):
 
         out_cyc = forward_cycle(cyc_batch)
         out_ts  = forward_time(ts_batch)
-        loss_cyc = koopman_loss(out_cyc, w_latent=1.0, w_recon=1e-8)
+        loss_cyc = koopman_loss(out_cyc, w_latent=1.5, w_recon=1e-8)
         loss_ts  = koopman_loss(out_ts,  w_latent=0.5, w_recon=1e-8)
 
         if phase == "pretrain":
@@ -440,7 +440,7 @@ for epoch in range(1, N_EPOCHS + 1):
                 stability_penalty(time_dynamics.K))
 
         if phase != "pretrain":
-            loss = loss + 5e-3 * stab
+            loss = loss + 5e-4 * stab
         loss.backward()
 
         # K and B clipped separately — tighter clip for B
