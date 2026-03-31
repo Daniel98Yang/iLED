@@ -44,7 +44,7 @@ print(f"Device: {device}")
 
 # ── 1. Load data ──────────────────────────────────────────
 data = np.load(DATA_PATH)           # (257, 314, 200)
-data = np.transpose(data, (0, 2, 1)) 
+
 if CONTROL_PATH:
     controls = np.load(CONTROL_PATH)
     if isinstance(controls, np.lib.npyio.NpzFile):
@@ -119,10 +119,10 @@ time_ae = TimeAutoEncoder(
 if FREEZE_AE:
     for p in ae.parameters():
         p.requires_grad = False
-    for o in time_ae.parameters():
-        o.requires_grad = False
+    # for o in time_ae.parameters():
+    #     o.requires_grad = False
     ae.eval()
-    time_ae.eval()
+    # time_ae.eval()
     print("AE frozen — training Koopman K matrix only")
 
 # ── 5. Koopman dynamics ───────────────────────────────────
