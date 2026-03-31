@@ -325,7 +325,7 @@ def forward_time(batch):
 # 7. Loss helpers
 # ─────────────────────────────────────────────────────────
 
-def koopman_loss(out, w_latent=1.0, w_recon=0.00001):
+def koopman_loss(out, w_latent=1.0, w_recon=1e-8):
     """Latent prediction loss + reconstruction loss."""
     loss_latent = ((out['z_next_pred'] - out['z_next']) ** 2).mean()
     loss_recon  = ((out['recon'] - out['x_t']) ** 2).mean()*0.5 #HYPERPARAMETER - WEIGHTING OF THISf
@@ -449,6 +449,9 @@ for epoch in range(1, N_EPOCHS + 1):
         torch.nn.utils.clip_grad_norm_(time_ae.parameters(), max_norm=1.0)
 
         optimizer.step()
+
+        if epoch % 20 == 0:
+            print("[DEBUG] ||K_cycle||:", cycle_dynamics.K.norm().item())
         
         if phase == "pretrain":
             tr_cyc.append(0.0)
@@ -467,13 +470,55 @@ for epoch in range(1, N_EPOCHS + 1):
     va_recon = []
 
     with torch.no_grad():
-        for batch in cycle_val_loader:
-            va_cyc.append(koopman_loss(forward_cycle(batch)).item())
+            # ===== DEBUG: latent distribution check (once per epoch) =====
+        if epoch % 10 == 0:   # avoid spam
+            # ---- TRAIN batch ----
+            train_batch = next(iter(cycle_train_loader))
+            out_tr = forward_cycle(train_batch)
+
+            print("\n[DEBUG] Cycle TRAIN latent stats:")
+            print("  mean:", out_tr['z'].mean().item())
+            print("  std :", out_tr['z'].std().item())
+
+            # ---- VAL batch ----
+            val_batch = next(iter(cycle_val_loader))
+            out_va = forward_cycle(val_batch)
+
+            print("[DEBUG] Cycle VAL latent stats:")
+            print("  mean:", out_va['z'].mean().item())
+            print("  std :", out_va['z'].std().item())
+
+            # ---- latent prediction error ----
+            tr_err = ((out_tr['z_next_pred'] - out_tr['z_next'])**2).mean().item()
+            va_err = ((out_va['z_next_pred'] - out_va['z_next'])**2).mean().item()
+
+            print("[DEBUG] latent MSE:")
+            print("  train:", tr_err)
+            print("  val  :", va_err)
+            print("====================================================\n")
+
+            print("[DEBUG] scale check:")
+            print("  ||z|| train:", out_tr['z'].norm(dim=1).mean().item())
+            print("  ||z_next|| train:", out_tr['z_next'].norm(dim=1).mean().item())
+            print("  ||z_pred|| train:", out_tr['z_next_pred'].norm(dim=1).mean().item())
+
+            print("  ||z|| val:", out_va['z'].norm(dim=1).mean().item())
+            print("  ||z_next|| val:", out_va['z_next'].norm(dim=1).mean().item())
+            print("  ||z_pred|| val:", out_va['z_next_pred'].norm(dim=1).mean().item())
+
+        for i, batch in enumerate(cycle_val_loader):
+            loss_val = koopman_loss(forward_cycle(batch)).item()
+            va_cyc.append(loss_val)
+
+            if epoch % 20 == 0 and i < 3:  # print first 3 batches only
+                print(f"[DEBUG] val batch {i} cyc loss:", loss_val)
         for batch in time_val_loader:
             out = forward_time(batch)
             va_ts.append(koopman_loss(forward_time(batch), w_latent=0.5, w_recon=1e-8).item())
             recon_loss = (((out['recon'] - out['x_t']) / (out['x_t'].std() + 1e-6))**2).mean()
             va_recon.append(recon_loss.detach().cpu().item())
+
+        
 
     tr_c = np.mean(tr_cyc);  tr_t = np.mean(tr_ts)
     va_c = np.mean(va_cyc);  va_t = np.mean(va_ts)
