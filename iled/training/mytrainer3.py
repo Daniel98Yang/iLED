@@ -251,6 +251,9 @@ def forward_cycle(batch):
     z_next      = cycle_ae.encode(xns)           # (B, 3)  target
     z_next_pred = cycle_dynamics(z, u_t)         # (B, 3)  K@z + B@u
 
+    print("||z||:", z.norm(dim=1).mean().item())
+    print("||z_next_pred||:", z_next_pred.norm(dim=1).mean().item())
+
     recon       = denormalize_cycle_ae(cycle_ae.decode(z))
     recon_pred  = denormalize_cycle_ae(cycle_ae.decode(z_next_pred))
 
