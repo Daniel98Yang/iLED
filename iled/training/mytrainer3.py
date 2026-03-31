@@ -67,6 +67,8 @@ def load_npz_or_npy(path):
 sensor_train = load_npz_or_npy(DATA_PATH)        # (N, 314, 200)
 sensor_val   = load_npz_or_npy(VAL_DATA_PATH)
 
+
+
 # Controls shape must be (N, 200, 8) — full 200 timesteps, NOT pre-trimmed
 # Trimming (to align pairs) is handled inside each Dataset class
 ctrl_train   = load_npz_or_npy(CONTROL_PATH)     # (N, 200, 8)
@@ -214,6 +216,8 @@ def koopman_step(z, dynamics, u):
 
     return z_next
 
+
+
 # ─────────────────────────────────────────────────────────
 # 4. Models
 # ─────────────────────────────────────────────────────────
@@ -235,6 +239,18 @@ for k, v in state_dict.items():
 
 cycle_ae.load_state_dict(new_state_dict)
 print("Cycle AE weights loaded ✅")
+
+with torch.no_grad():
+    z_all = []
+    for i in range(min(20, len(sensor_train))):
+        x = torch.tensor(sensor_train[i:i+1], dtype=torch.float32).to(device)
+        z = cycle_ae.encode(normalize_cycle_ae(x))
+        z_all.append(z.cpu())
+
+z_all = torch.cat(z_all, dim=0)
+diffs = (z_all[1:] - z_all[:-1]).norm(dim=-1)
+print(f"Consecutive latent distances: {diffs.numpy().round(3)}")
+print(f"Mean: {diffs.mean():.3f}  Max: {diffs.max():.3f}")
 
 if FREEZE_WINDOW_AE:
     for p in cycle_ae.parameters():
