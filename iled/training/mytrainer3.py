@@ -449,8 +449,13 @@ for epoch in range(1, N_EPOCHS + 1):
         torch.nn.utils.clip_grad_norm_(time_ae.parameters(), max_norm=1.0)
 
         optimizer.step()
-        tr_ts.append(loss_ts.detach().item())
-        tr_cyc.append(loss_cyc.detach().item())
+        
+        if phase == "pretrain":
+            tr_cyc.append(0.0)
+            tr_ts.append(loss.detach().item())   # actual AE loss
+        else:
+            tr_ts.append(loss_ts.detach().item())
+            tr_cyc.append(loss_cyc.detach().item())
 
     # ── eval mode ───────────────────────────────────────
     cycle_dynamics.eval()
@@ -459,16 +464,22 @@ for epoch in range(1, N_EPOCHS + 1):
     cycle_ae.eval()
 
     va_cyc, va_ts = [], []
+    va_recon = []
 
     with torch.no_grad():
         for batch in cycle_val_loader:
             va_cyc.append(koopman_loss(forward_cycle(batch)).item())
         for batch in time_val_loader:
+            out = forward_time(batch)
             va_ts.append(koopman_loss(forward_time(batch), w_latent=0.5, w_recon=1e-8).item())
+            recon_loss = (((out['recon'] - out['x_t']) / (out['x_t'].std() + 1e-6))**2).mean()
+            va_recon.append(recon_loss)
 
     tr_c = np.mean(tr_cyc);  tr_t = np.mean(tr_ts)
     va_c = np.mean(va_cyc);  va_t = np.mean(va_ts)
     va_total = va_c + va_t
+
+    val_recon_loss = np.mean(va_recon)
 
     scheduler.step(va_total)
 
@@ -476,7 +487,8 @@ for epoch in range(1, N_EPOCHS + 1):
     print(
         f"Epoch {epoch:4d}/{N_EPOCHS} | "
         f"cyc  tr {tr_c:.3e} va {va_c:.3e} | "
-        f"ts   tr {tr_t:.3e} va {va_t:.3e}"
+        f"ts   tr {tr_t:.3e} va {va_t:.3e} | "
+        f"val recon loss {val_recon_loss:.3e} | "
         + (" ← best" if improved else "")
     )
 
