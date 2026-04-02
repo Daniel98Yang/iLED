@@ -343,6 +343,7 @@ optimizer = torch.optim.Adam([
     {'params': time_dynamics.parameters(),  'lr': LR_K},
     {'params': time_ae.parameters(),        'lr': LR_TIME_AE},
     {'params': memory_kernel.parameters(),  'lr': LR_TIME_AE},
+    {'params': cycle_ae.parameters(),       'lr': 1e-4},   # ← NEW (smaller LR!)
     {'params': [alpha],                     'lr': LR_ALPHA},
 ])
 
@@ -515,28 +516,38 @@ for epoch in range(1, N_EPOCHS + 1):
     if phase == "pretrain":
         time_ae.train()
         cycle_ae.eval()
-        for p in time_ae.parameters():       p.requires_grad = True
-        for p in cycle_dynamics.parameters():p.requires_grad = False
-        for p in time_dynamics.parameters(): p.requires_grad = False
-        for p in memory_kernel.parameters(): p.requires_grad = False
+
+        for p in time_ae.parameters():        p.requires_grad = True
+        for p in cycle_ae.parameters():       p.requires_grad = False
+        for p in cycle_dynamics.parameters(): p.requires_grad = False
+        for p in time_dynamics.parameters():  p.requires_grad = False
+        for p in memory_kernel.parameters():  p.requires_grad = False
         alpha.requires_grad = False
 
     elif phase == "koopman":
         time_ae.eval()
         cycle_ae.eval()
-        for p in time_ae.parameters():       p.requires_grad = False
-        for p in cycle_dynamics.parameters():p.requires_grad = True
-        for p in time_dynamics.parameters(): p.requires_grad = True
-        for p in memory_kernel.parameters(): p.requires_grad = True
+
+        for p in time_ae.parameters():        p.requires_grad = False
+        for p in cycle_ae.parameters():       p.requires_grad = False
+        for p in cycle_dynamics.parameters(): p.requires_grad = True
+        for p in time_dynamics.parameters():  p.requires_grad = True
+        for p in memory_kernel.parameters():  p.requires_grad = True
         alpha.requires_grad = True
 
     elif phase == "joint":
         time_ae.train()
-        cycle_ae.eval()
-        for p in time_ae.parameters():       p.requires_grad = True
-        for p in cycle_dynamics.parameters():p.requires_grad = True
-        for p in time_dynamics.parameters(): p.requires_grad = True
-        for p in memory_kernel.parameters(): p.requires_grad = True
+        cycle_ae.train()   # ← IMPORTANT
+
+        for p in time_ae.parameters():        p.requires_grad = True
+        for name, p in cycle_ae.named_parameters():
+            if "decoder" in name:
+                p.requires_grad = True
+            else:
+                p.requires_grad = False
+        for p in cycle_dynamics.parameters(): p.requires_grad = True
+        for p in time_dynamics.parameters():  p.requires_grad = True
+        for p in memory_kernel.parameters():  p.requires_grad = True
         alpha.requires_grad = True
 
     # ── train mode ────────────────────────────────────────
