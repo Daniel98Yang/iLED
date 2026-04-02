@@ -43,9 +43,49 @@ class CycleDataset(Dataset):
 
 
 # ─────────────────────────────────────────────────────────────────
+# SEQUENCE DATASET
+# Yields full trajectories as (T, C) sequences for memory-aware
+# time-scale Koopman with iLED-style convolutional memory kernel.
+# Each item covers one complete trajectory so the memory loop inside
+# forward_time can slide z_{t-L:t-1} freely without crossing
+# trajectory boundaries.
+# ─────────────────────────────────────────────────────────────────
+class SequenceDataset(Dataset):
+    """
+    Full-trajectory dataset for sequence-aware Koopman with memory.
+
+    sensor_data : (N, C, T)  channels-first  e.g. (N, 314, 200)
+    controls    : (N, T, 8) or None
+
+    Each item is one complete trajectory:
+        x_seq : (T, C)  sensor data, time-first
+        u_seq : (T, 8)  control inputs, time-first
+    """
+    def __init__(self, sensor_data, controls=None):
+        N, C, T = sensor_data.shape
+        # Transpose to (N, T, C) — time-first for the memory loop
+        x = sensor_data.transpose(0, 2, 1).astype(np.float32)   # (N, T, C)
+        self.x_seq = torch.tensor(x)
+
+        if controls is not None:
+            self.u_seq = torch.tensor(controls.astype(np.float32))  # (N, T, 8)
+        else:
+            self.u_seq = None
+
+    def __len__(self):
+        return len(self.x_seq)
+
+    def __getitem__(self, idx):
+        item = {'x_seq': self.x_seq[idx]}   # (T, C)
+        if self.u_seq is not None:
+            item['u_seq'] = self.u_seq[idx]  # (T, 8)
+        return item
+
+
+# ─────────────────────────────────────────────────────────────────
 # TIMESTEP-SCALE DATASET
 # Pairs adjacent individual timesteps: (x_t, x_{t+1}, u_t)
-# Used with TimeAutoEncoder (per-timestep Koopman)
+# Used with TimeAutoEncoder (per-timestep Koopman, no memory)
 # ─────────────────────────────────────────────────────────────────
 class TimestepDataset(Dataset):
     """
