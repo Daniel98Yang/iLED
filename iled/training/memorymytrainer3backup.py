@@ -560,8 +560,8 @@ for epoch in range(1, N_EPOCHS + 1):
     cycle_dynamics.train()
     time_dynamics.train()
     memory_kernel.train()
-    if FREEZE_WINDOW_AE:
-        cycle_ae.eval()   # keep BN running stats fixed
+    # if FREEZE_WINDOW_AE:
+    cycle_ae.eval()   # keep BN running stats fixed
 
     tr_cyc, tr_ts = [], []
 
