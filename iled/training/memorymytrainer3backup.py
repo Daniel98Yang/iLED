@@ -671,21 +671,23 @@ for epoch in range(1, N_EPOCHS + 1):
         val_batch_t = next(iter(time_val_loader))
         out_val_t   = forward_time(val_batch_t)
         alpha_pos   = torch.nn.functional.softplus(alpha)
-        if out_val_t['z_lin_last'] is not None:
-            lin_norm = out_val_t['z_lin_last'].norm(dim=-1).mean()
-            mem_norm = (alpha_pos * out_val_t['z_mem_last']).norm(dim=-1).mean()
-            print(f"[DEBUG] ||z_lin|| ≈ {lin_norm:.3f}  "
-                  f"||α·z_mem|| ≈ {mem_norm:.3f}  "
-                  f"ratio={mem_norm / (lin_norm + 1e-6):.3f}  "
-                  f"α={alpha_pos.item():.4f}")
+        if epoch % 10 == 0:
 
-        # ---- First 3 val batch MSEs ----
-        for i, batch in enumerate(time_val_loader):
-            if i >= 3:
-                break
-            out_t = forward_time(batch)
-            loss_i = ((out_t['preds'] - out_t['targets'])**2).mean().item()
-            print(f"[VAL DEBUG] Time batch {i} latent MSE = {loss_i:.3e}")
+            if out_val_t['z_lin_last'] is not None:
+                lin_norm = out_val_t['z_lin_last'].norm(dim=-1).mean()
+                mem_norm = (alpha_pos * out_val_t['z_mem_last']).norm(dim=-1).mean()
+                print(f"[DEBUG] ||z_lin|| ≈ {lin_norm:.3f}  "
+                    f"||α·z_mem|| ≈ {mem_norm:.3f}  "
+                    f"ratio={mem_norm / (lin_norm + 1e-6):.3f}  "
+                    f"α={alpha_pos.item():.4f}")
+
+            # ---- First 3 val batch MSEs ----
+            for i, batch in enumerate(time_val_loader):
+                if i >= 3:
+                    break
+                out_t = forward_time(batch)
+                loss_i = ((out_t['preds'] - out_t['targets'])**2).mean().item()
+                print(f"[VAL DEBUG] Time batch {i} latent MSE = {loss_i:.3e}")
 
     # ── Epoch summary ─────────────────────────────────────
     tr_c = np.mean(tr_cyc);  tr_t = np.mean(tr_ts)
