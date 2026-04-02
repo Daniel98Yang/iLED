@@ -69,11 +69,11 @@ BATCH_SIZE_TIME  = 16     # full trajectories per batch (each is SEQ_LEN=200 ste
 N_EPOCHS         = 500
 LR_K             = 3e-3   # Koopman K and B matrices  (physics)
 LR_TIME_AE       = 1e-3   # TimeAutoEncoder + memory kernel
-LR_ALPHA         = 1e-3   # learnable memory scale
+LR_ALPHA         = 1e-2   # learnable memory scale
 FREEZE_WINDOW_AE = True   # keep pretrained CNN AE frozen throughout
 PRETRAIN_EPOCHS  = 40     # phase 1: train time AE only (reconstruction)
-KOOPMAN_EPOCHS   = 200    # phase 2: train dynamics + memory, freeze AE
-JOINT_EPOCHS     = 260    # phase 3: train everything jointly  (total = 500)
+KOOPMAN_EPOCHS   = 160    # phase 2: train dynamics + memory, freeze AE
+JOINT_EPOCHS     = 300    # phase 3: train everything jointly  (total = 500)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 os.makedirs(SAVE_DIR, exist_ok=True)
@@ -540,11 +540,7 @@ for epoch in range(1, N_EPOCHS + 1):
         cycle_ae.train()   # ← IMPORTANT
 
         for p in time_ae.parameters():        p.requires_grad = True
-        for name, p in cycle_ae.named_parameters():
-            if "decoder" in name:
-                p.requires_grad = True
-            else:
-                p.requires_grad = False
+        for p in cycle_ae.parameters():       p.requires_grad = True
         for p in cycle_dynamics.parameters(): p.requires_grad = True
         for p in time_dynamics.parameters():  p.requires_grad = True
         for p in memory_kernel.parameters():  p.requires_grad = True
