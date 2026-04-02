@@ -383,12 +383,17 @@ def forward_cycle(batch: dict) -> dict:
     z_next      = cycle_ae.encode(xns)           # (B, 8)
     z_next_pred = cycle_dynamics(z, u_t)         # (B, 8)  K@z + B@u
 
-    recon      = denormalize_cycle_ae(cycle_ae.decode(z))
-    recon_pred = denormalize_cycle_ae(cycle_ae.decode(z_next_pred))
+    recon_norm      = cycle_ae.decode(z)                # normalized
+    recon_pred_norm = cycle_ae.decode(z_next_pred)
+
+    recon      = denormalize_cycle_ae(recon_norm)       # for visualization
+    recon_pred = denormalize_cycle_ae(recon_pred_norm)
 
     return {
         'z': z, 'z_next': z_next, 'z_next_pred': z_next_pred,
         'recon': recon, 'recon_pred': recon_pred,
+        'recon_norm': recon_norm,   # ← ADD
+        'xs': xs,                   # ← ADD
         'x_t': x_t, 'x_next': x_next,
     }
 
@@ -479,7 +484,7 @@ def koopman_loss_cycle(out: dict, w_latent: float = 1.0,
                        w_recon: float = 1e-3) -> torch.Tensor:
     """Latent prediction MSE + (small) reconstruction loss for cycle scale."""
     loss_latent = ((out['z_next_pred'] - out['z_next']) ** 2).mean()
-    loss_recon  = ((out['recon'] - out['x_t']) ** 2).mean() * 0.5
+    loss_recon  = ((out['recon_norm'] - out['xs']) ** 2).mean()
     return w_latent * loss_latent + w_recon * loss_recon
 
 
@@ -577,7 +582,7 @@ for epoch in range(1, N_EPOCHS + 1):
         out_ts        = forward_time(ts_batch)
         loss_latent   = ((out_ts['preds'] - out_ts['targets']) ** 2).mean()
         loss_recon_ts = ((out_ts['xs_recon'] - out_ts['xs']) ** 2).mean()
-
+    
         # Phase-specific total loss
         if phase == "pretrain":
             # Train time AE via pure reconstruction; Koopman terms frozen
