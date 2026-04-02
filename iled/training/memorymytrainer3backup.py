@@ -322,6 +322,11 @@ alpha = nn.Parameter(torch.tensor(0.0, device=device))
 memory_len = MEMORY_LEN
 
 
+for name, module in cycle_ae.named_modules():
+    if isinstance(module, torch.nn.BatchNorm1d) or \
+       isinstance(module, torch.nn.BatchNorm2d):
+        print("BatchNorm found:", name)
+
 # ─────────────────────────────────────────────────────────
 # 5. Optimizer
 #
