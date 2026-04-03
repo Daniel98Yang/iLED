@@ -95,7 +95,7 @@ GRID = {
     "lr_k":                     [1e-3, 3e-3, 1e-2],
 
     # TimeAutoEncoder + memory kernel learning rate
-    "lr_time_ae":               [3e-4, 1e-3, 3e-3],
+    "lr_time_ae":               [1e-3, 5e-3, 1e-2],
 
     # weights inside koopman_loss_cycle
     "w_latent":                 [1.0, 1.5, 2.0],
