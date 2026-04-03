@@ -89,7 +89,7 @@ MAX_RUNS = 250
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 GRID = {
     # boost factor applied to important_channels in weighted recon loss
-    "important_channel_weight": [10.0, 25.0, 50.0, 100.0],
+    "important_channel_weight": [5.0, 10.0, 25.0, 50.0],
 
     # Koopman K / B learning rate
     "lr_k":                     [1e-3, 3e-3, 1e-2],
