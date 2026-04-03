@@ -489,7 +489,16 @@ def koopman_loss_cycle(out: dict, w_latent: float = 1.0,
                        w_recon: float = 1.0) -> torch.Tensor:
     """Latent prediction MSE + (small) reconstruction loss for cycle scale."""
     loss_latent = ((out['z_next_pred'] - out['z_next']) ** 2).mean()
-    loss_recon  = ((out['recon_norm'] - out['xs']) ** 2).mean()
+    weights = torch.ones(NUM_FEATURES, device=device)
+
+    # Example: boost important channels
+    important_channels = [5,6,7,8,18,19,23,24,25,26,27,28,29,30,31,32,33,34,35,292,293,294,295,296]
+    weights[important_channels] = 50.0   # or 50
+
+    # reshape for broadcasting (B, C, T)
+    weights = weights.view(1, -1, 1)
+
+    loss_recon = ((out['recon_norm'] - out['xs'])**2 * weights).mean()
     return w_latent * loss_latent + w_recon * loss_recon
 
 
