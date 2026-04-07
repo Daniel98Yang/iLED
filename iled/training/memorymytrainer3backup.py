@@ -230,13 +230,17 @@ mean_cyc  = _meanc.view(1, -1, 1)   # (1, 314, 1)
 scale_cyc = _scalec.view(1, -1, 1)
 
 
-def normalize_cycle_ae(x: torch.Tensor) -> torch.Tensor:
-    """x: (B, 314, T)  →  normalized (B, 314, T)  via sklearn scaler."""
-    x_np = x.detach().cpu().numpy()
-    x_scaled = np.empty_like(x_np)
-    for i in range(x_np.shape[0]):
-        x_scaled[i] = cycle_sklearn_scaler.transform(x_np[i].T).T
-    return torch.tensor(x_scaled, dtype=torch.float32).to(device)
+def normalize_cycle_ae(x):
+    x_np = x.detach().cpu().numpy()  # (B, C, T)
+
+    x_scaled = transform_ts_data(
+        x_np.copy(),
+        cycle_sklearn_scaler,
+        scale_separately=True,
+        fit=False
+    )
+
+    return torch.from_numpy(x_scaled).to(x.device)
 
 
 def denormalize_cycle_ae(x: torch.Tensor) -> torch.Tensor:
@@ -387,6 +391,13 @@ def forward_cycle(batch: dict) -> dict:
     xns = normalize_cycle_ae(x_next)
 
     print("AFTER scaling:", xs.mean().item(), xs.std().item())
+
+    x1 = x_t[:1]
+
+    xs1 = normalize_cycle_ae(x1)
+    x_back = denormalize_cycle_ae(xs1)
+
+    print("reconstruction error:", (x1 - x_back).abs().mean())
 
     z           = cycle_ae.encode(xs)            # (B, 8)
     z_next      = cycle_ae.encode(xns)           # (B, 8)
