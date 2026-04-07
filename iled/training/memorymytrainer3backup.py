@@ -381,8 +381,12 @@ def forward_cycle(batch: dict) -> dict:
     if u_t is not None:
         u_t = normalize_control(u_t)
 
-    xs  = x_t
-    xns = x_next
+    print("RAW x_t stats:", x_t.mean().item(), x_t.std().item())
+
+    xs  = normalize_cycle_ae(x_t)
+    xns = normalize_cycle_ae(x_next)
+
+    print("AFTER scaling:", xs.mean().item(), xs.std().item())
 
     z           = cycle_ae.encode(xs)            # (B, 8)
     z_next      = cycle_ae.encode(xns)           # (B, 8)
