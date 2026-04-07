@@ -392,12 +392,20 @@ def forward_cycle(batch: dict) -> dict:
 
     #print("AFTER scaling:", xs.mean().item(), xs.std().item())
 
-    x1 = x_t[:1]
+    # x1 = x_t[:1]
 
-    xs1 = normalize_cycle_ae(x1)
-    x_back = denormalize_cycle_ae(xs1)
+    # xs1 = normalize_cycle_ae(x1)
+    # x_back = denormalize_cycle_ae(xs1)
 
     #print("reconstruction error:", (x1 - x_back).abs().mean())
+
+    xs_np = xs.detach().cpu().numpy()
+
+    means = xs_np.mean(axis=(0,2))   # per channel
+    stds  = xs_np.std(axis=(0,2))
+
+    print("mean range:", means.min(), means.max())
+    print("std range :", stds.min(), stds.max())
 
     z           = cycle_ae.encode(xs)            # (B, 8)
     z_next      = cycle_ae.encode(xns)           # (B, 8)
