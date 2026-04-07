@@ -47,7 +47,7 @@ from datasets_utils import transform_ts_data
 DATA_PATH        = "/content/drive/MyDrive/helicopter_data/1class0_train_X.npy"
 CONTROL_PATH     = "/content/drive/MyDrive/helicopter_data/1class0_train_control.npy"
 VAL_DATA_PATH    = "/content/drive/MyDrive/helicopter_data/1class0_test_X.npy"
-VAL_CONTROL_PATH = "/content/drive/MyDrive/helicopter_data/1class0_test_control.npz"
+VAL_CONTROL_PATH = "/content/drive/MyDrive/helicopter_data/1class0_test_control.npy"
 AE_PATH          = "/content/iLED/iled/prototsnetresult3/autoencoder_pretrained.pth"
 SCALER_PATH      = "/content/iLED/iled/prototsnetresult3/scalers/scalerDebug.pkl"
 SAVE_DIR         = "/content/drive/MyDrive/helicopter_data/koopman_checkpoints"
