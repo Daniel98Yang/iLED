@@ -127,6 +127,19 @@ class ConvMemoryKernel(nn.Module):
         x = self.net(x)                # (B, d, L)
         return x.mean(dim=-1)          # global average pool → (B, d)
 
+def clip_outliers(data, lower=0.5, upper=99.5):
+    # data: (N, C, T)
+    data = data.copy()
+    
+    for c in range(data.shape[1]):
+        channel_vals = data[:, c, :].reshape(-1)
+        
+        lo = np.percentile(channel_vals, lower)
+        hi = np.percentile(channel_vals, upper)
+        
+        data[:, c, :] = np.clip(data[:, c, :], lo, hi)
+    
+    return data
 
 # ─────────────────────────────────────────────────────────
 # 1. Load data
@@ -139,6 +152,11 @@ def load_npz_or_npy(path: str) -> np.ndarray:
 
 sensor_train = load_npz_or_npy(DATA_PATH)        # (N, 314, 200)
 sensor_val   = load_npz_or_npy(VAL_DATA_PATH)
+
+sensor_train = clip_outliers(sensor_train, 0.5, 99.5)
+sensor_val   = clip_outliers(sensor_val,   0.5, 99.5)
+
+
 
 ctrl_train   = load_npz_or_npy(CONTROL_PATH)     # (N, 200, 8)
 ctrl_val     = load_npz_or_npy(VAL_CONTROL_PATH)
@@ -205,6 +223,16 @@ print(f"Time   train: {len(time_train_ds):>6,} trajectories | val: {len(time_val
 #    Time  forward uses (B*T, 314)  → vectorized StandardScaler
 # ─────────────────────────────────────────────────────────
 cycle_sklearn_scaler = joblib.load(SCALER_PATH)
+
+MIN_STD = 1e-2  # tune this (1e-3 to 1e-1 depending on data)
+
+scales = cycle_sklearn_scaler.scale_
+
+# clamp
+clamped_scales = np.maximum(scales, MIN_STD)
+
+# overwrite
+cycle_sklearn_scaler.scale_ = clamped_scales
 
 TIME_SCALER_SAVE_PATH = "/content/time_scaler.pkl"
 
