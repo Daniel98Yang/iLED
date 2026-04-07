@@ -44,12 +44,12 @@ from datasets_utils import transform_ts_data
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # ★ PATHS
-DATA_PATH        = "/content/drive/MyDrive/helicopter_data/class1_train.npy"
-CONTROL_PATH     = "/content/drive/MyDrive/helicopter_data/control_class1_train.npz"
-VAL_DATA_PATH    = "/content/drive/MyDrive/helicopter_data/class1_test.npy"
-VAL_CONTROL_PATH = "/content/drive/MyDrive/helicopter_data/control_class1_test.npz"
-AE_PATH          = "/content/iLED/iled/prototsnetresult2/autoencoder_pretrained.pth"
-SCALER_PATH      = "/content/iLED/iled/prototsnetresult2/scalers/s2_pf8_pc2_pl0.5_cl0.06_sp-0.03_scaler.pkl"
+DATA_PATH        = "/content/drive/MyDrive/helicopter_data/1class0_train_X.npy"
+CONTROL_PATH     = "/content/drive/MyDrive/helicopter_data/1class0_train_control.npy"
+VAL_DATA_PATH    = "/content/drive/MyDrive/helicopter_data/1class0_test_X.npy"
+VAL_CONTROL_PATH = "/content/drive/MyDrive/helicopter_data/1class0_test_control.npz"
+AE_PATH          = "/content/iLED/iled/prototsnetresult3/autoencoder_pretrained.pth"
+SCALER_PATH      = "/content/iLED/iled/prototsnetresult3/scalers/scalerDebug.pkl"
 SAVE_DIR         = "/content/drive/MyDrive/helicopter_data/koopman_checkpoints"
 
 # ★ ARCHITECTURE
