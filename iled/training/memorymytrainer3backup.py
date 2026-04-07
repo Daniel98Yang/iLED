@@ -385,19 +385,19 @@ def forward_cycle(batch: dict) -> dict:
     if u_t is not None:
         u_t = normalize_control(u_t)
 
-    print("RAW x_t stats:", x_t.mean().item(), x_t.std().item())
+    #print("RAW x_t stats:", x_t.mean().item(), x_t.std().item())
 
     xs  = normalize_cycle_ae(x_t)
     xns = normalize_cycle_ae(x_next)
 
-    print("AFTER scaling:", xs.mean().item(), xs.std().item())
+    #print("AFTER scaling:", xs.mean().item(), xs.std().item())
 
     x1 = x_t[:1]
 
     xs1 = normalize_cycle_ae(x1)
     x_back = denormalize_cycle_ae(xs1)
 
-    print("reconstruction error:", (x1 - x_back).abs().mean())
+    #print("reconstruction error:", (x1 - x_back).abs().mean())
 
     z           = cycle_ae.encode(xs)            # (B, 8)
     z_next      = cycle_ae.encode(xns)           # (B, 8)
