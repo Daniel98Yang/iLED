@@ -401,11 +401,12 @@ def forward_cycle(batch: dict) -> dict:
 
     xs_np = xs.detach().cpu().numpy()
 
-    means = xs_np.mean(axis=(0,2))   # per channel
+    means = xs_np.mean(axis=(0,2))
     stds  = xs_np.std(axis=(0,2))
 
-    print("mean range:", means.min(), means.max())
-    print("std range :", stds.min(), stds.max())
+    print("mean (first 5):", means[:5])
+    print("std  (first 5):", stds[:5])
+    print("std range:", stds.min(), stds.max())
 
     z           = cycle_ae.encode(xs)            # (B, 8)
     z_next      = cycle_ae.encode(xns)           # (B, 8)
