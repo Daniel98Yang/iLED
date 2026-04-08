@@ -66,14 +66,14 @@ MEMORY_KERNEL_SZ = 3      # Conv1d kernel size inside memory kernel
 # ★ TRAINING
 BATCH_SIZE_CYCLE = 32
 BATCH_SIZE_TIME  = 16     # full trajectories per batch (each is SEQ_LEN=200 steps)
-N_EPOCHS         = 500
+N_EPOCHS         = 1000
 LR_K             = 3e-3   # Koopman K and B matrices  (physics)
 LR_TIME_AE       = 1e-3   # TimeAutoEncoder + memory kernel
 LR_ALPHA         = 1e-2   # learnable memory scale
-FREEZE_WINDOW_AE = True   # keep pretrained CNN AE frozen throughout
+FREEZE_WINDOW_AE = False   # keep pretrained CNN AE frozen throughout
 PRETRAIN_EPOCHS  = 40     # phase 1: train time AE only (reconstruction)
 KOOPMAN_EPOCHS   = 160    # phase 2: train dynamics + memory, freeze AE
-JOINT_EPOCHS     = 300    # phase 3: train everything jointly  (total = 500)
+JOINT_EPOCHS     = 700    # phase 3: train everything jointly  (total = 500)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 os.makedirs(SAVE_DIR, exist_ok=True)
@@ -780,6 +780,7 @@ for epoch in range(1, N_EPOCHS + 1):
             'cycle_dynamics': cycle_dynamics.state_dict(),
             'time_dynamics':  time_dynamics.state_dict(),
             'time_ae':        time_ae.state_dict(),
+            'cycle_ae':       cycle_ae.state_dict(),   # ← ADD THIS
             'memory_kernel':  memory_kernel.state_dict(),
             'alpha':          alpha.data,
             'optimizer':      optimizer.state_dict(),
