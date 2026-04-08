@@ -518,18 +518,25 @@ def forward_time(batch: dict) -> dict:
         targets.append(z_seq[:, t])
         z_lin_last, z_mem_last = z_lin, z_mem
 
+    # AFTER
     preds   = torch.stack(preds,   dim=1)   # (B, S, d)
     targets = torch.stack(targets, dim=1)   # (B, S, d)
 
+    # Decode the PREDICTED latents → sensor space (normalized).
+    # This is what the cycle must get right — not just AE round-trip quality.
+    B_sz, S, _ = preds.shape
+    xs_pred_recon = time_ae.decode(preds.view(B_sz * S, -1)).view(B_sz, S, D)
+
     return {
-        'preds':      preds,
-        'targets':    targets,
-        'xs':         xs,           # (B, T, D) normalized
-        'xs_recon':   xs_recon,     # (B, T, D) normalized reconstruction
-        'x_t':        x_seq,        # (B, T, D) original unnormalized
-        'z_seq':      z_seq,
-        'z_lin_last': z_lin_last,   # (B, d) at final step
-        'z_mem_last': z_mem_last,   # (B, d) at final step
+        'preds':         preds,
+        'targets':       targets,
+        'xs':            xs,            # (B, T, D) normalized
+        'xs_recon':      xs_recon,      # (B, T, D) AE round-trip quality (GT z → decode)
+        'xs_pred_recon': xs_pred_recon, # (B, S, D) dynamics prediction quality (pred z → decode)
+        'x_t':           x_seq,         # (B, T, D) original unnormalized
+        'z_seq':         z_seq,
+        'z_lin_last':    z_lin_last,
+        'z_mem_last':    z_mem_last,
     }
 
 
@@ -645,22 +652,35 @@ for epoch in range(1, N_EPOCHS + 1):
         loss_cyc = koopman_loss_cycle(out_cyc, w_latent=1.5, w_recon=1.0)
 
         # ── Time scale (linear Koopman + iLED memory) ────
+        # AFTER
         out_ts        = forward_time(ts_batch)
         loss_latent   = ((out_ts['preds'] - out_ts['targets']) ** 2).mean()
-        loss_recon_ts = ((out_ts['xs_recon'] - out_ts['xs']) ** 2).mean()
-    
+
+        # AE round-trip quality: encode GT → decode GT (keeps latent space meaningful)
+        loss_recon_ae = ((out_ts['xs_recon'] - out_ts['xs']) ** 2).mean()
+
+        # Dynamics prediction quality: decode PREDICTED z vs GT sensor.
+        # This is the critical loss that prevents latent collapse — without it
+        # the Koopman operator can trivially satisfy loss_latent by making all
+        # latents near-constant while the decoder never has to predict anything.
+        loss_pred_sensor = ((out_ts['xs_pred_recon']
+                             - out_ts['xs'][:, memory_len:, :]) ** 2).mean()
+
         # Phase-specific total loss
         if phase == "pretrain":
             # Train time AE via pure reconstruction; Koopman terms frozen
-            loss = loss_recon_ts
+            loss = loss_recon_ae
 
         elif phase == "koopman":
-            # Train both Koopman operators; AE frozen
-            loss = loss_cyc + loss_latent
+            # Train dynamics + memory; keep AE quality via round-trip term
+            loss = loss_cyc + loss_latent + 0.1 * loss_recon_ae
 
         elif phase == "joint":
-            # Train everything; include a small reconstruction regulariser
-            loss = loss_cyc + loss_latent + 1e-3 * loss_recon_ts
+            # Train everything.  loss_pred_sensor is the key anti-collapse term.
+            loss = (loss_cyc
+                    + loss_latent
+                    + 0.5 * loss_pred_sensor   # ← replaces the useless 1e-3 term
+                    + 0.05 * loss_recon_ae)    # keeps AE from drifting
 
         # Stability penalty on both K matrices (skip during pretrain)
         if phase != "pretrain":
@@ -680,12 +700,17 @@ for epoch in range(1, N_EPOCHS + 1):
             print(f"[DEBUG] ||K_cycle||: {cycle_dynamics.K.norm().item():.4f}  "
                   f"alpha (softplus): {torch.nn.functional.softplus(alpha).item():.4f}")
 
+        # AFTER
         if phase == "pretrain":
             tr_cyc.append(0.0)
-            tr_ts.append(loss_recon_ts.detach().item())
+            tr_ts.append(loss_recon_ae.detach().item())
         else:
             tr_cyc.append(loss_cyc.detach().item())
-            tr_ts.append(loss_latent.detach().item())
+            # Log pred_sensor loss so you can watch collapse in real time.
+            # If this stays near the AE baseline (~loss_recon_ae) you're healthy;
+            # if it collapses toward 0 while recon_ae stays high, collapse is happening.
+            tr_ts.append(loss_pred_sensor.detach().item()
+                         if phase != "pretrain" else loss_recon_ae.detach().item())
 
     # ── Evaluation ────────────────────────────────────────
     cycle_dynamics.eval()
@@ -714,6 +739,11 @@ for epoch in range(1, N_EPOCHS + 1):
             print(f"[DEBUG] Cycle latent MSE — train: {tr_err:.4e}  val: {va_err:.4e}")
             print(f"[DEBUG] ||z|| train: {out_tr['z'].norm(dim=1).mean().item():.3f}  "
                   f"||z_pred|| train: {out_tr['z_next_pred'].norm(dim=1).mean().item():.3f}")
+            # Latent variance check — std should be >> 0.
+            # If std < 0.01 across the trajectory, the latent space has collapsed.
+            z_std = out_val_t['z_seq'].std(dim=1).mean().item()
+            print(f"[COLLAPSE CHECK] z_seq std (should be > 0.1): {z_std:.4f}  "
+                  f"alpha={torch.nn.functional.softplus(alpha).item():.4f}")
             print("=" * 60)
 
         # ---- Cycle val loss ----
@@ -726,12 +756,16 @@ for epoch in range(1, N_EPOCHS + 1):
         # ---- Time val loss ----
         # FIX: was calling koopman_loss_cycle() on time output (wrong keys)
         #      and reading 'recon'/'x_t' which forward_time didn't return.
+        # AFTER
         for batch in time_val_loader:
             out_t = forward_time(batch)
             va_ts.append(((out_t['preds'] - out_t['targets'])**2).mean().item())
-            # Reconstruction loss in normalized space (same space AE was trained in)
-            recon_loss = ((out_t['xs_recon'] - out_t['xs'])**2).mean().item()
-            va_recon.append(recon_loss)
+
+            # Use the sensor-prediction loss for validation too, so the
+            # "best" checkpoint reflects real dynamics quality, not AE quality.
+            pred_sensor_loss = ((out_t['xs_pred_recon']
+                                 - out_t['xs'][:, memory_len:, :])**2).mean().item()
+            va_recon.append(pred_sensor_loss)
 
         # ---- Linear vs memory norm debug (once per epoch) ----
         # FIX: original block referenced undefined T and 'u_seq' key.
