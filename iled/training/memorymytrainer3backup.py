@@ -224,7 +224,7 @@ print(f"Time   train: {len(time_train_ds):>6,} trajectories | val: {len(time_val
 # ─────────────────────────────────────────────────────────
 cycle_sklearn_scaler = joblib.load(SCALER_PATH)
 
-MIN_STD = 1e-2  # tune this (1e-3 to 1e-1 depending on data)
+MIN_STD = 1e-1  # tune this (1e-3 to 1e-1 depending on data)
 
 scales = cycle_sklearn_scaler.scale_
 
