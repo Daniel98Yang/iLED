@@ -537,8 +537,8 @@ def forward_time(batch: dict) -> dict:
 # 7. Loss helpers
 # ─────────────────────────────────────────────────────────
 
-def koopman_loss_cycle(out: dict, w_latent: float = 1.0e-3,
-                       w_recon: float = 1.0e-3) -> torch.Tensor:
+def koopman_loss_cycle(out: dict, w_latent: float = 1.0,
+                       w_recon: float = 1.0) -> torch.Tensor:
     """Latent prediction MSE + (small) reconstruction loss for cycle scale."""
     loss_latent = ((out['z_next_pred'] - out['z_next']) ** 2).mean()
     weights = torch.ones(NUM_FEATURES, device=device)
@@ -642,7 +642,7 @@ for epoch in range(1, N_EPOCHS + 1):
 
         # ── Cycle scale (linear Koopman, no memory) ──────
         out_cyc  = forward_cycle(cyc_batch)
-        loss_cyc = koopman_loss_cycle(out_cyc, w_latent=1.5e-3, w_recon=1.0e-3)
+        loss_cyc = koopman_loss_cycle(out_cyc, w_latent=1.5, w_recon=1.0)
 
         # ── Time scale (linear Koopman + iLED memory) ────
         out_ts        = forward_time(ts_batch)
