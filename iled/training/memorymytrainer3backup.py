@@ -66,7 +66,7 @@ MEMORY_KERNEL_SZ = 3      # Conv1d kernel size inside memory kernel
 # ★ TRAINING
 BATCH_SIZE_CYCLE = 32
 BATCH_SIZE_TIME  = 16     # full trajectories per batch (each is SEQ_LEN=200 steps)
-N_EPOCHS         = 750
+N_EPOCHS         = 800
 LR_K             = 3e-3   # Koopman K and B matrices  (physics)
 LR_TIME_AE       = 1e-3   # TimeAutoEncoder + memory kernel
 LR_ALPHA         = 1e-2   # learnable memory scale
