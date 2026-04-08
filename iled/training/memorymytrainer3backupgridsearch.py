@@ -45,16 +45,16 @@ from datasets_utils import transform_ts_data
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # ★ PATHS  (unchanged from mytrainer3)
-DATA_PATH        = "/content/drive/MyDrive/helicopter_data/class1_train.npy"
-CONTROL_PATH     = "/content/drive/MyDrive/helicopter_data/control_class1_train.npz"
-VAL_DATA_PATH    = "/content/drive/MyDrive/helicopter_data/class1_test.npy"
-VAL_CONTROL_PATH = "/content/drive/MyDrive/helicopter_data/control_class1_test.npz"
-AE_PATH          = "/content/iLED/iled/prototsnetresult2/autoencoder_pretrained.pth"
-SCALER_PATH      = "/content/iLED/iled/prototsnetresult2/scalers/s2_pf8_pc2_pl0.5_cl0.06_sp-0.03_scaler.pkl"
+DATA_PATH        = "/content/drive/MyDrive/helicopter_data/1class0_train_X.npy"
+CONTROL_PATH     = "/content/drive/MyDrive/helicopter_data/1class0_train_control.npy"
+VAL_DATA_PATH    = "/content/drive/MyDrive/helicopter_data/1class0_test_X.npy"
+VAL_CONTROL_PATH = "/content/drive/MyDrive/helicopter_data/1class0_test_control.npy"
+AE_PATH          = "/content/iLED/iled/prototsnetresult3/autoencoder_pretrained.pth"
+SCALER_PATH      = "/content/iLED/iled/prototsnetresult3/scalers/scalerDebug.pkl"
 SAVE_DIR         = "/content/drive/MyDrive/helicopter_data/gridsearch_runs"
 RESULTS_FILE     = os.path.join(SAVE_DIR, "results.jsonl")
-CTRL_SCALER_SAVE_PATH = "/content/control_scaler.pkl"
-TIME_SCALER_SAVE_PATH = "/content/time_scaler.pkl"
+# CTRL_SCALER_SAVE_PATH = "/content/control_scaler.pkl"
+# TIME_SCALER_SAVE_PATH = "/content/time_scaler.pkl"
 
 # ★ FIXED ARCHITECTURE / TRAINING CONSTANTS
 NUM_FEATURES     = 314
@@ -78,7 +78,7 @@ IMPORTANT_CHANNELS = [5,6,7,8,18,19,23,24,25,26,27,28,29,30,31,32,33,34,35,292,2
 # Maximum number of runs to execute (randomly sampled from the full grid).
 # The script stops as soon as this many runs have completed successfully,
 # resuming previously-completed runs toward this count on restart.
-MAX_RUNS = 250
+MAX_RUNS = 20
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # ★ GRID DEFINITION
@@ -168,32 +168,49 @@ def append_result(results_file: str, record: dict):
     with open(results_file, "a") as f:
         f.write(json.dumps(record) + "\n")
 
+def clip_outliers(data, lower=0.5, upper=99.5):
+    # data: (N, C, T)
+    data = data.copy()
+    
+    for c in range(data.shape[1]):
+        channel_vals = data[:, c, :].reshape(-1)
+        
+        lo = np.percentile(channel_vals, lower)
+        hi = np.percentile(channel_vals, upper)
+        
+        data[:, c, :] = np.clip(data[:, c, :], lo, hi)
+    
+    return data
+
+
 
 # ─────────────────────────────────────────────────────────
 # Data loading  (done once, shared across all runs)
 # ─────────────────────────────────────────────────────────
 def load_all_data():
-    sensor_train = load_npz_or_npy(DATA_PATH)
-    sensor_val   = load_npz_or_npy(VAL_DATA_PATH)
+    sensor_train = load_npz_or_npy(DATA_PATH).transpose(0, 2, 1)
+    sensor_val   = load_npz_or_npy(VAL_DATA_PATH).transpose(0, 2, 1)
+
+    sensor_train = clip_outliers(sensor_train, 0.5, 99.5)
+    sensor_val   = clip_outliers(sensor_val,   0.5, 99.5)
+
     ctrl_train   = load_npz_or_npy(CONTROL_PATH)
     ctrl_val     = load_npz_or_npy(VAL_CONTROL_PATH)
 
     CONTROL_DIM = ctrl_train.shape[-1]
 
-    if os.path.exists(CTRL_SCALER_SAVE_PATH):
-        ctrl_scaler = joblib.load(CTRL_SCALER_SAVE_PATH)
-    else:
-        ctrl_scaler = StandardScaler()
-        ctrl_scaler.fit(ctrl_train.reshape(-1, CONTROL_DIM))
-        joblib.dump(ctrl_scaler, CTRL_SCALER_SAVE_PATH)
+    # ── ALWAYS FIT NEW CONTROL SCALER ──
+    ctrl_scaler = StandardScaler()
+    ctrl_scaler.fit(ctrl_train.reshape(-1, CONTROL_DIM))
 
-    if os.path.exists(TIME_SCALER_SAVE_PATH):
-        time_scaler = joblib.load(TIME_SCALER_SAVE_PATH)
-    else:
-        data_for_scaler = sensor_train.transpose(0, 2, 1).reshape(-1, NUM_FEATURES)
-        time_scaler = StandardScaler()
-        time_scaler.fit(data_for_scaler)
-        joblib.dump(time_scaler, TIME_SCALER_SAVE_PATH)
+    # ── ALWAYS FIT NEW TIME SCALER ──
+    data_for_scaler = sensor_train.transpose(0, 2, 1).reshape(-1, NUM_FEATURES)
+    time_scaler = StandardScaler()
+    time_scaler.fit(data_for_scaler)
+
+    # (optional) save per-run for debugging
+    joblib.dump(ctrl_scaler, os.path.join(SAVE_DIR, "ctrl_scaler.pkl"))
+    joblib.dump(time_scaler, os.path.join(SAVE_DIR, "time_scaler.pkl"))
 
     cycle_sklearn_scaler = joblib.load(SCALER_PATH)
 
@@ -268,12 +285,17 @@ def train_one(cfg: dict, run_id: str, shared_data: dict, device: torch.device) -
     scale_cyc = _scalec.view(1, -1, 1)
 
     def normalize_cycle_ae(x):
-        x_np = x.detach().cpu().numpy()
-        x_scaled = np.empty_like(x_np)
-        for i in range(x_np.shape[0]):
-            x_scaled[i] = cycle_sklearn_scaler.transform(x_np[i].T).T
-        return torch.tensor(x_scaled, dtype=torch.float32).to(device)
+        x_np = x.detach().cpu().numpy()  # (B, C, T)
 
+        x_scaled = transform_ts_data(
+            x_np.copy(),
+            cycle_sklearn_scaler,
+            scale_separately=True,
+            fit=False
+        )
+
+        return torch.from_numpy(x_scaled).to(x.device)
+    
     def denormalize_cycle_ae(x):
         x_np = x.detach().cpu().numpy()
         x_inv = np.empty_like(x_np)
