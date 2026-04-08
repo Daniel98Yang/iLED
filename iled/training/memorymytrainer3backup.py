@@ -66,14 +66,14 @@ MEMORY_KERNEL_SZ = 3      # Conv1d kernel size inside memory kernel
 # ★ TRAINING
 BATCH_SIZE_CYCLE = 32
 BATCH_SIZE_TIME  = 16     # full trajectories per batch (each is SEQ_LEN=200 steps)
-N_EPOCHS         = 1000
+N_EPOCHS         = 750
 LR_K             = 3e-3   # Koopman K and B matrices  (physics)
 LR_TIME_AE       = 1e-3   # TimeAutoEncoder + memory kernel
 LR_ALPHA         = 1e-2   # learnable memory scale
 FREEZE_WINDOW_AE = False   # keep pretrained CNN AE frozen throughout
-PRETRAIN_EPOCHS  = 40     # phase 1: train time AE only (reconstruction)
-KOOPMAN_EPOCHS   = 160    # phase 2: train dynamics + memory, freeze AE
-JOINT_EPOCHS     = 700    # phase 3: train everything jointly  (total = 500)
+PRETRAIN_EPOCHS  = 150     # phase 1: train time AE only (reconstruction)
+KOOPMAN_EPOCHS   = 150    # phase 2: train dynamics + memory, freeze AE
+JOINT_EPOCHS     = 450    # phase 3: train everything jointly  (total = 500)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 os.makedirs(SAVE_DIR, exist_ok=True)
