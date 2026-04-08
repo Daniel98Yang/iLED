@@ -150,8 +150,8 @@ def load_npz_or_npy(path: str) -> np.ndarray:
         arr = arr[list(arr.keys())[0]]
     return arr
 
-sensor_train = load_npz_or_npy(DATA_PATH)        # (N, 314, 200)
-sensor_val   = load_npz_or_npy(VAL_DATA_PATH)
+sensor_train = load_npz_or_npy(DATA_PATH).transpose(0, 2, 1)     # (N, 314, 200)
+sensor_val   = load_npz_or_npy(VAL_DATA_PATH).transpose(0, 2, 1)
 
 sensor_train = clip_outliers(sensor_train, 0.5, 99.5)
 sensor_val   = clip_outliers(sensor_val,   0.5, 99.5)
