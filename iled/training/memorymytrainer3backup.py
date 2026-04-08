@@ -73,6 +73,7 @@ LR_ALPHA         = 1e-2   # learnable memory scale
 FREEZE_WINDOW_AE = False   # keep pretrained CNN AE frozen throughout
 PRETRAIN_EPOCHS  = 150     # phase 1: train time AE only (reconstruction)
 KOOPMAN_EPOCHS   = 150    # phase 2: train dynamics + memory, freeze AE
+DECODER_WARMUP   = 50
 JOINT_EPOCHS     = 450    # phase 3: train everything jointly  (total = 500)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -584,6 +585,8 @@ for epoch in range(1, N_EPOCHS + 1):
         phase = "pretrain"
     elif epoch <= PRETRAIN_EPOCHS + KOOPMAN_EPOCHS:
         phase = "koopman"
+    elif epoch <= PRETRAIN_EPOCHS + KOOPMAN_EPOCHS + DECODER_WARMUP:
+        phase = "decoder_warmup"
     else:
         phase = "joint"
 
@@ -612,6 +615,20 @@ for epoch in range(1, N_EPOCHS + 1):
         for p in time_dynamics.parameters():  p.requires_grad = True
         for p in memory_kernel.parameters():  p.requires_grad = True
         alpha.requires_grad = True
+
+    elif phase == "decoder_warmup":
+        # Re-train the AE decoder with dynamics frozen.
+        # This forces the decoder to learn to reconstruct from the latents
+        # that the Koopman dynamics has already learned to navigate.
+        time_ae.train()
+        cycle_ae.eval()
+
+        for p in time_ae.parameters():        p.requires_grad = True
+        for p in cycle_ae.parameters():       p.requires_grad = False
+        for p in cycle_dynamics.parameters(): p.requires_grad = False
+        for p in time_dynamics.parameters():  p.requires_grad = False
+        for p in memory_kernel.parameters():  p.requires_grad = False
+        alpha.requires_grad = False
 
     elif phase == "joint":
         time_ae.train()
@@ -674,13 +691,17 @@ for epoch in range(1, N_EPOCHS + 1):
         elif phase == "koopman":
             # Train dynamics + memory; keep AE quality via round-trip term
             loss = loss_cyc + loss_latent + 0.1 * loss_recon_ae
+        
+
+        elif phase == "decoder_warmup":
+            # Pure reconstruction from predicted latents — forces decoder alignment
+            loss = loss_recon_ae + loss_pred_sensor
 
         elif phase == "joint":
-            # Train everything.  loss_pred_sensor is the key anti-collapse term.
             loss = (loss_cyc
                     + loss_latent
-                    + 0.5 * loss_pred_sensor   # ← replaces the useless 1e-3 term
-                    + 0.05 * loss_recon_ae)    # keeps AE from drifting
+                    + 0.5 * loss_pred_sensor
+                    + 0.05 * loss_recon_ae)   # keeps AE from drifting
 
         # Stability penalty on both K matrices (skip during pretrain)
         if phase != "pretrain":
@@ -701,16 +722,12 @@ for epoch in range(1, N_EPOCHS + 1):
                   f"alpha (softplus): {torch.nn.functional.softplus(alpha).item():.4f}")
 
         # AFTER
-        if phase == "pretrain":
+        if phase in ("pretrain", "decoder_warmup"):
             tr_cyc.append(0.0)
             tr_ts.append(loss_recon_ae.detach().item())
         else:
             tr_cyc.append(loss_cyc.detach().item())
-            # Log pred_sensor loss so you can watch collapse in real time.
-            # If this stays near the AE baseline (~loss_recon_ae) you're healthy;
-            # if it collapses toward 0 while recon_ae stays high, collapse is happening.
-            tr_ts.append(loss_pred_sensor.detach().item()
-                         if phase != "pretrain" else loss_recon_ae.detach().item())
+            tr_ts.append(loss_pred_sensor.detach().item())
 
     # ── Evaluation ────────────────────────────────────────
     cycle_dynamics.eval()
