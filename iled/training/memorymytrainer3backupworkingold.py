@@ -44,12 +44,12 @@ from datasets_utils import transform_ts_data
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # ★ PATHS
-DATA_PATH        = "/content/drive/MyDrive/helicopter_data/1class0_train_X.npy"
-CONTROL_PATH     = "/content/drive/MyDrive/helicopter_data/1class0_train_control.npy"
-VAL_DATA_PATH    = "/content/drive/MyDrive/helicopter_data/1class0_test_X.npy"
-VAL_CONTROL_PATH = "/content/drive/MyDrive/helicopter_data/1class0_test_control.npy"
-AE_PATH          = "/content/iLED/iled/prototsnetresult3/autoencoder_pretrained.pth"
-SCALER_PATH      = "/content/iLED/iled/prototsnetresult3/scalers/scalerDebug.pkl"
+DATA_PATH        = "/content/drive/MyDrive/helicopter_data/class1_train.npy"
+CONTROL_PATH     = "/content/drive/MyDrive/helicopter_data/control_class1_train.npz"
+VAL_DATA_PATH    = "/content/drive/MyDrive/helicopter_data/class1_test.npy"
+VAL_CONTROL_PATH = "/content/drive/MyDrive/helicopter_data/control_class1_test.npz"
+AE_PATH          = "/content/iLED/iled/prototsnetresult2/autoencoder_pretrained.pth"
+SCALER_PATH      = "/content/iLED/iled/prototsnetresult2/scalers/s2_pf8_pc2_pl0.5_cl0.06_sp-0.03_scaler.pkl"
 SAVE_DIR         = "/content/drive/MyDrive/helicopter_data/koopman_checkpoints"
 
 # ★ ARCHITECTURE
@@ -127,19 +127,6 @@ class ConvMemoryKernel(nn.Module):
         x = self.net(x)                # (B, d, L)
         return x.mean(dim=-1)          # global average pool → (B, d)
 
-def clip_outliers(data, lower=0.5, upper=99.5):
-    # data: (N, C, T)
-    data = data.copy()
-    
-    for c in range(data.shape[1]):
-        channel_vals = data[:, c, :].reshape(-1)
-        
-        lo = np.percentile(channel_vals, lower)
-        hi = np.percentile(channel_vals, upper)
-        
-        data[:, c, :] = np.clip(data[:, c, :], lo, hi)
-    
-    return data
 
 # ─────────────────────────────────────────────────────────
 # 1. Load data
@@ -152,11 +139,6 @@ def load_npz_or_npy(path: str) -> np.ndarray:
 
 sensor_train = load_npz_or_npy(DATA_PATH)        # (N, 314, 200)
 sensor_val   = load_npz_or_npy(VAL_DATA_PATH)
-
-sensor_train = clip_outliers(sensor_train, 0.5, 99.5)
-sensor_val   = clip_outliers(sensor_val,   0.5, 99.5)
-
-
 
 ctrl_train   = load_npz_or_npy(CONTROL_PATH)     # (N, 200, 8)
 ctrl_val     = load_npz_or_npy(VAL_CONTROL_PATH)
@@ -224,16 +206,6 @@ print(f"Time   train: {len(time_train_ds):>6,} trajectories | val: {len(time_val
 # ─────────────────────────────────────────────────────────
 cycle_sklearn_scaler = joblib.load(SCALER_PATH)
 
-MIN_STD = 1e-2  # tune this (1e-3 to 1e-1 depending on data)
-
-scales = cycle_sklearn_scaler.scale_
-
-# clamp
-clamped_scales = np.maximum(scales, MIN_STD)
-
-# overwrite
-cycle_sklearn_scaler.scale_ = clamped_scales
-
 TIME_SCALER_SAVE_PATH = "/content/time_scaler.pkl"
 
 if os.path.exists(TIME_SCALER_SAVE_PATH):
@@ -258,17 +230,13 @@ mean_cyc  = _meanc.view(1, -1, 1)   # (1, 314, 1)
 scale_cyc = _scalec.view(1, -1, 1)
 
 
-def normalize_cycle_ae(x):
-    x_np = x.detach().cpu().numpy()  # (B, C, T)
-
-    x_scaled = transform_ts_data(
-        x_np.copy(),
-        cycle_sklearn_scaler,
-        scale_separately=True,
-        fit=False
-    )
-
-    return torch.from_numpy(x_scaled).to(x.device)
+def normalize_cycle_ae(x: torch.Tensor) -> torch.Tensor:
+    """x: (B, 314, T)  →  normalized (B, 314, T)  via sklearn scaler."""
+    x_np = x.detach().cpu().numpy()
+    x_scaled = np.empty_like(x_np)
+    for i in range(x_np.shape[0]):
+        x_scaled[i] = cycle_sklearn_scaler.transform(x_np[i].T).T
+    return torch.tensor(x_scaled, dtype=torch.float32).to(device)
 
 
 def denormalize_cycle_ae(x: torch.Tensor) -> torch.Tensor:
@@ -413,28 +381,8 @@ def forward_cycle(batch: dict) -> dict:
     if u_t is not None:
         u_t = normalize_control(u_t)
 
-    #print("RAW x_t stats:", x_t.mean().item(), x_t.std().item())
-
     xs  = normalize_cycle_ae(x_t)
     xns = normalize_cycle_ae(x_next)
-
-    #print("AFTER scaling:", xs.mean().item(), xs.std().item())
-
-    # x1 = x_t[:1]
-
-    # xs1 = normalize_cycle_ae(x1)
-    # x_back = denormalize_cycle_ae(xs1)
-
-    #print("reconstruction error:", (x1 - x_back).abs().mean())
-
-    xs_np = xs.detach().cpu().numpy()
-
-    # means = xs_np.mean(axis=(0,2))
-    # stds  = xs_np.std(axis=(0,2))
-
-    # print("mean (first 5):", means[:5])
-    # print("std  (first 5):", stds[:5])
-    # print("std range:", stds.min(), stds.max())
 
     z           = cycle_ae.encode(xs)            # (B, 8)
     z_next      = cycle_ae.encode(xns)           # (B, 8)
