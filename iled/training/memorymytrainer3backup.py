@@ -68,7 +68,7 @@ BATCH_SIZE_CYCLE = 32
 BATCH_SIZE_TIME  = 16     # full trajectories per batch (each is SEQ_LEN=200 steps)
 N_EPOCHS         = 800
 LR_K             = 3e-3   # Koopman K and B matrices  (physics)
-LR_TIME_AE       = 3e-4   # TimeAutoEncoder + memory kernel
+LR_TIME_AE       = 2e-3   # TimeAutoEncoder + memory kernel
 LR_ALPHA         = 1e-2   # learnable memory scale
 FREEZE_WINDOW_AE = False   # keep pretrained CNN AE frozen throughout
 PRETRAIN_EPOCHS  = 150     # phase 1: train time AE only (reconstruction)
@@ -350,7 +350,7 @@ memory_kernel = ConvMemoryKernel(
 # 4f. Learnable memory scale alpha — starts at 0.0 (Markovian init)
 #     Positive-constrained via softplus in the forward pass so the
 #     memory term is always additive and never subtractive.
-alpha = nn.Parameter(torch.tensor(0.6, device=device))
+alpha = nn.Parameter(torch.tensor(0.0, device=device))
 
 memory_len = MEMORY_LEN
 
