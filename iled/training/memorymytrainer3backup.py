@@ -56,7 +56,7 @@ SAVE_DIR         = "/content/drive/MyDrive/helicopter_data/koopman_checkpoints"
 NUM_FEATURES     = 314
 SEQ_LEN          = 200
 LATENT_DIM       = 8      # cycle-scale (must match saved CNN AE latent dim)
-TIME_LATENT_DIM  = 6      # timestep-scale (freely chosen)
+TIME_LATENT_DIM  = 8      # timestep-scale (freely chosen)
 
 # ★ MEMORY (time scale only — cycle scale has no memory)
 MEMORY_LEN       = 5      # history window L: uses z_{t-L} ... z_{t-1}
