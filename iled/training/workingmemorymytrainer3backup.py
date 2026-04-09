@@ -66,15 +66,14 @@ MEMORY_KERNEL_SZ = 3      # Conv1d kernel size inside memory kernel
 # ★ TRAINING
 BATCH_SIZE_CYCLE = 32
 BATCH_SIZE_TIME  = 16     # full trajectories per batch (each is SEQ_LEN=200 steps)
-N_EPOCHS         = 800
+N_EPOCHS         = 750
 LR_K             = 3e-3   # Koopman K and B matrices  (physics)
 LR_TIME_AE       = 1e-3   # TimeAutoEncoder + memory kernel
 LR_ALPHA         = 1e-2   # learnable memory scale
 FREEZE_WINDOW_AE = False   # keep pretrained CNN AE frozen throughout
-PRETRAIN_EPOCHS  = 2     # phase 1: train time AE only (reconstruction)
-KOOPMAN_EPOCHS   = 2    # phase 2: train dynamics + memory, freeze AE
-DECODER_WARMUP   = 2
-JOINT_EPOCHS     = 794    # phase 3: train everything jointly  (total = 500)
+PRETRAIN_EPOCHS  = 150     # phase 1: train time AE only (reconstruction)
+KOOPMAN_EPOCHS   = 150    # phase 2: train dynamics + memory, freeze AE
+JOINT_EPOCHS     = 450    # phase 3: train everything jointly  (total = 500)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 os.makedirs(SAVE_DIR, exist_ok=True)
@@ -350,7 +349,7 @@ memory_kernel = ConvMemoryKernel(
 # 4f. Learnable memory scale alpha — starts at 0.0 (Markovian init)
 #     Positive-constrained via softplus in the forward pass so the
 #     memory term is always additive and never subtractive.
-alpha = nn.Parameter(torch.tensor(0.5, device=device))
+alpha = nn.Parameter(torch.tensor(0.0, device=device))
 
 memory_len = MEMORY_LEN
 
@@ -545,8 +544,8 @@ def forward_time(batch: dict) -> dict:
 # 7. Loss helpers
 # ─────────────────────────────────────────────────────────
 
-def koopman_loss_cycle(out: dict, w_latent: float = 0.03,
-                       w_recon: float = 0.03) -> torch.Tensor:
+def koopman_loss_cycle(out: dict, w_latent: float = 1.0,
+                       w_recon: float = 1.0) -> torch.Tensor:
     """Latent prediction MSE + (small) reconstruction loss for cycle scale."""
     loss_latent = ((out['z_next_pred'] - out['z_next']) ** 2).mean()
     weights = torch.ones(NUM_FEATURES, device=device)
@@ -585,8 +584,6 @@ for epoch in range(1, N_EPOCHS + 1):
         phase = "pretrain"
     elif epoch <= PRETRAIN_EPOCHS + KOOPMAN_EPOCHS:
         phase = "koopman"
-    elif epoch <= PRETRAIN_EPOCHS + KOOPMAN_EPOCHS + DECODER_WARMUP:
-        phase = "decoder_warmup"
     else:
         phase = "joint"
 
@@ -615,20 +612,6 @@ for epoch in range(1, N_EPOCHS + 1):
         for p in time_dynamics.parameters():  p.requires_grad = True
         for p in memory_kernel.parameters():  p.requires_grad = True
         alpha.requires_grad = True
-
-    elif phase == "decoder_warmup":
-        # Re-train the AE decoder with dynamics frozen.
-        # This forces the decoder to learn to reconstruct from the latents
-        # that the Koopman dynamics has already learned to navigate.
-        time_ae.train()
-        cycle_ae.eval()
-
-        for p in time_ae.parameters():        p.requires_grad = True
-        for p in cycle_ae.parameters():       p.requires_grad = False
-        for p in cycle_dynamics.parameters(): p.requires_grad = False
-        for p in time_dynamics.parameters():  p.requires_grad = False
-        for p in memory_kernel.parameters():  p.requires_grad = False
-        alpha.requires_grad = False
 
     elif phase == "joint":
         time_ae.train()
@@ -666,7 +649,7 @@ for epoch in range(1, N_EPOCHS + 1):
 
         # ── Cycle scale (linear Koopman, no memory) ──────
         out_cyc  = forward_cycle(cyc_batch)
-        loss_cyc = koopman_loss_cycle(out_cyc, w_latent=0.035, w_recon=0.030)
+        loss_cyc = koopman_loss_cycle(out_cyc, w_latent=1.5, w_recon=1.0)
 
         # ── Time scale (linear Koopman + iLED memory) ────
         # AFTER
@@ -690,18 +673,14 @@ for epoch in range(1, N_EPOCHS + 1):
 
         elif phase == "koopman":
             # Train dynamics + memory; keep AE quality via round-trip term
-            loss = loss_cyc + loss_latent + 0.1 * loss_recon_ae + 0.1 * loss_pred_sensor
-        
-
-        elif phase == "decoder_warmup":
-            # Pure reconstruction from predicted latents — forces decoder alignment
-            loss = loss_recon_ae + loss_pred_sensor
+            loss = loss_cyc + loss_latent + 0.1 * loss_recon_ae
 
         elif phase == "joint":
+            # Train everything.  loss_pred_sensor is the key anti-collapse term.
             loss = (loss_cyc
                     + loss_latent
-                    + 0.5 * loss_pred_sensor
-                    + 0.05 * loss_recon_ae)   # keeps AE from drifting
+                    + 0.5 * loss_pred_sensor   # ← replaces the useless 1e-3 term
+                    + 0.05 * loss_recon_ae)    # keeps AE from drifting
 
         # Stability penalty on both K matrices (skip during pretrain)
         if phase != "pretrain":
@@ -722,20 +701,23 @@ for epoch in range(1, N_EPOCHS + 1):
                   f"alpha (softplus): {torch.nn.functional.softplus(alpha).item():.4f}")
 
         # AFTER
-        if phase in ("pretrain", "decoder_warmup"):
+        if phase == "pretrain":
             tr_cyc.append(0.0)
             tr_ts.append(loss_recon_ae.detach().item())
         else:
             tr_cyc.append(loss_cyc.detach().item())
-            tr_ts.append(loss_pred_sensor.detach().item())
+            # Log pred_sensor loss so you can watch collapse in real time.
+            # If this stays near the AE baseline (~loss_recon_ae) you're healthy;
+            # if it collapses toward 0 while recon_ae stays high, collapse is happening.
+            tr_ts.append(loss_pred_sensor.detach().item()
+                         if phase != "pretrain" else loss_recon_ae.detach().item())
 
     # ── Evaluation ────────────────────────────────────────
     cycle_dynamics.eval()
     time_dynamics.eval()
     time_ae.eval()
     memory_kernel.eval()
-    if phase != "joint":
-        cycle_ae.eval() 
+    cycle_ae.eval()
 
     va_cyc, va_ts, va_recon = [], [], []
 
@@ -757,7 +739,11 @@ for epoch in range(1, N_EPOCHS + 1):
             print(f"[DEBUG] Cycle latent MSE — train: {tr_err:.4e}  val: {va_err:.4e}")
             print(f"[DEBUG] ||z|| train: {out_tr['z'].norm(dim=1).mean().item():.3f}  "
                   f"||z_pred|| train: {out_tr['z_next_pred'].norm(dim=1).mean().item():.3f}")
-            
+            # Latent variance check — std should be >> 0.
+            # If std < 0.01 across the trajectory, the latent space has collapsed.
+            z_std = out_val_t['z_seq'].std(dim=1).mean().item()
+            print(f"[COLLAPSE CHECK] z_seq std (should be > 0.1): {z_std:.4f}  "
+                  f"alpha={torch.nn.functional.softplus(alpha).item():.4f}")
             print("=" * 60)
 
         # ---- Cycle val loss ----
@@ -767,9 +753,6 @@ for epoch in range(1, N_EPOCHS + 1):
             if epoch % 20 == 0 and i < 3:
                 print(f"[DEBUG] val cyc batch {i}: {loss_val:.4e}")
 
-        val_batch_t = next(iter(time_val_loader))
-        out_val_t   = forward_time(val_batch_t)
-        alpha_pos   = torch.nn.functional.softplus(alpha)
         # ---- Time val loss ----
         # FIX: was calling koopman_loss_cycle() on time output (wrong keys)
         #      and reading 'recon'/'x_t' which forward_time didn't return.
@@ -786,14 +769,11 @@ for epoch in range(1, N_EPOCHS + 1):
 
         # ---- Linear vs memory norm debug (once per epoch) ----
         # FIX: original block referenced undefined T and 'u_seq' key.
-        
+        val_batch_t = next(iter(time_val_loader))
+        out_val_t   = forward_time(val_batch_t)
+        alpha_pos   = torch.nn.functional.softplus(alpha)
         if epoch % 10 == 0:
-            # Latent variance check — std should be >> 0.
-            # If std < 0.01 across the trajectory, the latent space has collapsed.
-            z_std = out_val_t['z_seq'].std(dim=1).mean().item()
-            print(f"[COLLAPSE CHECK] z_seq std (should be > 0.1): {z_std:.4f}  "
-                  f"alpha={torch.nn.functional.softplus(alpha).item():.4f}")
-            
+
             if out_val_t['z_lin_last'] is not None:
                 lin_norm = out_val_t['z_lin_last'].norm(dim=-1).mean()
                 mem_norm = (alpha_pos * out_val_t['z_mem_last']).norm(dim=-1).mean()
