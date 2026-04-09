@@ -71,10 +71,10 @@ LR_K             = 3e-3   # Koopman K and B matrices  (physics)
 LR_TIME_AE       = 1e-3   # TimeAutoEncoder + memory kernel
 LR_ALPHA         = 1e-2   # learnable memory scale
 FREEZE_WINDOW_AE = False   # keep pretrained CNN AE frozen throughout
-PRETRAIN_EPOCHS  = 2     # phase 1: train time AE only (reconstruction)
-KOOPMAN_EPOCHS   = 2    # phase 2: train dynamics + memory, freeze AE
-DECODER_WARMUP   = 2
-JOINT_EPOCHS     = 794    # phase 3: train everything jointly  (total = 500)
+PRETRAIN_EPOCHS  = 150     # phase 1: train time AE only (reconstruction)
+KOOPMAN_EPOCHS   = 150    # phase 2: train dynamics + memory, freeze AE
+DECODER_WARMUP   = 50
+JOINT_EPOCHS     = 450    # phase 3: train everything jointly  (total = 500)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 os.makedirs(SAVE_DIR, exist_ok=True)
@@ -690,7 +690,7 @@ for epoch in range(1, N_EPOCHS + 1):
 
         elif phase == "koopman":
             # Train dynamics + memory; keep AE quality via round-trip term
-            loss = loss_cyc + loss_latent + 0.1 * loss_recon_ae + 0.1 * loss_pred_sensor
+            loss = loss_cyc + loss_latent + 0.1 * loss_recon_ae + 0.25 * loss_pred_sensor
         
 
         elif phase == "decoder_warmup":
@@ -700,7 +700,7 @@ for epoch in range(1, N_EPOCHS + 1):
         elif phase == "joint":
             loss = (loss_cyc
                     + loss_latent
-                    + 0.5 * loss_pred_sensor
+                    + 0.75 * loss_pred_sensor
                     + 0.05 * loss_recon_ae)   # keeps AE from drifting
 
         # Stability penalty on both K matrices (skip during pretrain)
