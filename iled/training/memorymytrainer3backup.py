@@ -71,9 +71,9 @@ LR_K             = 3e-3   # Koopman K and B matrices  (physics)
 LR_TIME_AE       = 3e-4  # TimeAutoEncoder + memory kernel
 LR_ALPHA         = 1e-2   # learnable memory scale
 FREEZE_WINDOW_AE = False   # keep pretrained CNN AE frozen throughout
-PRETRAIN_EPOCHS  = 150     # phase 1: train time AE only (reconstruction)
-KOOPMAN_EPOCHS   = 150    # phase 2: train dynamics + memory, freeze AE
-DECODER_WARMUP   = 50
+PRETRAIN_EPOCHS  = 1     # phase 1: train time AE only (reconstruction)
+KOOPMAN_EPOCHS   = 1    # phase 2: train dynamics + memory, freeze AE
+DECODER_WARMUP   = 1
 JOINT_EPOCHS     = 450    # phase 3: train everything jointly  (total = 500)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
