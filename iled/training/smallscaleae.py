@@ -6,18 +6,37 @@ import numpy as np
 import joblib
 import os
 
-class TimeAutoEncoder(nn.Module):
-    def __init__(self, input_dim=314, latent_dim=6):
+class ResidualBlock(nn.Module):
+    def __init__(self, dim):
         super().__init__()
-        self.encoder = nn.Sequential(
-            nn.Linear(input_dim, 128),
+        self.net = nn.Sequential(
+            nn.Linear(dim, dim),
             nn.GELU(),
-            nn.Linear(128, latent_dim)
+            nn.Linear(dim, dim)
         )
-        self.decoder = nn.Sequential(
-            nn.Linear(latent_dim, 128),
+
+    def forward(self, x):
+        return x + self.net(x)
+
+
+class TimeAutoEncoder(nn.Module):
+    def __init__(self, input_dim=314, latent_dim=6, hidden_dim=256):
+        super().__init__()
+
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim),
             nn.GELU(),
-            nn.Linear(128, input_dim)
+            ResidualBlock(hidden_dim),
+            ResidualBlock(hidden_dim),
+            nn.Linear(hidden_dim, latent_dim)
+        )
+
+        self.decoder = nn.Sequential(
+            nn.Linear(latent_dim, hidden_dim),
+            nn.GELU(),
+            ResidualBlock(hidden_dim),
+            ResidualBlock(hidden_dim),
+            nn.Linear(hidden_dim, input_dim)
         )
 
     def encode(self, x): return self.encoder(x)
