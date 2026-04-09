@@ -350,7 +350,7 @@ memory_kernel = ConvMemoryKernel(
 # 4f. Learnable memory scale alpha — starts at 0.0 (Markovian init)
 #     Positive-constrained via softplus in the forward pass so the
 #     memory term is always additive and never subtractive.
-alpha = nn.Parameter(torch.tensor(0.5, device=device))
+alpha = nn.Parameter(torch.tensor(0.6, device=device))
 
 memory_len = MEMORY_LEN
 
